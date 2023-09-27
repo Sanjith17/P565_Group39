@@ -9,10 +9,9 @@ function App() {
 
   useEffect(() => {
     getTest()
-      .then((res) => {
-          setData(res.message);
-      })
+      .then((res) => setData(res.message))
       .catch((err) => console.log(err));
+      
   }, []);
   return (
     <div className="App">
