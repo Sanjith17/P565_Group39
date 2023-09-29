@@ -1,23 +1,19 @@
 
 import { useEffect, useState } from 'react';
 import './App.css';
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 
+import LoginForm from "./Login"
+import SignupForm from "./Signup"
 import { getTest } from "./functions/test";
 
 function App() {
-  const [data,setData] = useState("Hello World!");
-
-  useEffect(() => {
-    getTest()
-      .then((res) => {
-          setData(res.message);
-      })
-      .catch((err) => console.log(err));
-
-  }, []);
   return (
     <div className="App">
-      <h1>{data}</h1>
+      <LoginForm />
+      
+      
+
     </div>
   );
 }
