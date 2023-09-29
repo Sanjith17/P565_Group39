@@ -75,7 +75,7 @@ class Signup extends Component {
                 onChange={this.handleInputChange}
               />
             </div>
-            <div className="form-group">
+            {/* <div className="form-group">
               <label htmlFor="address">Address</label>
               <input
                 type="text"
@@ -84,7 +84,7 @@ class Signup extends Component {
                 value={this.state.address}
                 onChange={this.handleInputChange}
               />
-            </div>
+            </div> */}
             <div className="form-group">
               <label htmlFor="password">Password</label>
               <input
