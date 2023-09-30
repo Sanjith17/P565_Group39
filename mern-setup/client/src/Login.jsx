@@ -31,6 +31,14 @@ class Login extends Component {
 
   render() {
     return (
+      <div>
+      <nav>
+      <ul>
+        <li>
+        <a href="/">Home</a>
+        </li>
+      </ul>
+      </nav>
       <div className="login-form">
         <h2>Login</h2>
         <form>
@@ -72,6 +80,8 @@ class Login extends Component {
         <p>
           New user? <a href="/signup">Sign Up</a>
         </p>
+
+      </div>
       </div>
     );
   }

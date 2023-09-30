@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import './LoginCss.css'; // Import the CSS file
+import Dropdown from 'react-dropdown';
+import 'react-dropdown/style.css';
 
 class Signup extends Component {
   constructor(props) {
@@ -9,11 +11,13 @@ class Signup extends Component {
       lastName: '',
       phoneNumber: '',
       email: '',
-      address: '',
+      role: '',
       password: '',
       confirmPassword: '',
     };
   }
+
+  
 
   handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -31,6 +35,14 @@ class Signup extends Component {
 
   render() {
     return (
+      <div>
+      <nav>
+      <ul>
+        <li>
+        <a href="/">Home</a>
+        </li>
+      </ul>
+      </nav>
       <div className="login-container">
         <div className="login-form">
           <h2>Sign Up</h2>
@@ -55,6 +67,18 @@ class Signup extends Component {
                 onChange={this.handleInputChange}
               />
             </div>
+
+
+            <div>
+            <label>Select an option:</label>
+            <select value={this.state.selectedOption} onChange={this.handleOptionChange}>
+              <option value="Option 1">User</option>
+              <option value="Option 2">Driver</option>
+              <option value="Option 3">Admin</option>
+            </select>
+            </div>
+
+
             <div className="form-group">
               <label htmlFor="phoneNumber">Phone Number</label>
               <input
@@ -113,6 +137,7 @@ class Signup extends Component {
             Already have an account? <a href="/login">Login</a>
           </p>
         </div>
+      </div>
       </div>
     );
   }

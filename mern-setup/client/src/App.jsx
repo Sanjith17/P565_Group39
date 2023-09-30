@@ -38,33 +38,38 @@ import {BrowserRouter as Router, Route, Link, Routes} from 'react-router-dom';
 
 export default function App() {
   return (
-    // <Router>
-    //   <div>
-    //     <nav>
-    //       <ul>
-    //         <li>
-    //           <Link to="/login">Login</Link>
-    //         </li>
-    //         <li>
-    //           <Link to="/signup">Sign Up</Link>
-    //         </li>
-    //       </ul>
-    //     </nav>
+    <Router>
+      <div>
+        <div>
+          Dcksdbivb
+        </div>
+        {/* <nav>
+          <ul>
+            <li>
+              <Link to="/login">Login</Link>
+            </li>
+            <li>
+              <Link to="/signup">Sign Up</Link>
+            </li>
+          </ul>
+        </nav> */}
 
-    //     {/* 👇️ Wrap your Route components in a Routes component */}
-    //     <Routes>
-    //       <Route path="/login" element={<LoginForm />} />
-    //       <Route path="/signup" element={<SignupForm />} />
-    //       {/* Route path="/" element={<LandingPage />}/> */}
-    //     </Routes>
-    //   </div>
-    // </Router>
-    <Routes>
-        <Route path="/" element={<IndexPage />}>
-          <Route index element={<LandingPage />} />
+        {/* 👇️ Wrap your Route components in a Routes component */}
+        <div>
+        <Routes>
           <Route path="/login" element={<LoginForm />} />
           <Route path="/signup" element={<SignupForm />} />
-        </Route>
-      </Routes>
-  );
+          <Route path="/" element={<LandingPage />}/>
+        </Routes>
+        </div>
+      </div>
+    </Router>
+    // <Routes>
+    //     <Route path="/" element={<IndexPage />}>
+    //       <Route index element={<LandingPage />} />
+    //       <Route path="/login" element={<LoginForm />} />
+    //       <Route path="/signup" element={<SignupForm />} />
+    //     </Route>
+    //   </Routes>
+  )
 }
