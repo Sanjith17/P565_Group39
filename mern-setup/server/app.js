@@ -26,8 +26,10 @@ app.use(cors({ origin: true, credentials: true}));
 
 
 // routes
-const testRoutes = require("./routes/test");
-app.use("/", testRoutes);
+const testRoutes = require("./routes/user");
+app.use("/", require('./routes/user'));
+// const testRoutes = require("./routes/test");
+// app.use("/", testRoutes);
 
 
 // port
