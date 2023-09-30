@@ -29,7 +29,37 @@ class Login extends Component {
     console.log('Username:', username);
     console.log('Password:', password);
     console.log('Remember Me:', rememberMe);
+
+    const data = {
+      username: username,
+      password: password,
+      rememberMe: rememberMe,
+    };
+  
+    // Make a POST request to the server
+    fetch('http://localhost:8080/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json', // Set the content type to JSON
+      },
+      body: JSON.stringify(data), // Convert data to JSON format
+    })
+      .then((response) => {
+        if (response.ok) {
+          // If the response status is OK (e.g., 200), do something here
+          console.log('Login successful!');
+          // You can redirect to another page or perform other actions upon successful login
+        } else {
+          // Handle errors here, e.g., display an error message to the user
+          console.error('Login failed');
+        }
+      })
+      .catch((error) => {
+        // Handle network errors or other exceptions here
+        console.error('An error occurred:', error);
+      });
   };
+
 
   render() {
     return (
@@ -88,5 +118,4 @@ class Login extends Component {
     );
   }
 }
-
 export default Login;
