@@ -35,6 +35,7 @@ import IndexPage from "./IndexPage"
 
 import React from 'react';
 import {BrowserRouter as Router, Route, Link, Routes} from 'react-router-dom';
+import ForgotPassword from "./FogotPassword";
 
 export default function App() {
   return (
@@ -47,6 +48,7 @@ export default function App() {
         <Routes>
           <Route path="/login" element={<LoginForm />} />
           <Route path="/signup" element={<SignupForm />} />
+          <Route path="/forgot" element={<ForgotPassword />} />
           <Route path="/" element={<LandingPage />}/>
         </Routes>
         </div>

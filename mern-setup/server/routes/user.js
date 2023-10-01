@@ -54,4 +54,22 @@ router.post('/signup', async (req, res) => {
     }
   });
 
+
+  router.post('/forgot', async (req, res) => {
+    try {
+      console.log("sdf",req.body)
+      let user;
+      
+      user = await User.findOne({ email: req.body.email });
+      
+  
+      if (!user) return res.status(400).send({message: 'User does not exist'});
+  
+      res.send({message: 'email sent'});
+    } catch (error) {
+      res.status(500).send(error.message);
+    }
+  });
+
+
 module.exports = router;
