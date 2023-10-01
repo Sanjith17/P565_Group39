@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt');
 
 router.post('/login', async (req, res) => {
   try {
+    console.log("sdf",req.body)
     let user;
     if (req.body.username.includes('@')) {
       user = await User.findOne({ email: req.body.username });
@@ -12,12 +13,12 @@ router.post('/login', async (req, res) => {
       user = await User.findOne({ username: req.body.username });
     }
 
-    if (!user) return res.status(400).send('User not found');
+    if (!user) return res.status(400).send({message: 'Log in failed'});
 
     const validPassword = await bcrypt.compare(req.body.password, user.password);
     if (!validPassword) return res.status(400).send('Invalid password');
 
-    res.send('Logged in successfully');
+    res.send({message: 'Logged in successfully'});
   } catch (error) {
     res.status(500).send(error.message);
   }
@@ -25,19 +26,30 @@ router.post('/login', async (req, res) => {
 
 router.post('/signup', async (req, res) => {
     try {
+      console.log("soud",req.body)
       const emailName = req.body.email.split('@')[0];
       const randomNum = Math.floor(Math.random() * 10000);
       const username = `${emailName}${randomNum}`;
       const hashedPassword = await bcrypt.hash(req.body.password, 10);
+      const role = req.body.role
 
       const user = await User.create({
-        name: req.body.name,
+        firstname: req.body.firstName,
+        lastname: req.body.lastName,
         email: req.body.email,
-        username: emailName,
+        username: username,
         password: hashedPassword,
+        role: role
       })
-      res.json({status :'ok'})
+      console.log("user updated in db", user)
+      res.json({
+        status :'ok',
+        body:{
+          userName:username
+        }
+    })
     } catch (error) {
+      console.log("error", error)
         res.json({status: 'error', error: 'Duplicate email'})
     }
   });

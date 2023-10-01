@@ -7,6 +7,7 @@ class Login extends Component {
       username: '',
       password: '',
       rememberMe: false,
+      loginMessage: ""
     };
   }
 
@@ -21,7 +22,7 @@ class Login extends Component {
     });
   };
 
-  handleLogin = () => {
+  handleLogin = async() => {
     const { username, password, rememberMe } = this.state;
 
     // You can implement your login logic here
@@ -35,29 +36,71 @@ class Login extends Component {
       password: password,
       rememberMe: rememberMe,
     };
+
+    
+
   
     // Make a POST request to the server
-    fetch('http://localhost:8080/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json', // Set the content type to JSON
-      },
-      body: JSON.stringify(data), // Convert data to JSON format
-    })
-      .then((response) => {
-        if (response.ok) {
-          // If the response status is OK (e.g., 200), do something here
-          console.log('Login successful!');
-          // You can redirect to another page or perform other actions upon successful login
-        } else {
-          // Handle errors here, e.g., display an error message to the user
-          console.error('Login failed');
-        }
-      })
-      .catch((error) => {
-        // Handle network errors or other exceptions here
-        console.error('An error occurred:', error);
-      });
+
+    const getTest = async () => {
+      try{
+          const res = await fetch('http://localhost:8080/login', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json', // Set the content type to JSON
+            },
+            body: JSON.stringify(data), // Convert data to JSON format
+          })
+            .then(async (response) => {
+              const responseJSON = await response.json()
+              if (response.ok) {
+                // If the response status is OK (e.g., 200), do something here
+                console.log('Login successful!');
+                console.log(responseJSON.message)
+                this.setState({
+                  loginMessage: responseJSON.message
+                })
+                // You can redirect to another page or perform other actions upon successful login
+              } else {
+                // Handle errors here, e.g., display an error message to the user
+                console.log('Login failed');
+                this.setState({
+                  loginMessage: responseJSON.message
+                })
+              }
+            })
+            .catch((error) => {
+              // Handle network errors or other exceptions here
+              console.error('An error occurred:', error);
+            });
+      }
+      catch(error) {
+        console.log(error)
+      }
+    }
+       
+    await getTest()
+    // await fetch('http://localhost:8080/login', {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json', // Set the content type to JSON
+    //   },
+    //   body: JSON.stringify(data), // Convert data to JSON format
+    // })
+    //   .then((response) => {
+    //     if (response.ok) {
+    //       // If the response status is OK (e.g., 200), do something here
+    //       console.log('Login successful!');
+    //       // You can redirect to another page or perform other actions upon successful login
+    //     } else {
+    //       // Handle errors here, e.g., display an error message to the user
+    //       console.error('Login failed');
+    //     }
+    //   })
+    //   .catch((error) => {
+    //     // Handle network errors or other exceptions here
+    //     console.error('An error occurred:', error);
+    //   });
   };
 
 
@@ -72,6 +115,7 @@ class Login extends Component {
       </ul>
       </nav>
       <div className="login-form">
+        <h2>{this.state.loginMessage}</h2>
         <h2>Login</h2>
         <form>
           <div className="form-group">

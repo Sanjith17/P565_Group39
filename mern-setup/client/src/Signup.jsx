@@ -11,7 +11,7 @@ class Signup extends Component {
       lastName: '',
       phoneNumber: '',
       email: '',
-      role: '',
+      role: 'user',
       password: '',
       confirmPassword: '', 
     };
@@ -27,10 +27,44 @@ class Signup extends Component {
     });
   };
 
-  handleSignup = () => {
+  handleOptionChange = event => {
+    console.log(event)
+    this.setState({
+      role: event.target.value
+    })
+  }
+
+  handleSignup = async() => {
     // Implement your signup logic here
     // For simplicity, let's just print the form data
     console.log('Signup Data:', this.state);
+
+    try{
+      const res = await fetch('http://localhost:8080/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json', // Set the content type to JSON
+        },
+        body: JSON.stringify(this.state), // Convert data to JSON format
+      })
+        .then((response) => {
+          if (response.ok) {
+            // If the response status is OK (e.g., 200), do something here
+            console.log('Sign Up successful!');
+            // You can redirect to another page or perform other actions upon successful login
+          } else {
+            // Handle errors here, e.g., display an error message to the user
+            console.error('Sign Up failed');
+          }
+        })
+        .catch((error) => {
+          // Handle network errors or other exceptions here
+          console.error('An error occurred:', error);
+        });
+    }
+    catch(error) {
+      console.log(error)
+    }
   };
 
   render() {
@@ -72,9 +106,9 @@ class Signup extends Component {
             <div>
             <label>Select an option:</label>
             <select value={this.state.role} onChange={this.handleOptionChange}>
-              <option value="Option 1">User</option>
-              <option value="Option 2">Driver</option>
-              <option value="Option 3">Admin</option>
+              <option value="user">User</option>
+              <option value="driver">Driver</option>
+              <option value="admin">Admin</option>
             </select>
             </div>
 
