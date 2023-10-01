@@ -41,20 +41,8 @@ export default function App() {
     <Router>
       <div>
         <div>
-          Dcksdbivb
+          FastFlex Delivery
         </div>
-        {/* <nav>
-          <ul>
-            <li>
-              <Link to="/login">Login</Link>
-            </li>
-            <li>
-              <Link to="/signup">Sign Up</Link>
-            </li>
-          </ul>
-        </nav> */}
-
-        {/* 👇️ Wrap your Route components in a Routes component */}
         <div>
         <Routes>
           <Route path="/login" element={<LoginForm />} />
@@ -64,12 +52,5 @@ export default function App() {
         </div>
       </div>
     </Router>
-    // <Routes>
-    //     <Route path="/" element={<IndexPage />}>
-    //       <Route index element={<LandingPage />} />
-    //       <Route path="/login" element={<LoginForm />} />
-    //       <Route path="/signup" element={<SignupForm />} />
-    //     </Route>
-    //   </Routes>
   )
 }

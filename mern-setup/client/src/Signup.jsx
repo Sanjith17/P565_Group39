@@ -13,7 +13,7 @@ class Signup extends Component {
       email: '',
       role: '',
       password: '',
-      confirmPassword: '',
+      confirmPassword: '', 
     };
   }
 
@@ -71,7 +71,7 @@ class Signup extends Component {
 
             <div>
             <label>Select an option:</label>
-            <select value={this.state.selectedOption} onChange={this.handleOptionChange}>
+            <select value={this.state.role} onChange={this.handleOptionChange}>
               <option value="Option 1">User</option>
               <option value="Option 2">Driver</option>
               <option value="Option 3">Admin</option>

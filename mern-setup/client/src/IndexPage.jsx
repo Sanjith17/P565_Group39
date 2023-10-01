@@ -8,7 +8,7 @@ import { getTest } from "./functions/test";
 export default function LandingPage() {
 return (
     <div>
-        Fuck YOuy
+        Hello
     </div>
     
    
