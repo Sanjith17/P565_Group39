@@ -35,7 +35,7 @@ import IndexPage from "./IndexPage"
 
 import React from 'react';
 import {BrowserRouter as Router, Route, Link, Routes} from 'react-router-dom';
-import ForgotPassword from "./FogotPassword";
+import ForgotPassword from "./ForgotPassword";
 
 export default function App() {
   return (

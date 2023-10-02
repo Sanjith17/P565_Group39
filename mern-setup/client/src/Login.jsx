@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { signInWithGoogle } from './firebase';
 import './LoginCss.css';
 class Login extends Component {
   constructor(props) {
@@ -36,11 +37,9 @@ class Login extends Component {
       password: password,
       rememberMe: rememberMe,
     };
-
-    
-
   
     // Make a POST request to the server
+    
 
     const getTest = async () => {
       try{
@@ -131,6 +130,27 @@ class Login extends Component {
           <button type="button" onClick={this.handleLogin}>
             Login
           </button>
+          
+          <button type="button" style={{
+                    backgroundColor: '#fff',
+                    color: '#000',
+                    border: '1px solid #ccc',
+                    padding: '10px 20px',
+                    cursor: 'pointer',
+                    display: 'inline-block',
+                    borderRadius: '5px',
+                    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+                }} onClick={signInWithGoogle}>
+                  
+            <img src="./Resources/google-icon.png"
+                    alt="Google Icon"
+                    width="20"
+                    height="20"
+                    style={{ verticalAlign: 'middle', marginRight: '10px' }}/>
+            Sign in with Google
+          </button>
+          
+
         </form>
         <p>
           Forgot Password? <a href="/forgot">Reset Password</a>

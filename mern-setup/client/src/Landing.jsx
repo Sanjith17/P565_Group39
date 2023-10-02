@@ -8,9 +8,6 @@ import { getTest } from "./functions/test";
 export default function LandingPage() {
 return (
     <div>
-    FastFlex Delivery
-    
-    
         <nav>
           <ul>
             <li>
