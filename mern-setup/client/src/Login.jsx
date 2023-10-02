@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { signInWithGoogle } from './firebase';
 import './LoginCss.css';
+import { redirect } from 'react-router-dom';
 class Login extends Component {
   constructor(props) {
     super(props);
@@ -26,11 +27,6 @@ class Login extends Component {
   handleLogin = async() => {
     const { username, password, rememberMe } = this.state;
 
-    // You can implement your login logic here
-    // For simplicity, let's just print the values
-    console.log('Username:', username);
-    console.log('Password:', password);
-    console.log('Remember Me:', rememberMe);
 
     const data = {
       username: username,
@@ -38,7 +34,6 @@ class Login extends Component {
       rememberMe: rememberMe,
     };
   
-    // Make a POST request to the server
     
 
     const getTest = async () => {
@@ -53,15 +48,16 @@ class Login extends Component {
             .then(async (response) => {
               const responseJSON = await response.json()
               if (response.ok) {
-                // If the response status is OK (e.g., 200), do something here
+                
                 console.log('Login successful!');
                 console.log(responseJSON.message)
+                
                 this.setState({
                   loginMessage: responseJSON.message
                 })
                 // You can redirect to another page or perform other actions upon successful login
               } else {
-                // Handle errors here, e.g., display an error message to the user
+                
                 console.log('Login failed');
                 this.setState({
                   loginMessage: responseJSON.message
@@ -69,7 +65,7 @@ class Login extends Component {
               }
             })
             .catch((error) => {
-              // Handle network errors or other exceptions here
+              
               console.error('An error occurred:', error);
             });
       }
@@ -97,7 +93,7 @@ class Login extends Component {
         <h2>Login</h2>
         <form>
           <div className="form-group">
-            <label htmlFor="username">Username</label>
+            <label htmlFor="username">Username or Mail Id</label>
             <input
               type="text"
               id="username"
