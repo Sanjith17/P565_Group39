@@ -3,6 +3,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const morgan = require("morgan");
 const cors = require("cors");
+const bodyParser = require('body-parser');
 require("dotenv").config();
 
 
@@ -21,13 +22,16 @@ mongoose.connect(process.env.MONGO_URI, {
 
 
 // middleware
+app.use(bodyParser.json());
 app.use(morgan("dev"));
 app.use(cors({ origin: true, credentials: true}));
 
 
 // routes
-const testRoutes = require("./routes/test");
-app.use("/", testRoutes);
+const testRoutes = require("./routes/user");
+app.use("/", require('./routes/user'));
+// const testRoutes = require("./routes/test");
+// app.use("/", testRoutes);
 
 
 // port
