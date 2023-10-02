@@ -34,7 +34,7 @@ router.post('/signup', async (req, res) => {
       const role = req.body.role
 
       if (req.body.password != req.body.confirmPassword){
-        return res.json({status:"error", error:"passwords doesn't match"})
+        return res.status(400).json({status:"error", error:"passwords doesn't match"})
       }
       console.log("--------------------------")
 
