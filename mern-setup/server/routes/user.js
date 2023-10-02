@@ -7,11 +7,9 @@ router.post('/login', async (req, res) => {
   try {
     console.log("sdf",req.body)
     let user;
-    if (req.body.username.includes('@')) {
-      user = await User.findOne({ email: req.body.username });
-    } else {
-      user = await User.findOne({ username: req.body.username });
-    }
+    user = await User.findOne({ email: req.body.username });
+    console.log(user)
+    
 
     if (!user) return res.status(400).send({message: 'Log in failed'});
 
