@@ -33,6 +33,11 @@ router.post('/signup', async (req, res) => {
       const hashedPassword = await bcrypt.hash(req.body.password, 10);
       const role = req.body.role
 
+      if (req.body.password != req.body.confirmPassword){
+        return res.json({status:"error", error:"passwords doesn't match"})
+      }
+      console.log("--------------------------")
+
       const user = await User.create({
         firstname: req.body.firstName,
         lastname: req.body.lastName,
@@ -50,7 +55,7 @@ router.post('/signup', async (req, res) => {
     })
     } catch (error) {
       console.log("error", error)
-        res.json({status: 'error', error: 'Duplicate email'})
+        res.status(400).json({status: 'error', error: "Details not full"})
     }
   });
 

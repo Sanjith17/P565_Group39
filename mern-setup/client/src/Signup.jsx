@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import './LoginCss.css'; // Import the CSS file
 import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
+import { useNavigate } from "react-router-dom";
+
 
 class Signup extends Component {
   constructor(props) {
@@ -14,10 +16,9 @@ class Signup extends Component {
       role: 'user',
       password: '',
       confirmPassword: '', 
+      loginMessage: ""
     };
-  }
-
-  
+  }  
 
   handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -38,6 +39,15 @@ class Signup extends Component {
     // Implement your signup logic here
     // For simplicity, let's just print the form data
     console.log('Signup Data:', this.state);
+    const data = {
+      firstName: this.state.firstName,
+      lastName: this.state.lastName,
+      phoneNumber: this.state.phoneNumber,
+      email: this.state.email,
+      role: this.state.role,
+      password: this.state.password,
+      confirmPassword: this.state.confirmPassword, 
+    }
 
     try{
       const res = await fetch('http://localhost:8080/signup', {
@@ -45,16 +55,20 @@ class Signup extends Component {
         headers: {
           'Content-Type': 'application/json', // Set the content type to JSON
         },
-        body: JSON.stringify(this.state), // Convert data to JSON format
+        body: JSON.stringify(data), // Convert data to JSON format
       })
-        .then((response) => {
+        .then(async(response) => {
+          const responseJSON = await response.json()
           if (response.ok) {
             // If the response status is OK (e.g., 200), do something here
             console.log('Sign Up successful!');
+            this.setState({loginMessage: "Sign Up Successfull"})
+            // this.props.history.push('/login');
             // You can redirect to another page or perform other actions upon successful login
           } else {
             // Handle errors here, e.g., display an error message to the user
-            console.error('Sign Up failed');
+            console.error('Sign Up failed', responseJSON);
+            this.setState({loginMessage: "Sign Up Failed: "+responseJSON.error})
           }
         })
         .catch((error) => {
@@ -79,6 +93,7 @@ class Signup extends Component {
       </nav>
       <div className="login-container">
         <div className="login-form">
+        <h2>{this.state.loginMessage}</h2>
           <h2>Sign Up</h2>
           <form>
             <div className="form-group">
