@@ -62,7 +62,7 @@ class Signup extends Component {
           if (response.ok) {
             // If the response status is OK (e.g., 200), do something here
             console.log('Sign Up successful!');
-            this.setState({loginMessage: "Sign Up Successfull. Your user name is:"+ responseJSON.userName})
+            this.setState({loginMessage: "Sign Up Successfull."})// Your user name is:"+ responseJSON.userName})
             // this.props.history.push('/login');
             // You can redirect to another page or perform other actions upon successful login
           } else {
