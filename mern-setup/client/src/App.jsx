@@ -7,9 +7,8 @@
 
 import LoginForm from "./Login"
 import SignupForm from "./Signup"
-import { getTest } from "./functions/test";
 import LandingPage from "./Landing"
-import IndexPage from "./IndexPage"
+// import IndexPage from "./IndexPage"
 
 // function App() {
 //   return (
@@ -36,19 +35,18 @@ import IndexPage from "./IndexPage"
 import React from 'react';
 import {BrowserRouter as Router, Route, Link, Routes} from 'react-router-dom';
 import ForgotPassword from "./ForgotPassword";
+import Dashboard from "./Dashboard";
 
 export default function App() {
   return (
     <Router>
       <div>
         <div>
-          FastFlex Delivery
-        </div>
-        <div>
         <Routes>
           <Route path="/login" element={<LoginForm />} />
           <Route path="/signup" element={<SignupForm />} />
           <Route path="/forgot" element={<ForgotPassword />} />
+          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/" element={<LandingPage />}/>
         </Routes>
         </div>

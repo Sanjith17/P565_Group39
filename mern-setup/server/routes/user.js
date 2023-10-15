@@ -2,6 +2,13 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/user_data');
 const bcrypt = require('bcrypt');
+const admin = require('firebase-admin')
+const serviceAccount = require('./adminauth.json')
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: "https://p565-dms-7c33e-default-rtdb.firebaseio.com"
+})
 
 router.post('/login', async (req, res) => {
   try {
@@ -72,11 +79,36 @@ router.post('/signup', async (req, res) => {
       
   
       if (!user) return res.status(400).send({message: 'User does not exist'});
-  
-      res.send({message: 'email sent'});
+        
+      await admin.auth().sendPasswordResetEmail(email)
+      res.status(200).json({
+        message : 'Password reset email sent.'
+      })
     } catch (error) {
       res.status(500).send(error.message);
     }
+  });
+
+  router.post('/auth', async (req, res) => {
+    const { idToken } = req.body;
+
+    try {
+      const token = await admin.auth().verifyIdToken(idToken);
+
+      console.log(token);
+      res.status(200).json({
+        success : true
+      });
+
+      
+    } catch (error) {
+      console.error(error.message);
+
+      res.status(500).json({
+        error: 'Internal Server Error'
+      });
+    }
+
   });
 
 
