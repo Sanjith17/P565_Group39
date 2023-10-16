@@ -89,6 +89,11 @@ router.post('/signup', async (req, res) => {
     }
   });
 
+
+
+
+
+
   router.post('/auth', async (req, res) => {
     const { idToken } = req.body;
 
@@ -96,8 +101,16 @@ router.post('/signup', async (req, res) => {
       const token = await admin.auth().verifyIdToken(idToken);
 
       console.log(token);
-      try{
-      const gau = await User.create({
+      exit = await User.findOne({ loginid: token.uid });
+        
+        
+      console.log('765',exit)
+        
+    
+      if (exit) return res.status(200).send({message: 'Already in'});
+      else{
+        try{
+        const gau = await User.create({
         name: token.name,
         email: token.email,
         loginid: token.uid,
@@ -114,7 +127,7 @@ router.post('/signup', async (req, res) => {
       console.log("error", error)
         res.status(400).json({status: 'error', error: "Details not full"})
     }
-  } 
+  }}
     
       
     catch (error) {
