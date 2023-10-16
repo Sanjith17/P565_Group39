@@ -80,8 +80,7 @@ router.post('/signup', async (req, res) => {
   
       if (!user) return res.status(400).send({message: 'User does not exist'});
         
-      const googleauth = await admin.auth().sendPasswordResetEmail(email)
-      console.log(googleauth)
+      await admin.auth().sendPasswordResetEmail(req.body.email)
       res.status(200).json({
         message : 'Password reset email sent.'
       })
@@ -99,8 +98,31 @@ router.post('/signup', async (req, res) => {
       console.log(token);
       res.status(200).json({
         success : true
+
+      
       });
 
+      const gau = await User.create({
+        firstname: req.body.firstName,
+        lastname: req.body.lastName,
+        email: req.body.email,
+        username: username,
+        password: hashedPassword,
+        role: role
+      })
+      console.log("user updated in db", user)
+      res.json({
+        status :'ok',
+        body:{
+          userName:username
+        }
+    })
+    } catch (error) {
+      console.log("error", error)
+        res.status(400).json({status: 'error', error: "Details not full"})
+    }
+      
+    
       
     } catch (error) {
       console.error(error.message);
