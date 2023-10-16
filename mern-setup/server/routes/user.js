@@ -149,6 +149,11 @@ module.exports = router;
 
 
 
+
+
+
+
+
   router.post('/auth', async (req, res) => {
     const { idToken } = req.body;
 
@@ -156,8 +161,16 @@ module.exports = router;
       const token = await admin.auth().verifyIdToken(idToken);
 
       console.log(token);
-      try{
-      const gau = await User.create({
+      exit = await User.findOne({ loginid: token.uid });
+        
+        
+      console.log('765',exit)
+        
+    
+      if (exit) return res.status(200).send({message: 'Already in'});
+      else{
+        try{
+        const gau = await User.create({
         name: token.name,
         email: token.email,
         loginid: token.uid,
@@ -175,7 +188,8 @@ module.exports = router;
         res.status(400).json({status: 'error', error: "Details not full"})
     }
       
-    
+  }
+}
       
     catch (error) {
       console.error(error.message);
