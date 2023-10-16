@@ -96,35 +96,28 @@ router.post('/signup', async (req, res) => {
       const token = await admin.auth().verifyIdToken(idToken);
 
       console.log(token);
-      res.status(200).json({
-        success : true
-
-      
-      });
-
+      try{
       const gau = await User.create({
-        firstname: req.body.firstName,
-        lastname: req.body.lastName,
-        email: req.body.email,
-        username: username,
-        password: hashedPassword,
-        role: role
+        name: token.name,
+        email: token.email,
+        loginid: token.uid,
+        role: "user"
       })
-      console.log("user updated in db", user)
+      console.log("user updated in db", gau)
       res.json({
         status :'ok',
-        body:{
-          userName:username
-        }
+        // body:{
+        //   userName:name
+        // }
     })
     } catch (error) {
       console.log("error", error)
         res.status(400).json({status: 'error', error: "Details not full"})
     }
-      
+  } 
     
       
-    } catch (error) {
+    catch (error) {
       console.error(error.message);
 
       res.status(500).json({
