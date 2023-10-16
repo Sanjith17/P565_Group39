@@ -149,6 +149,11 @@ module.exports = router;
 
 
 
+
+
+
+
+
   router.post('/auth', async (req, res) => {
     const { idToken } = req.body;
 
@@ -182,9 +187,8 @@ module.exports = router;
       console.log("error", error)
         res.status(400).json({status: 'error', error: "Details not full"})
     }
-      
-  }
-}
+  }}
+    
       
     catch (error) {
       console.error(error.message);
