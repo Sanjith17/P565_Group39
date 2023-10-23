@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../models/user_data');
+const GoogleUser = require('../models/auth_data');
 const bcrypt = require('bcrypt');
 const admin = require('firebase-admin')
 const serviceAccount = require('./adminauth.json')
@@ -64,7 +65,7 @@ router.post('/signup', async (req, res) => {
         }
     })
     } catch (error) {
-      console.log("error", error)
+      console.log("error   ", error)
         res.status(400).json({status: 'error', error: "Details not full"})
     }
   });
@@ -101,7 +102,7 @@ router.post('/signup', async (req, res) => {
       const token = await admin.auth().verifyIdToken(idToken);
 
       console.log(token);
-      exit = await User.findOne({ loginid: token.uid });
+      exit = await GoogleUser.findOne({ loginid: token.uid });
         
         
       console.log('765',exit)
@@ -110,7 +111,7 @@ router.post('/signup', async (req, res) => {
       if (exit) return res.status(200).send({message: 'Already in'});
       else{
         try{
-        const gau = await User.create({
+        const gau = await GoogleUser.create({
         name: token.name,
         email: token.email,
         loginid: token.uid,
