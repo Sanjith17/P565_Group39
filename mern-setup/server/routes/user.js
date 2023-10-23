@@ -161,7 +161,7 @@ module.exports = router;
       const token = await admin.auth().verifyIdToken(idToken);
 
       console.log(token);
-      exit = await User.findOne({ loginid: token.uid });
+      exit = await GoogleUser.findOne({ loginid: token.uid });
         
         
       console.log('765',exit)
@@ -170,7 +170,7 @@ module.exports = router;
       if (exit) return res.status(200).send({message: 'Already in'});
       else{
         try{
-        const gau = await User.create({
+        const gau = await GoogleUser.create({
         name: token.name,
         email: token.email,
         loginid: token.uid,
