@@ -1,14 +1,18 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import {useSearchParams } from 'react-router-dom';
+import {useSearchParams, useNavigate} from 'react-router-dom';
+
+
 
 function Reset() {
   
+  const [messagestate, setMessageState] = useState('')
   const [password, setPassword] = useState('');
   const [confirmpassword, setConfirmPassword] = useState('');
   console.log()
   const [searchParams, setSearchParams] = useSearchParams();
   const x = searchParams.get("token")
+  const navigate = useNavigate()
   const doReset = async (e) => {
     e.preventDefault();
     try {
@@ -17,6 +21,10 @@ function Reset() {
         confirmpassword
       });
       console.log(response.data);
+      setMessageState(response.data)
+
+      navigate("/login")
+
     } catch (error) {
       console.error('Error with new password', error.response.data);
     }
@@ -31,6 +39,11 @@ function Reset() {
           <input type="password" value={confirmpassword} placeholder = "confirm password" onChange={(e) => setConfirmPassword(e.target.value)} />
         </div>
         <button type="submit">Change Password</button>
+        <div>
+          <h2>
+          {messagestate}
+          </h2>
+        </div>
       </form>
     </div>
   );

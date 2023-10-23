@@ -38,6 +38,8 @@ import ForgotPassword from "./ForgotPassword/ForgotPassword";
 import Dashboard from "./Dashboard/Dashboard";
 import Tracking from "./Tracking/Tracking";
 import ResetPass from "./ResetPass";
+import Transition from "./Pages/transition";
+
 
 export default function App() {
   return (
@@ -51,6 +53,7 @@ export default function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/tracking" element={<Tracking />} />
           <Route path="/resetpass" element={<ResetPass />} />
+          <Route path="/transition" element={<Transition />} />
           <Route path="/" element={<LandingPage />}/>
 
         </Routes>

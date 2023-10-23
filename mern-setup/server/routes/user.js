@@ -30,7 +30,7 @@ router.post('/login', async (req, res) => {
     if (!user) return res.status(400).send({message: 'Log in failed'});
 
     const validPassword = await bcrypt.compare(req.body.password, user.password);
-    if (!validPassword) return res.status(400).send('Invalid password');
+    if (!validPassword) return res.status(400).send({message: 'Log in failed'});
 
     res.send({message: 'Logged in successfully'});
   } catch (error) {
@@ -92,7 +92,7 @@ router.post('/signup', async (req, res) => {
     user.password = hashedPassword;
     await user.save();
     await ResetToken.deleteOne({token});
-      res.send('Password was changed');
+      res.send('Password has been changed');
     }
     catch (error) {
       res.status(500).send(error.message)
