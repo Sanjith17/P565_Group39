@@ -1,0 +1,63 @@
+.body {
+  margin: 0;
+  padding: 0;
+  background: url('./Background.png') center/cover;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.landing-navbar {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 20px;
+  background-color: rgba(0, 0, 0, 0.5);
+  /* Semi-transparent background for navbar */
+}
+
+.navbar-item {
+  color: white;
+  cursor: pointer;
+  transition: color 0.3s;
+  /* Smooth transition for color change */
+}
+
+.navbar-item:hover {
+  color: #61dafb;
+  /* Change color on hover */
+}
+
+p {
+  font-size: 18px;
+  margin-top: 5px;
+}
+
+.App {
+  text-align: center;
+}
+
+.App-header {
+  background: rgba(0, 0, 0, 0.5);
+  /* Add a semi-transparent overlay for better readability */
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.track-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #61dafb;
+  color: white; /* Initial text color */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s; /* Add color transition */
+  margin-top: 12px;
+}
+
+.track-button:hover {
+  background-color: #4fa3d1;
+  color: #ffffff; /* Change text color on hover */
+}
