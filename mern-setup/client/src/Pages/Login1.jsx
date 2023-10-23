@@ -48,8 +48,6 @@ function Login() {
       console.log(data);
 
       if (data.success) {
-        alert('You are being redirected to the user Dashboard');
-
         navigate('/dashboard');
       } else {
         alert('You are being redirected to the Landing page');
