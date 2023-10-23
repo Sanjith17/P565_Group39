@@ -37,6 +37,7 @@ import {BrowserRouter as Router, Route, Link, Routes} from 'react-router-dom';
 import ForgotPassword from "./ForgotPassword/ForgotPassword";
 import Dashboard from "./Dashboard/Dashboard";
 import Tracking from "./Tracking/Tracking";
+import ResetPass from "./ResetPass";
 
 export default function App() {
   return (
@@ -49,7 +50,9 @@ export default function App() {
           <Route path="/forgot" element={<ForgotPassword />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/tracking" element={<Tracking />} />
+          <Route path="/resetpass" element={<ResetPass />} />
           <Route path="/" element={<LandingPage />}/>
+
         </Routes>
         </div>
       </div>
