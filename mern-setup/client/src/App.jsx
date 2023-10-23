@@ -36,6 +36,7 @@ import React from 'react';
 import {BrowserRouter as Router, Route, Link, Routes} from 'react-router-dom';
 import ForgotPassword from "./ForgotPassword";
 import Dashboard from "./Dashboard";
+import ResetPass from "./ResetPass";
 
 export default function App() {
   return (
@@ -47,7 +48,9 @@ export default function App() {
           <Route path="/signup" element={<SignupForm />} />
           <Route path="/forgot" element={<ForgotPassword />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/resetpass" element={<ResetPass />} />
           <Route path="/" element={<LandingPage />}/>
+
         </Routes>
         </div>
       </div>
