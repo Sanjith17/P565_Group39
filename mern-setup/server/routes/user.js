@@ -76,11 +76,12 @@ router.post('/signup', async (req, res) => {
       let user;
       
       user = await User.findOne({ email: req.body.email });
-      
+      email = req.body.email
   
       if (!user) return res.status(400).send({message: 'User does not exist'});
         
-      await admin.auth().sendPasswordResetEmail(email)
+      const googleauth = await admin.auth().sendPasswordResetEmail(email)
+      console.log(googleauth)
       res.status(200).json({
         message : 'Password reset email sent.'
       })
