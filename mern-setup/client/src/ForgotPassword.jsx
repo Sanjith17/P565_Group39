@@ -7,9 +7,10 @@ class ForgotPassword extends Component {
       email: ''
     };
   }
+  
 
   handleInputChange = (event) => {
-    const { name, value} = event.target;
+    const { name, value } = event.target;
     const inputValue = value;
     console.log("name", name)
     console.log("value", value)
@@ -20,7 +21,7 @@ class ForgotPassword extends Component {
 
   handleForgotPassword = async() => {
     const { email } = this.state;
-
+    
     // You can implement your login logic here
     // For simplicity, let's just print the values
     console.log('email', email);
@@ -29,9 +30,6 @@ class ForgotPassword extends Component {
         email: email
     };
 
-    
-
-  
     // Make a POST request to the server
 
     const getTest = async () => {
