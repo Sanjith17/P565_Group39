@@ -37,6 +37,8 @@ import {BrowserRouter as Router, Route, Link, Routes} from 'react-router-dom';
 import ForgotPassword from "./ForgotPassword";
 import Dashboard from "./Dashboard";
 import ResetPass from "./ResetPass";
+import Transition from "./Pages/transition";
+
 
 export default function App() {
   return (
@@ -49,6 +51,7 @@ export default function App() {
           <Route path="/forgot" element={<ForgotPassword />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/resetpass" element={<ResetPass />} />
+          <Route path="/transition" element={<Transition />} />
           <Route path="/" element={<LandingPage />}/>
 
         </Routes>
