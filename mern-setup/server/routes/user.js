@@ -17,14 +17,14 @@ admin.initializeApp({
 router.post('/login', async (req, res) => {
   try {
     console.log("sdf",req.body)
-    let user;
-    if  (req.body.username.includes('@')){
+    let user = {}
+    if(req.body.username.includes('@')){
       user = await User.findOne({ email: req.body.username });
     }else{
       user = await User.findOne({ username: req.body.username });
     }
     
-    console.log('765',user)
+    console.log("765",user)
     
 
     if (!user) return res.status(400).send({message: 'Log in failed'});
@@ -32,7 +32,11 @@ router.post('/login', async (req, res) => {
     const validPassword = await bcrypt.compare(req.body.password, user.password);
     if (!validPassword) return res.status(400).send({message: 'Log in failed'});
 
-    res.send({message: 'Logged in successfully'});
+    res.send({message: 'Logged in successfully', user_det: {
+      id: user.username, // Include the user's ID // Include other user details as needed
+      // Add more user properties here
+    },
+  },);
   } catch (error) {
     res.status(500).send(error.message);
   }
