@@ -149,11 +149,6 @@ module.exports = router;
 
 
 
-
-
-
-
-
   router.post('/auth', async (req, res) => {
     const { idToken } = req.body;
 
