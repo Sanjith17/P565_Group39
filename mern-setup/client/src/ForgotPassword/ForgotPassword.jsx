@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './LoginCss.css';
+// import './LoginCss.css';
 class ForgotPassword extends Component {
   constructor(props) {
     super(props);
@@ -61,7 +61,7 @@ class ForgotPassword extends Component {
             })
             .catch((error) => {
               // Handle network errors or other exceptions here
-              console.error('An error occurred:', error);
+              console.error('An error occurred:', error.message);
             });
       }
       catch(error) {

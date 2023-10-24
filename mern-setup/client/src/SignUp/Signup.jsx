@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './LoginCss.css'; // Import the CSS file
+import '../Login/LoginCss.css'; // Import the CSS file
 import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
 import { useNavigate } from "react-router-dom";
