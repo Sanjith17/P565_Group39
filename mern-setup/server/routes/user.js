@@ -24,7 +24,7 @@ router.post('/login', async (req, res) => {
       user = await User.findOne({ username: req.body.username });
     }
     
-    console.log("765",user)
+    //console.log("765",user)
     
 
     if (!user) return res.status(400).send({message: 'Log in failed'});
