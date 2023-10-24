@@ -9,7 +9,7 @@ export default function LandingPage() {
   
 
 return (
-  <div class="body">
+  <div className="body">
     <div className="App">
       <nav className="landing-navbar">
         <Link to="/login" className="navbar-item">Login</Link>
