@@ -35,7 +35,7 @@ function Login() {
 
       const idToken = await result.user.getIdToken();
 
-      const response = await fetch('http://localhost:8080/auth', {
+      const response = await fetch(process.env.REACT_APP_BACKEND_URL+'/auth', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -66,7 +66,7 @@ function Login() {
     };
 
     try {
-      const response = await fetch('http://localhost:8080/login', {
+      const response = await fetch(process.env.REACT_APP_BACKEND_URL+'/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

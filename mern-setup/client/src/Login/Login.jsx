@@ -5,6 +5,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import app from '../Firebase/firebase';
 import GoogleIcon from './google-icon.png'
 
+import Cookies from 'js-cookie'
+
 function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -35,7 +37,9 @@ function Login() {
 
       const idToken = await result.user.getIdToken();
 
-      const response = await fetch('http://localhost:8080/auth', {
+      console.log(process.env.REACT_APP_BACKEND_URL)
+      const response = await fetch(process.env.REACT_APP_BACKEND_URL+'/auth', {
+=
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -68,7 +72,11 @@ function Login() {
     };
 
     try {
-      const response = await fetch('http://localhost:8080/login', {
+
+      console.log(process.env.REACT_APP_BACKEND_URL)
+      const response = await fetch(process.env.REACT_APP_BACKEND_URL+'/login', {
+
+
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -82,6 +90,9 @@ function Login() {
         console.log('Login successful!');
         console.log(responseJSON.message);
         setLoginMessage(responseJSON.message);
+
+
+        Cookies.set('loginToken', responseJSON.jwt_token)
 
         navigate('/');
       } else {

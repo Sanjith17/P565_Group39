@@ -16,7 +16,7 @@ function Reset() {
   const doReset = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`http://localhost:8080/reset/${x}`, {
+      const response = await axios.post(process.env.REACT_APP_BACKEND_URL+`/reset/${x}`, {
         password,
         confirmpassword
       });
