@@ -4,6 +4,7 @@ import './LoginCss.css';
 import { Link, useNavigate } from 'react-router-dom';
 import app from '../Firebase/firebase';
 import GoogleIcon from './google-icon.png'
+
 import Cookies from 'js-cookie'
 
 function Login() {
@@ -35,8 +36,10 @@ function Login() {
       console.log(result.user);
 
       const idToken = await result.user.getIdToken();
+
       console.log(process.env.REACT_APP_BACKEND_URL)
       const response = await fetch(process.env.REACT_APP_BACKEND_URL+'/auth', {
+=
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -69,8 +72,11 @@ function Login() {
     };
 
     try {
+
       console.log(process.env.REACT_APP_BACKEND_URL)
       const response = await fetch(process.env.REACT_APP_BACKEND_URL+'/login', {
+
+
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -85,7 +91,9 @@ function Login() {
         console.log(responseJSON.message);
         setLoginMessage(responseJSON.message);
 
+
         Cookies.set('loginToken', responseJSON.jwt_token)
+
         navigate('/');
       } else {
         console.log('Login failed');
