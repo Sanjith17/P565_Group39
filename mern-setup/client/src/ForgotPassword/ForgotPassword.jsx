@@ -34,7 +34,7 @@ class ForgotPassword extends Component {
 
     const getTest = async () => {
       try{
-          const res = await fetch('http://localhost:8080/forgot', {
+          const res = await fetch( process.env.REACT_APP_BACKEND_URL+'/forgot', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json', // Set the content type to JSON

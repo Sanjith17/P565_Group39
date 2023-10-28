@@ -12,7 +12,7 @@ const app = express();
 
 
 //db
-mongoose.connect(process.env.MONGO_URI, {
+mongoose.connect(process.env.REACT_APP_MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 })
@@ -35,7 +35,7 @@ app.use("/", require('./routes/user'));
 
 
 // port
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 10000;
 
 
 // listener

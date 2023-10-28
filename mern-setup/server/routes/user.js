@@ -8,6 +8,11 @@ const serviceAccount = require('./adminauth.json')
 const generateToken = require('../helpers/generateToken')
 const ResetToken = require('../models/reset_token')
 const nodemailer = require('nodemailer')
+const jwt = require('jsonwebtoken');
+
+const loginSecretKey = 'fastflex-user-login-secret-key'; 
+
+
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
@@ -32,10 +37,13 @@ router.post('/login', async (req, res) => {
     const validPassword = await bcrypt.compare(req.body.password, user.password);
     if (!validPassword) return res.status(400).send({message: 'Log in failed'});
 
+    const token = jwt.sign({ username: user.username }, loginSecretKey);
+
     res.send({message: 'Logged in successfully', user_det: {
       id: user.username, // Include the user's ID // Include other user details as needed
       // Add more user properties here
     },
+    jwt_token: token
   },);
   } catch (error) {
     res.status(500).send(error.message);

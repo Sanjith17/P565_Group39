@@ -40,7 +40,7 @@ class Login extends Component {
 
       const idToken = await result.user.getIdToken();
 
-      const response = await fetch('http://localhost:8080/auth', {
+      const response = await fetch(process.env.REACT_APP_BACKEND_URL+'/auth', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -80,7 +80,7 @@ class Login extends Component {
   
     const getTest = async () => {
       try{
-          await fetch('http://localhost:8080/login', {
+          await fetch(process.env.REACT_APP_BACKEND_URL+'/login', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json', // Set the content type to JSON
