@@ -39,7 +39,7 @@ function Login() {
 
       console.log(process.env.REACT_APP_BACKEND_URL)
       const response = await fetch(process.env.REACT_APP_BACKEND_URL+'/auth', {
-=
+
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
