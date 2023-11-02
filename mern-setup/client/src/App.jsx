@@ -40,7 +40,8 @@ import Transition from "./Pages/transition";
 import ForgotPassword from "./ForgotPassword/ForgotPassword";
 import Dashboard from "./Dashboard/Dashboard";
 import Tracking from "./Tracking/Tracking";
-
+import DeliverySearch from "./DeliverySearch/DeliverySearch";
+import AdminHome from "./AdminHome/AdminHome";
 export default function App() {
   return (
     <Router>
@@ -53,7 +54,9 @@ export default function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/resetpass" element={<ResetPass />} />
           <Route path="/transition" element={<Transition />} />
+          <Route path="/deliverysearch" element={<DeliverySearch />} />
           <Route path="/tracking" element={<Tracking />} />
+          <Route path="/admin" element={<AdminHome />} />
           <Route path="/" element={<LandingPage />}/>
 
         </Routes>
