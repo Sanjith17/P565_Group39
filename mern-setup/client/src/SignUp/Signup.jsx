@@ -12,8 +12,8 @@ const Signup = () => {
     role: 'user',
     password: '',
     confirmPassword: '',
-    question1: '',
-    question2: '',
+    question1: "what is your mother's maiden name?",
+    question2: 'What was the name of your first pet?',
     answer1: '',
     answer2: '',
   });
@@ -173,9 +173,9 @@ const Signup = () => {
             <div className="form-group">
               <label>Question 1</label>
               <select value={formData.question1} onChange={handleQuestion1Change}>
-                <option value="option1">what is your mother's maiden name?</option>
-                <option value="option2">What high school did you attend?</option>
-                <option value="option3">What was your favorite food as a child?</option>
+                <option value="what is your mother's maiden name?">what is your mother's maiden name?</option>
+                <option value="What high school did you attend?">What high school did you attend?</option>
+                <option value="What was your favorite food as a child?">What was your favorite food as a child?</option>
               </select>
             </div>
 
@@ -193,9 +193,9 @@ const Signup = () => {
             <div className="form-group">
               <label>Question 2</label>
               <select value={formData.question2} onChange={handleQuestion2Change}>
-                <option value="option1">What was the name of your first pet?</option>
-                <option value="option2">What was your childhood nickname?</option>
-                <option value="option3">In what city were you born?</option>
+                <option value="What was the name of your first pet?">What was the name of your first pet?</option>
+                <option value="What was your childhood nickname?">What was your childhood nickname?</option>
+                <option value="In what city were you born?">In what city were you born?</option>
               </select>
             </div>
 
