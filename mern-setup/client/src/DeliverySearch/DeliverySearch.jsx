@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import './DeliverySearch.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // Import FontAwesome (assuming you have it installed)
 
 const DeliverySearch = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [criteria, setCriteria] = useState('delicateItems');
     const [selectedService, setSelectedService] = useState(null);
-
 
     const mockData = [
         { id: 1, type: 'delicateItems', name: 'Normal Delicate', price: '$20', deliveryTime: '1-2 days', weight: '0-5kg' },
@@ -20,7 +20,6 @@ const DeliverySearch = () => {
         { id: 10, type: 'general', name: 'Premium Delivery', price: '$50', deliveryTime: '10-15 days', weight: '0-50kg' }
     ];
 
-
     const handleServiceClick = (serviceId) => {
         if (selectedService === serviceId) {
             setSelectedService(null); // Hide details if the same service is clicked again
@@ -29,8 +28,12 @@ const DeliverySearch = () => {
         }
     }
 
-    return (
+    const openSettings = () => {
+        // Simulate opening settings (you would replace this with actual settings logic)
+        alert('Opening Settings');
+    }
 
+    return (
         <div className="search-container">
             <h2>Search Delivery Services</h2>
             <div className="search-box">
@@ -46,6 +49,9 @@ const DeliverySearch = () => {
                     <option value="general">General</option>
                 </select>
                 <button onClick={() => setSearchTerm('')}>Reset</button>
+                <button onClick={openSettings} className="settings-button">
+                    <FontAwesomeIcon icon="cog" /> {/* Use the FontAwesome settings icon here */}
+                </button>
             </div>
             <div className="results">
                 {mockData.filter(item => item.type === criteria && item.name.toLowerCase().includes(searchTerm.toLowerCase())).map(item => (
@@ -64,7 +70,6 @@ const DeliverySearch = () => {
                 ))}
             </div>
         </div>
-
     );
 };
 
