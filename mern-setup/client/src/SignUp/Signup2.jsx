@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import '../Login/LoginCss.css'; // Import the CSS file
+import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
-import { useNavigate } from 'react-router-dom';
+import { useHistory } from "react-router-dom";
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -11,15 +12,11 @@ const Signup = () => {
     email: '',
     role: 'user',
     password: '',
-    confirmPassword: '',
-    question1: '',
-    question2: '',
-    answer1: '',
-    answer2: '',
+    confirmPassword: '', 
   });
 
   const [loginMessage, setLoginMessage] = useState('');
-  const history = useNavigate();
+  const history = useHistory();
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -30,26 +27,12 @@ const Signup = () => {
     });
   };
 
-  const handleRoleChange = (event) => {
+  const handleOptionChange = (event) => {
     setFormData({
       ...formData,
       role: event.target.value,
     });
-  };
-
-  const handleQuestion1Change = (event) => {
-    setFormData({
-      ...formData,
-      question1: event.target.value,
-    });
-  };
-
-  const handleQuestion2Change = (event) => {
-    setFormData({
-      ...formData,
-      question2: event.target.value,
-    });
-  };
+  }
 
   const handleSignup = async () => {
     console.log('Signup Data:', formData);
@@ -60,12 +43,8 @@ const Signup = () => {
       email: formData.email,
       role: formData.role,
       password: formData.password,
-      confirmPassword: formData.confirmPassword,
-      question1: formData.question1,
-      question2: formData.question2,
-      answer1: formData.answer1,
-      answer2: formData.answer2,
-    };
+      confirmPassword: formData.confirmPassword, 
+    }
 
     try {
       const response = await fetch(process.env.REACT_APP_BACKEND_URL + '/signup', {
@@ -82,7 +61,7 @@ const Signup = () => {
         console.log('Sign Up successful!');
         setLoginMessage("Sign Up Successful.");
         // Redirect to the login page or any other page on success
-        history('/login');
+        history.push('/login');
       } else {
         console.error('Sign Up failed', responseJSON);
         setLoginMessage("Sign Up Failed: " + responseJSON.error);
@@ -94,6 +73,13 @@ const Signup = () => {
 
   return (
     <div>
+      <nav>
+        <ul>
+          <li>
+            <a href="/">Home</a>
+          </li>
+        </ul>
+      </nav>
       <div className="login-container">
         <div className="login-form">
           <h2>{loginMessage}</h2>
@@ -122,7 +108,7 @@ const Signup = () => {
 
             <div>
               <label>Select an option:</label>
-              <select value={formData.role} onChange={handleRoleChange}>
+              <select value={formData.role} onChange={handleOptionChange}>
                 <option value="user">User</option>
                 <option value="driver">Driver</option>
                 <option value="admin">Admin</option>
@@ -169,47 +155,6 @@ const Signup = () => {
                 onChange={handleInputChange}
               />
             </div>
-
-            <div className="form-group">
-              <label>Question 1</label>
-              <select value={formData.question1} onChange={handleQuestion1Change}>
-                <option value="option1">what is your mother's maiden name?</option>
-                <option value="option2">What high school did you attend?</option>
-                <option value="option3">What was your favorite food as a child?</option>
-              </select>
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="answer1">Answer 1</label>
-              <input
-                type="text"
-                id="answer1"
-                name="answer1"
-                value={formData.answer1}
-                onChange={handleInputChange}
-              />
-            </div>
-
-            <div className="form-group">
-              <label>Question 2</label>
-              <select value={formData.question2} onChange={handleQuestion2Change}>
-                <option value="option1">What was the name of your first pet?</option>
-                <option value="option2">What was your childhood nickname?</option>
-                <option value="option3">In what city were you born?</option>
-              </select>
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="answer2">Answer 2</label>
-              <input
-                type="text"
-                id="answer2"
-                name="answer2"
-                value={formData.answer2}
-                onChange={handleInputChange}
-              />
-            </div>
-
             <button type="button" onClick={handleSignup}>
               Sign Up
             </button>
@@ -224,3 +169,13 @@ const Signup = () => {
 };
 
 export default Signup;
+
+
+
+
+
+
+
+
+
+
