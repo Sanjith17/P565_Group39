@@ -37,7 +37,7 @@ import {BrowserRouter as Router, Route, Link, Routes} from 'react-router-dom';
 import ResetPass from "./ResetPass";
 import Transition from "./Pages/transition";
 
-import ForgotPassword from "./ForgotPassword/ForgotPassword";
+import ForgotPassword from "./ForgotPassword/Forgot";
 import Dashboard from "./Dashboard/Dashboard";
 import Tracking from "./Tracking/Tracking";
 import DeliverySearch from "./DeliverySearch/DeliverySearch";

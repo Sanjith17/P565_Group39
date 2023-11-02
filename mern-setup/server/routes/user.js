@@ -37,7 +37,7 @@ router.post('/login', async (req, res) => {
     const validPassword = await bcrypt.compare(req.body.password, user.password);
     if (!validPassword) return res.status(400).send({message: 'Log in failed'});
 
-    const token = jwt.sign({ username: user.username }, loginSecretKey);
+    const token = jwt.sign({ username: user.email }, loginSecretKey);
 
     res.send({message: 'Logged in successfully', user_det: {
       id: user.username, // Include the user's ID // Include other user details as needed
@@ -111,7 +111,7 @@ router.post('/signup', async (req, res) => {
       res.send('Password has been changed');
     }
     catch (error) {
-      res.status(500).send(error.message)
+      res.status(500).send("emo ")
     }
   });
   
@@ -146,7 +146,7 @@ module.exports = router;
         to:email,
         subject:"Password Reset",
         //text:'http://localhost:3000/Reset/${user._id}'
-        html: `<p>Hi, This email is being sent in response to a password reset request. Please click <a href =REACT_APP_FRONTEND_URL+'/resetpass?token=${token}/'>here</a> to reset your password.</p>`
+        html: `<p>Hi, This email is being sent in response to a password reset request. Please click <a href ='http://localhost:3000/resetpass?token=${token}/'>here</a> to reset your password.</p>`
     }
     const check = await mailTransport.sendMail(details);
     res.send({message: 'ok'});
@@ -158,6 +158,44 @@ module.exports = router;
 
 
 
+router.post('/security_questions', async (req, res) => {
+  const email = req.body.email
+  try{
+  const user = await User.findOne({ email });
+  if (!user) {
+    return res.status(400).json({ message: "No account with this email found." });
+}
+const questions = {
+  question1: user.question1,
+  question2: user.question2,
+  };
+  console.log(questions)
+res.json(questions);
+  } catch(err){
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+});
+
+
+router.post('/verify-answers', async (req, res) => {
+  const { email, answers } = req.body;
+  const user = await User.findOne({ email });
+  const verifiedAnswers = [user.answer1, user.answer2]
+  console.log(user)
+  console.log(email,answers)
+  if (!user || JSON.stringify(verifiedAnswers) !== JSON.stringify(answers)) {
+      return res.status(400).json({ message: 'Answer is incorrect or email not found' });
+  }
+  const token = generateToken();
+ 
+    const resetToken = new ResetToken({
+        userId: user.username,
+        token: token
+    });
+    await resetToken.save();
+  return res.status(200).json({resetToken: resetToken})
+});
 
 
 
