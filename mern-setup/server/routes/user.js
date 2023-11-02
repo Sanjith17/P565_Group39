@@ -70,7 +70,11 @@ router.post('/signup', async (req, res) => {
         email: req.body.email,
         username: username,
         password: hashedPassword,
-        role: role
+        role: role,
+        answer1:req.body.answer1,
+        answer2:req.body.answer2,
+        question1:req.body.question1,
+        question2:req.body.question2,
       })
       console.log("user updated in db", user)
       res.json({
