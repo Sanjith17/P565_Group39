@@ -36,7 +36,7 @@ import React from 'react';
 import {BrowserRouter as Router, Route, Link, Routes} from 'react-router-dom';
 import ResetPass from "./ResetPass";
 import Transition from "./Pages/transition";
-
+import Recommendation from "./RecommendedService/ParcelServicePage"
 import ForgotPassword from "./ForgotPassword/ForgotPassword";
 import Dashboard from "./Dashboard/Dashboard";
 import Tracking from "./Tracking/Tracking";
@@ -55,6 +55,7 @@ export default function App() {
           <Route path="/resetpass" element={<ResetPass />} />
           <Route path="/transition" element={<Transition />} />
           <Route path="/deliverysearch" element={<DeliverySearch />} />
+          <Route path="/recommendation" element={<Recommendation />} />
           <Route path="/tracking" element={<Tracking />} />
           <Route path="/admin" element={<AdminHome />} />
           <Route path="/" element={<LandingPage />}/>
