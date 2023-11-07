@@ -1,0 +1,185 @@
+/*
+.parcel-service-container {
+    width: 80%;
+    margin: 0 auto;
+    text-align: center;
+  }
+  
+  .parcel-size-selector {
+    margin: 20px 0;
+  }
+  
+  .size-button {
+    padding: 10px 20px;
+    margin: 0 10px;
+    border: 1px solid #ccc;
+    background-color: #f8f8f8;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .size-button:hover, .size-button.selected {
+    background-color: #e0e0e0;
+  }
+  
+  .service-recommendations {
+    margin-top: 30px;
+  }
+  
+  .services-list {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 15px;
+  }
+  
+  .service-card {
+    border: 1px solid #ddd;
+    padding: 20px;
+    width: 300px;
+    text-align: left;
+  }
+  
+  .service-card button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+  }
+  
+  .service-card button:hover {
+    opacity: 0.8;
+  }
+  
+  .confirmation {
+    border: 1px solid #ddd;
+    padding: 20px;
+    margin-top: 30px;
+  }
+  
+  .confirmation button {
+    background-color: #008CBA;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+    width: 50%;
+    margin-top: 10px;
+  }
+  
+  .confirmation button:hover {
+    opacity: 0.8;
+  }
+  */
+  /* Base styles */
+body, button {
+    font-family: 'Arial', sans-serif;
+  }
+  
+  /* Container */
+  .parcel-service-container {
+    max-width: 960px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  }
+  
+  /* Parcel size selection */
+  .parcel-size-selector {
+    margin: 20px 0;
+  }
+  
+  .size-button {
+    padding: 10px 20px;
+    margin: 0 10px;
+    border: none;
+    border-radius: 4px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  .size-button:hover, .size-button.selected {
+    background-color: #0056b3;
+  }
+  
+  /* Service recommendations */
+  .service-recommendations {
+    margin-top: 30px;
+  }
+  
+  .services-list {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 15px;
+  }
+  
+  .service-card {
+    border: none;
+    border-radius: 8px;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    width: calc(100% / 3 - 20px); /* Three items per row with gap */
+  }
+  
+  .service-card h3 {
+    color: #007bff;
+  }
+  
+  .service-card button {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  .service-card button:hover {
+    background-color: #218838;
+  }
+  
+  /* Confirmation styles */
+  .confirmation {
+    border-radius: 8px;
+    padding: 20px;
+    background-color: #28a745;
+    color: white;
+    margin-top: 30px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  .confirmation button {
+    background-color: #17a2b8;
+    margin-top: 10px;
+  }
+  
+  .confirmation button:hover {
+    background-color: #138496;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 992px) {
+    .service-card {
+      width: calc(100% / 2 - 20px); /* Two items per row with gap */
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .service-card {
+      width: 100%; /* Full width for small screens */
+      margin-top: 15px;
+    }
+  }
+  
