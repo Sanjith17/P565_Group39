@@ -9,6 +9,7 @@ const generateToken = require('../helpers/generateToken')
 const ResetToken = require('../models/reset_token')
 const nodemailer = require('nodemailer')
 const jwt = require('jsonwebtoken');
+const loginController  = require('../controllers/login');
 
 const loginSecretKey = 'fastflex-user-login-secret-key'; 
 
@@ -19,36 +20,9 @@ admin.initializeApp({
   databaseURL: "https://p565-dms-7c33e-default-rtdb.firebaseio.com"
 })
 
-router.post('/login', async (req, res) => {
-  try {
-    console.log("sdf",req.body)
-    let user = {}
-    if(req.body.username.includes('@')){
-      user = await User.findOne({ email: req.body.username });
-    }else{
-      user = await User.findOne({ username: req.body.username });
-    }
-    
-    //console.log("765",user)
-    
 
-    if (!user) return res.status(400).send({message: 'Log in failed'});
+router.post('/login',  loginController.login);
 
-    const validPassword = await bcrypt.compare(req.body.password, user.password);
-    if (!validPassword) return res.status(400).send({message: 'Log in failed'});
-
-    const token = jwt.sign({ username: user.email }, loginSecretKey);
-
-    res.send({message: 'Logged in successfully', user_det: {
-      id: user.username, // Include the user's ID // Include other user details as needed
-      // Add more user properties here
-    },
-    jwt_token: token
-  },);
-  } catch (error) {
-    res.status(500).send(error.message);
-  }
-});
 
 router.post('/signup', async (req, res) => {
     try {
