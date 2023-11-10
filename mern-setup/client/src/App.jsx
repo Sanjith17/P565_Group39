@@ -47,6 +47,7 @@ import Dashboard from "./Dashboard/Dashboard";
 import Tracking from "./Tracking/Tracking";
 import DeliverySearch from "./DeliverySearch/DeliverySearch";
 import AdminHome from "./AdminHome/AdminHome";
+import CustomerLogin from "./CustomerHome/CustomerHome";
 export default function App() {
   return (
     <Router>
@@ -63,6 +64,7 @@ export default function App() {
           <Route path="/recommendation" element={<Recommendation />} />
           <Route path="/tracking" element={<Tracking />} />
           <Route path="/admin" element={<AdminHome />} />
+          <Route path="/customer" element={<CustomerLogin />} />
           <Route path="/" element={<LandingPage />}/>
 
         </Routes>

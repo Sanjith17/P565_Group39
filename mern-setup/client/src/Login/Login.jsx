@@ -92,9 +92,9 @@ function Login() {
         setLoginMessage(responseJSON.message);
 
 
-        Cookies.set('loginToken', responseJSON.jwt_token)
+        localStorage.setItem('loginToken', responseJSON.jwt_token);
 
-        navigate('/');
+        navigate('/customer');
       } else {
         console.log('Login failed');
         setLoginMessage(responseJSON.message);
