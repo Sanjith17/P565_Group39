@@ -93,8 +93,17 @@ function Login() {
 
 
         localStorage.setItem('loginToken', responseJSON.jwt_token);
-
+        if (responseJSON.user_det == 'user'){
         navigate('/customer');
+        }
+        else {
+          if (responseJSON.user_det == 'admin'){
+            navigate('/admin');
+          }
+          else{
+            navigate('/driver');
+          }
+        }
       } else {
         console.log('Login failed');
         setLoginMessage(responseJSON.message);
