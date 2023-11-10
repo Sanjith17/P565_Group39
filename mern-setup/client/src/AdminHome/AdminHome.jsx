@@ -9,6 +9,42 @@ function AdminHome() {
     const [data, setData] = useState(null);
 
     useEffect(() => {
+            const fetchData = async () => {
+              // Retrieve the JWT token from local storage
+              const token = localStorage.getItem('loginToken');
+        
+              // Check if the token exists
+              if (token) {
+                console.log("got the token");
+                // Set up the headers for the API request with the JWT token
+                const headers = {
+                  'Authorization': `Bearer ${token}`,
+                  'Content-Type': 'application/json',
+                };
+        
+                try {
+                  // Make the API request with the token in the headers
+                  const response = await fetch(process.env.REACT_APP_BACKEND_URL + '/getuser', {
+                    method: 'POST', // or 'POST', 'PUT', etc.
+                    headers: headers,
+                  });
+                  const responseJSON = await response.json();
+        
+                  // Handle the API response data here
+                  setData(responseJSON.userId);
+                  console.log(responseJSON.userId)
+                } catch (error) {
+                  // Handle any errors that occur during te API request
+                  console.error(error);
+                }
+              } else {
+                // Handle the case where the token is not found in local storage
+                console.error('JWT token not found in local storage');
+              }
+            };
+        
+            fetchData();
+        }, []); // The empty dependency array ensures this effect runs only once on component mount
         // Mock data fetch
         const mockData = {
             total: 100,
@@ -21,7 +57,7 @@ function AdminHome() {
             ],
         };
         setData(mockData);
-    }, []);
+    
 
     const mockMarkers = [
         { id: 1, lat: 39.76, lng: -86.15, label: 'Delivery A' },
@@ -81,8 +117,7 @@ function AdminHome() {
                     </div>
                 </Grid>
             </Grid>
-        </div>
+           </div>
     );
-}
-
+                            }
 export default AdminHome;
