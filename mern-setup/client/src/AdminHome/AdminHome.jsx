@@ -6,7 +6,17 @@ import 'leaflet/dist/leaflet.css'; // import Leaflet styles
 import './AdminHome.css';
 
 function AdminHome() {
-    const [data, setData] = useState(null);
+    const [data, setData] = useState({
+        total: 100,
+        pending: 30,
+        completed: 70,
+        graphData: [
+            { name: 'Total', count: 100 },
+            { name: 'Pending', count: 30 },
+            { name: 'Completed', count: 70 },
+        ],
+    });
+    const [userId, setUserId] = useState(null);
 
     useEffect(() => {
             const fetchData = async () => {
@@ -31,7 +41,7 @@ function AdminHome() {
                   const responseJSON = await response.json();
         
                   // Handle the API response data here
-                  setData(responseJSON.userId);
+                  setUserId(responseJSON.userId);
                   console.log(responseJSON.userId)
                 } catch (error) {
                   // Handle any errors that occur during te API request
@@ -44,8 +54,7 @@ function AdminHome() {
             };
         
             fetchData();
-        }, []); // The empty dependency array ensures this effect runs only once on component mount
-        // Mock data fetch
+        }, []); 
         const mockData = {
             total: 100,
             pending: 30,
@@ -56,7 +65,7 @@ function AdminHome() {
                 { name: 'Completed', count: 70 },
             ],
         };
-        setData(mockData);
+        // setData(mockData);
     
 
     const mockMarkers = [
@@ -67,6 +76,14 @@ function AdminHome() {
     if (!data) return null;
 
     return (
+        <div>
+      <div>
+        {userId ? (
+          <p>User ID: {userId}</p>
+        ) : (
+          <p>Loading user details...</p>
+        )}
+      </div>
         <div className="admin-container">
             <Typography variant="h4" gutterBottom>Admin Dashboard</Typography>
             <Grid container spacing={3}>
@@ -117,6 +134,7 @@ function AdminHome() {
                     </div>
                 </Grid>
             </Grid>
+           </div>
            </div>
     );
                             }
