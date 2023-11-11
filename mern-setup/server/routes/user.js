@@ -11,16 +11,23 @@ const nodemailer = require('nodemailer')
 const jwt = require('jsonwebtoken');
 const loginController  = require('../controllers/login');
 const getusercont = require('../controllers/getuser')
+const dotenv = require("dotenv")
 
 const loginSecretKey = 'fastflex-user-login-secret-key'; 
 
-
+dotenv.config();
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
   databaseURL: "https://p565-dms-7c33e-default-rtdb.firebaseio.com"
 })
 
+const duoClient = new Client({
+  clientId: process.env.DUO_CLIENT_ID,
+  clientSecret: process.env.DUO_CLIENT_SECRET,
+  apiHost: process.env.DUO_HOST,
+  redirectUrl: "http://localhost:8000/redirect",
+});
 
 router.post('/login',  loginController.login);
 
