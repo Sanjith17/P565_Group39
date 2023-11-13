@@ -35,7 +35,7 @@ app.use("/", require('./routes/user'));
 
 
 // port
-const port = process.env.PORT || 10000;
+const port = process.env.PORT || 8080;
 
 
 // listener

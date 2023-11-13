@@ -15,7 +15,6 @@ const form2 = require('../controllers/companyservices');
 const form1 = require('../controllers/companyform');
 const speakeasy = require("speakeasy");
 const qrcode = require("qrcode");
-const getusercont = require('../controllers/getuser')
 const dotenv = require("dotenv")
 
 const loginSecretKey = "fastflex-user-login-secret-key";
@@ -25,41 +24,41 @@ admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
   databaseURL: "https://p565-dms-7c33e-default-rtdb.firebaseio.com",
 });
-const duoClient = new Client({
-  clientId: process.env.DUO_CLIENT_ID,
-  clientSecret: process.env.DUO_CLIENT_SECRET,
-  apiHost: process.env.DUO_HOST,
-  redirectUrl: "http://localhost:8000/redirect",
-});
+// const duoClient = new Client({
+//   clientId: process.env.DUO_CLIENT_ID,
+//   clientSecret: process.env.DUO_CLIENT_SECRET,
+//   apiHost: process.env.DUO_HOST,
+//   redirectUrl: "http://localhost:8000/redirect",
+// });
 
 router.post("/login", loginController.login);
 router.post('/getuser', getusercont.getuser);
 
 router.post('/admin_form2', form2.company_services);
 
-app.post("/duo-auth", async (req, res) => {
-  const username = req.body.username;
-  console.log("username coming for duo from client", username);
+// app.post("/duo-auth", async (req, res) => {
+//   const username = req.body.username;
+//   console.log("username coming for duo from client", username);
   
-  if (!username) {
-    return res.status(400).json({ message: "Missing username" });
-  }
+//   if (!username) {
+//     return res.status(400).json({ message: "Missing username" });
+//   }
 
-  await duoClient.healthCheck();
-  const state = duoClient.generateState();
-  req.session.duo = { state, username };
-  console.log(req.session);
-  const authUrl = duoClient.createAuthUrl(username, state);
+//   await duoClient.healthCheck();
+//   const state = duoClient.generateState();
+//   req.session.duo = { state, username };
+//   console.log(req.session);
+//   const authUrl = duoClient.createAuthUrl(username, state);
 
-  res.json({ authUrl });
-});
+//   res.json({ authUrl });
+// });
 
-app.get("/redirect", async (req, res) => {
-  console.log("duo callback");
-  res.send(
-    "Authenticated Successfully, Please close this tab and go back to the app"
-  );
-});
+// app.get("/redirect", async (req, res) => {
+//   console.log("duo callback");
+//   res.send(
+//     "Authenticated Successfully, Please close this tab and go back to the app"
+//   );
+// });
 /* 
 router.post('/api/duo-auth', async (req, res) => {
 

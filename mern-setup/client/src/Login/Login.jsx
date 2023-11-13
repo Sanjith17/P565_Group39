@@ -103,9 +103,9 @@ function Login() {
       );
 
       const responseJSON = await response.json();
-      await axios.post(process.env.REACT_APP_BACKEND_URL + "/duo-auth", {username: username}).then((duoAuthResponse) => {
-        window.open(duoAuthResponse.data.authUrl, '_blank');
-      }).catch((err)=>{console.log(err)});
+      // await axios.post(process.env.REACT_APP_BACKEND_URL + "/duo-auth", {username: username}).then((duoAuthResponse) => {
+      //   window.open(duoAuthResponse.data.authUrl, '_blank');
+      // }).catch((err)=>{console.log(err)});
 
       if (response.ok) {
         console.log("Login successful!");
