@@ -30,10 +30,10 @@ const login = async (req, res) => {
       
       const token = jwt.sign({ username: user.email }, loginSecretKey);
       
-      res.send({message: 'Logged in successfully', user_det: {
-        id: user.username, // Include the user's ID // Include other user details as needed
+      res.send({message: 'Logged in successfully', user_det: 
+        user.role, // Include the user's ID // Include other user details as needed
         // Add more user properties here
-      },
+      
       jwt_token: token
     },);
   } catch (error) {
