@@ -29,16 +29,18 @@ const getuser = async (req, res) => {
     // Extract the user ID from the decoded token (you can customize the token structure as needed)
     const userId = decoded.username;
     console.log(userId)
+    let user = {}
+    user = await User.findOne({ email: userId });
     // You can fetch user details from a database or any other data source here
     const userDetails = {
-      userId: userId,
+      userId: userId,role:user.role
       // Add more user details here
     };
 
     // Send the user details back to the frontend
     // res.json(userDetails);
 
-    res.send({userId
+    res.send({userDetails
     
   },);
   } catch (error) {

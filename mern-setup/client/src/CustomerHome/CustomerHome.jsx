@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCog } from '@fortawesome/free-solid-svg-icons'; // Assuming you want a cog icon
+import { Link, useNavigate } from 'react-router-dom';
 
 function MyPage() {
   const [userId, setUserId] = useState(null);
-
+  const navigate = useNavigate(); 
   useEffect(() => {
     const fetchData = async () => {
       // Retrieve the JWT token from local storage
@@ -27,8 +28,13 @@ function MyPage() {
           });
           const responseJSON = await response.json();
 
+          const role = responseJSON.userDetails.role
           // Handle the API response data here
-          setUserId(responseJSON.userId);
+          if (role != 'user'){
+            navigate('/'+role)
+          }
+          setUserId(responseJSON.userDetails.userId);
+          
           console.log(responseJSON.userId)
         } catch (error) {
           // Handle any errors that occur during te API request

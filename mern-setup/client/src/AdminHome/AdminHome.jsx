@@ -4,12 +4,63 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend } from 'recharts';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css'; // import Leaflet styles
 import './AdminHome.css';
+import { Link, useNavigate, Outlet } from 'react-router-dom';
 
 function AdminHome() {
-    const [data, setData] = useState(null);
-
+    const [data, setData] = useState({
+        total: 100,
+        pending: 30,
+        completed: 70,
+        graphData: [
+            { name: 'Total', count: 100 },
+            { name: 'Pending', count: 30 },
+            { name: 'Completed', count: 70 },
+        ],
+    });
+    const [userId, setUserId] = useState(null);
+    const navigate = useNavigate(); 
     useEffect(() => {
-        // Mock data fetch
+            const fetchData = async () => {
+              // Retrieve the JWT token from local storage
+              const token = localStorage.getItem('loginToken');
+        
+              // Check if the token exists
+              if (token) {
+                console.log("got the token");
+                // Set up the headers for the API request with the JWT token
+                const headers = {
+                  'Authorization': `Bearer ${token}`,
+                  'Content-Type': 'application/json',
+                };
+        
+                try {
+                  // Make the API request with the token in the headers
+                  const response = await fetch(process.env.REACT_APP_BACKEND_URL + '/getuser', {
+                    method: 'POST', // or 'POST', 'PUT', etc.
+                    headers: headers,
+                  });
+                  const responseJSON = await response.json();
+                  const role = responseJSON.userDetails.role
+          // Handle the API response data here
+                if (role != 'admin'){
+                    navigate('/'+role)
+          }
+        
+                  // Handle the API response data here
+                  setUserId(responseJSON.userDetails.userId);
+                  console.log(responseJSON.userDetails.userId)
+                } catch (error) {
+                  // Handle any errors that occur during te API request
+                  console.error(error);
+                }
+              } else {
+                // Handle the case where the token is not found in local storage
+                console.error('JWT token not found in local storage');
+              }
+            };
+        
+            fetchData();
+        }, []); 
         const mockData = {
             total: 100,
             pending: 30,
@@ -20,8 +71,8 @@ function AdminHome() {
                 { name: 'Completed', count: 70 },
             ],
         };
-        setData(mockData);
-    }, []);
+        // setData(mockData);
+    
 
     const mockMarkers = [
         { id: 1, lat: 39.76, lng: -86.15, label: 'Delivery A' },
@@ -31,6 +82,24 @@ function AdminHome() {
     if (!data) return null;
 
     return (
+        <div>
+      <div>
+        {userId ? (
+          <p>User ID: {userId}</p>
+        ) : (
+          <p>Loading user details...</p>
+        )}
+      </div>
+      <nav>
+        <ul>
+          <li>
+            <Link to="/admin/form1">Add Company and its Details</Link>
+          </li>
+          <li>
+            <Link to="/admin/form2">Add Company Services</Link>
+          </li>
+        </ul>
+      </nav>
         <div className="admin-container">
             <Typography variant="h4" gutterBottom>Admin Dashboard</Typography>
             <Grid container spacing={3}>
@@ -81,8 +150,9 @@ function AdminHome() {
                     </div>
                 </Grid>
             </Grid>
-        </div>
+           </div>
+           <Outlet/>
+           </div>
     );
-}
-
+                            }
 export default AdminHome;
