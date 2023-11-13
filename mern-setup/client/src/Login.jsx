@@ -159,5 +159,8 @@ class Login extends Component {
       </div>
     );
   }
+  addDimensions() {
+
+  }
 }
 export default Login;
