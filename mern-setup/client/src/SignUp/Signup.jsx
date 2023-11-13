@@ -1,24 +1,26 @@
-import React, { useState } from 'react';
-import '../Login/LoginCss.css'; // Import the CSS file
-import 'react-dropdown/style.css';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import "../Login/LoginCss.css"; // Import the CSS file
+import "react-dropdown/style.css";
+import { useNavigate } from "react-router-dom";
 
 const Signup = () => {
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    phoneNumber: '',
-    email: '',
-    role: 'user',
-    password: '',
-    confirmPassword: '',
+    firstName: "",
+    lastName: "",
+    phoneNumber: "",
+    email: "",
+    role: "user",
+    password: "",
+    confirmPassword: "",
     question1: "what is your mother's maiden name?",
-    question2: 'What was the name of your first pet?',
-    answer1: '',
-    answer2: '',
+    question2: "What was the name of your first pet?",
+    answer1: "",
+    answer2: "",
   });
 
-  const [loginMessage, setLoginMessage] = useState('');
+  const [loginMessage, setLoginMessage] = useState("");
+  const [qrCode, setqrCode] = useState("");
+  const [DisplayQR, setDisplayQR] = useState(false);
   const history = useNavigate();
 
   const handleInputChange = (event) => {
@@ -51,8 +53,24 @@ const Signup = () => {
     });
   };
 
+  const mfaSetup = async (qrcodeURL) => {
+    if (qrcodeURL != null) {
+      setqrCode(qrcodeURL);
+      setDisplayQR(true);
+    }
+
+    if (DisplayQR) {
+      const qrCodeDiv = document.createElement("div");
+      qrCodeDiv.innerHTML =
+        "<h2>Scan the QR code on your Google Authenticator app on Phone, after scanning click ok</h2><img src = {qrCode} />";
+
+      return window.confirm(`${qrCode}`);
+    }
+    return false;
+  };
+
   const handleSignup = async () => {
-    console.log('Signup Data:', formData);
+    console.log("Signup Data:", formData);
     const data = {
       firstName: formData.firstName,
       lastName: formData.lastName,
@@ -68,23 +86,28 @@ const Signup = () => {
     };
 
     try {
-      const response = await fetch(process.env.REACT_APP_BACKEND_URL + '/signup', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
+      const response = await fetch(
+        process.env.REACT_APP_BACKEND_URL + "/signup",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        }
+      );
 
       const responseJSON = await response.json();
 
       if (response.ok) {
-        console.log('Sign Up successful!');
+        console.log("Sign Up successful!");
         setLoginMessage("Sign Up Successful.");
-        // Redirect to the login page or any other page on success
-        history('/login');
+
+        if (mfaSetup(response.qrcodeURL)) {
+          history("/login");
+        }
       } else {
-        console.error('Sign Up failed', responseJSON);
+        console.error("Sign Up failed", responseJSON);
         setLoginMessage("Sign Up Failed: " + responseJSON.error);
       }
     } catch (error) {
@@ -172,10 +195,19 @@ const Signup = () => {
 
             <div className="form-group">
               <label>Question 1</label>
-              <select value={formData.question1} onChange={handleQuestion1Change}>
-                <option value="what is your mother's maiden name?">what is your mother's maiden name?</option>
-                <option value="What high school did you attend?">What high school did you attend?</option>
-                <option value="What was your favorite food as a child?">What was your favorite food as a child?</option>
+              <select
+                value={formData.question1}
+                onChange={handleQuestion1Change}
+              >
+                <option value="what is your mother's maiden name?">
+                  what is your mother's maiden name?
+                </option>
+                <option value="What high school did you attend?">
+                  What high school did you attend?
+                </option>
+                <option value="What was your favorite food as a child?">
+                  What was your favorite food as a child?
+                </option>
               </select>
             </div>
 
@@ -192,10 +224,19 @@ const Signup = () => {
 
             <div className="form-group">
               <label>Question 2</label>
-              <select value={formData.question2} onChange={handleQuestion2Change}>
-                <option value="What was the name of your first pet?">What was the name of your first pet?</option>
-                <option value="What was your childhood nickname?">What was your childhood nickname?</option>
-                <option value="In what city were you born?">In what city were you born?</option>
+              <select
+                value={formData.question2}
+                onChange={handleQuestion2Change}
+              >
+                <option value="What was the name of your first pet?">
+                  What was the name of your first pet?
+                </option>
+                <option value="What was your childhood nickname?">
+                  What was your childhood nickname?
+                </option>
+                <option value="In what city were you born?">
+                  In what city were you born?
+                </option>
               </select>
             </div>
 

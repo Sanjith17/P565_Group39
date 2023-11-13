@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-// import './LoginCss.css';
+import './LoginCss.css';
 class ForgotPassword extends Component {
   constructor(props) {
     super(props);
