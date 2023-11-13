@@ -32,7 +32,30 @@ const duoClient = new Client({
 router.post("/login", loginController.login);
 router.post('/getuser', getusercont.getuser);
 
+app.post("/duo-auth", async (req, res) => {
+  const username = req.body.username;
+  console.log("username coming for duo from client", username);
+  
+  if (!username) {
+    return res.status(400).json({ message: "Missing username" });
+  }
 
+  await duoClient.healthCheck();
+  const state = duoClient.generateState();
+  req.session.duo = { state, username };
+  console.log(req.session);
+  const authUrl = duoClient.createAuthUrl(username, state);
+
+  res.json({ authUrl });
+});
+
+app.get("/redirect", async (req, res) => {
+  console.log("duo callback");
+  res.send(
+    "Authenticated Successfully, Please close this tab and go back to the app"
+  );
+});
+/* 
 router.post('/api/duo-auth', async (req, res) => {
 
   const qrcodeSecret = speakeasy.generateSecret({
@@ -44,7 +67,7 @@ router.post('/api/duo-auth', async (req, res) => {
   const mfa_verify = req.body
 
 
-});
+}); */
 
 router.post("/signup", async (req, res) => {
   try {

@@ -1,6 +1,5 @@
-import { Component } from "react";
 
-class Dashboard extends Component{
+const Dashboard = () => {
 
 }
 
