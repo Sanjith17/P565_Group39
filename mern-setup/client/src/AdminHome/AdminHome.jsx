@@ -4,6 +4,7 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend } from 'recharts';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css'; // import Leaflet styles
 import './AdminHome.css';
+import { Link, useNavigate, Outlet } from 'react-router-dom';
 
 function AdminHome() {
     const [data, setData] = useState({
@@ -17,7 +18,7 @@ function AdminHome() {
         ],
     });
     const [userId, setUserId] = useState(null);
-
+    const navigate = useNavigate(); 
     useEffect(() => {
             const fetchData = async () => {
               // Retrieve the JWT token from local storage
@@ -39,10 +40,15 @@ function AdminHome() {
                     headers: headers,
                   });
                   const responseJSON = await response.json();
+                  const role = responseJSON.userDetails.role
+          // Handle the API response data here
+                if (role != 'admin'){
+                    navigate('/'+role)
+          }
         
                   // Handle the API response data here
-                  setUserId(responseJSON.userId);
-                  console.log(responseJSON.userId)
+                  setUserId(responseJSON.userDetails.userId);
+                  console.log(responseJSON.userDetails.userId)
                 } catch (error) {
                   // Handle any errors that occur during te API request
                   console.error(error);
@@ -84,6 +90,16 @@ function AdminHome() {
           <p>Loading user details...</p>
         )}
       </div>
+      <nav>
+        <ul>
+          <li>
+            <Link to="/admin/form1">Add Company and its Details</Link>
+          </li>
+          <li>
+            <Link to="/admin/form2">Add Company Services</Link>
+          </li>
+        </ul>
+      </nav>
         <div className="admin-container">
             <Typography variant="h4" gutterBottom>Admin Dashboard</Typography>
             <Grid container spacing={3}>
@@ -135,6 +151,7 @@ function AdminHome() {
                 </Grid>
             </Grid>
            </div>
+           <Outlet/>
            </div>
     );
                             }

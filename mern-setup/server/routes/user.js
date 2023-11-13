@@ -10,7 +10,9 @@ const ResetToken = require('../models/reset_token')
 const nodemailer = require('nodemailer')
 const jwt = require('jsonwebtoken');
 const loginController  = require('../controllers/login');
-const getusercont = require('../controllers/getuser')
+const getusercont = require('../controllers/getuser');
+const form2 = require('../controllers/companyservices');
+const form1 = require('../controllers/companyform');
 
 const loginSecretKey = 'fastflex-user-login-secret-key'; 
 
@@ -26,6 +28,7 @@ router.post('/login',  loginController.login);
 
 router.post('/getuser', getusercont.getuser);
 
+router.post('/admin_form2', form2.company_services);
 
 router.post('/signup', async (req, res) => {
     try {

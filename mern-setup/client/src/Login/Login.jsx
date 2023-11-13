@@ -94,7 +94,7 @@ function Login() {
 
         localStorage.setItem('loginToken', responseJSON.jwt_token);
         if (responseJSON.user_det == 'user'){
-        navigate('/customer');
+        navigate('/user');
         }
         else {
           if (responseJSON.user_det == 'admin'){
