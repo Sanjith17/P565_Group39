@@ -1,10 +1,15 @@
 import React, { Component } from 'react';
-import { signInWithGoogle } from './firebase';
+import { GoogleAuthProvider, getAuth, signInWithPopup } from 'firebase/auth';
 import './LoginCss.css';
-import { redirect } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import app from './firebase';
+import GoogleIcon from './Resources/google-icon.png'
+// import { makeStyles } from '@mui/styles';
+
 class Login extends Component {
   constructor(props) {
     super(props);
+    
     this.state = {
       username: '',
       password: '',
@@ -12,17 +17,56 @@ class Login extends Component {
       loginMessage: ""
     };
   }
+  
+  
+  
 
   handleInputChange = (event) => {
     const { name, value, type, checked } = event.target;
     const inputValue = type === 'checkbox' ? checked : value;
 
-
-
     this.setState({
       [name]: inputValue,
     });
   };
+
+  signInWithGoogle = async() => {
+    try{
+      const auth = getAuth(app);
+      const provider = await new GoogleAuthProvider();
+      const result = await signInWithPopup(auth, provider);
+
+      console.log(result.user);
+
+      const idToken = await result.user.getIdToken();
+
+      const response = await fetch(process.env.REACT_APP_BACKEND_URL+'/auth', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({idToken}),
+      })
+
+      const data = await response.json()
+
+      console.log(data)
+
+      const navigate = useNavigate();
+
+      if (data.success) {
+        navigate('/dashboard');
+      }
+      else {
+        alert("You are being redirected to Landing page")
+        // redirect('/mern-setup/client/src/Landing.jsx')
+        navigate('/')
+      }
+    }
+    catch (error) {
+      console.log(error.message)
+    }
+  }
 
   handleLogin = async() => {
     const { username, password, rememberMe } = this.state;
@@ -34,11 +78,9 @@ class Login extends Component {
       rememberMe: rememberMe,
     };
   
-    
-
     const getTest = async () => {
       try{
-          const res = await fetch('http://localhost:8080/login', {
+          await fetch(process.env.REACT_APP_BACKEND_URL+'/login', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json', // Set the content type to JSON
@@ -55,6 +97,10 @@ class Login extends Component {
                 this.setState({
                   loginMessage: responseJSON.message
                 })
+
+                const navigate = useNavigate()
+
+                navigate('/')
                 // You can redirect to another page or perform other actions upon successful login
               } else {
                 
@@ -84,7 +130,7 @@ class Login extends Component {
       <nav>
       <ul>
         <li>
-        <a href="/">Home</a>
+        <Link to="/">Home</Link>
         </li>
       </ul>
       </nav>
@@ -100,6 +146,10 @@ class Login extends Component {
               name="username"
               value={this.state.username}
               onChange={this.handleInputChange}
+              style={{
+                margin: '0 auto',
+                maxWidth: '350px'
+              }}
             />
           </div>
           <div className="form-group">
@@ -110,6 +160,10 @@ class Login extends Component {
               name="password"
               value={this.state.password}
               onChange={this.handleInputChange}
+              style = {{
+                margin: '0 auto',
+                maxWidth: '350px'
+              }}
             />
           </div>
           <div className="form-group">
@@ -123,44 +177,58 @@ class Login extends Component {
               Remember Me
             </label>
           </div>
-          <button type="button" onClick={this.handleLogin}>
-            Login
-          </button>
+          <div className='form-group'>
+            <button type="button" onClick={this.handleLogin} style={{
+              backgroundColor: '#f00',
+              margin: '0 auto',
+              maxWidth: '350px'
+            }}>
+              Login
+            </button>
+
+            <button type="button" style={{
+                      backgroundColor: '#fff',
+                      color: '#000',
+                      border: '1px solid #ccc',
+                      padding: '10px 20px',
+                      marginTop: '10px',
+                      cursor: 'pointer',
+                      display: 'inline-block',
+                      borderRadius: '5px',
+                      boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+                      maxWidth: '350px',
+                      alignSelf: 'center'
+                  }} onClick={this.signInWithGoogle}>
+
+              <img src={GoogleIcon}
+                      alt="Google Icon"
+                      width="20"
+                      height="20"
+                      style={{ verticalAlign: 'middle', marginRight: '10px' }}/>
+              Sign in with Google
+            </button>
+          </div>
           
-          <button type="button" style={{
-                    backgroundColor: '#fff',
-                    color: '#000',
-                    border: '1px solid #ccc',
-                    padding: '10px 20px',
-                    cursor: 'pointer',
-                    display: 'inline-block',
-                    borderRadius: '5px',
-                    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
-                }} onClick={signInWithGoogle}>
-                  
-            <img src="./Resources/google-icon.png"
-                    alt="Google Icon"
-                    width="20"
-                    height="20"
-                    style={{ verticalAlign: 'middle', marginRight: '10px' }}/>
-            Sign in with Google
-          </button>
           
 
         </form>
         <p>
-          Forgot Password? <a href="/forgot">Reset Password</a>
+          Forgot Password? <Link to="/forgot">Reset Password</Link>
         </p>
         <p>
-          New user? <a href="/signup">Sign Up</a>
+          New user? <Link to="/signup">Sign Up</Link>
         </p>
 
       </div>
       </div>
     );
   }
+<<<<<<< HEAD:mern-setup/client/src/Login.jsx
   addDimensions() {
 
   }
+=======
+
+>>>>>>> main:mern-setup/client/src/Pages/Login.jsx
 }
 export default Login;

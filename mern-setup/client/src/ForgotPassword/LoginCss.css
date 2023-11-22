@@ -1,0 +1,87 @@
+/* Login form container */
+.login-form {
+  background: #fff;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  max-width: 350px;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
+}
+
+/* Login form title */
+.login-form h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* Form group */
+.form-group {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+/* Labels */
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+/* Input fields */
+input[type="text"],
+input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+/* Remember Me checkbox */
+input[type="checkbox"] {
+  margin-right: 5px;
+}
+
+/* Sign-in button */
+button[type="button"] {
+  width: 100%;
+  padding: 10px;
+  background: #f00;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+/* Sign in with Google button */
+button[type="button"].google-button {
+  background: #fff;
+  color: #000;
+  border: 1px solid #ccc;
+  padding: 10px 20px;
+  margin-top: 10px;
+  cursor: pointer;
+  display: inline-block;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  max-width: 350px;
+  margin: 0 auto;
+}
+
+/* Google Icon */
+button[type="button"] img {
+  vertical-align: middle;
+  margin-right: 10px;
+}
+
+/* Forgot Password and Sign Up links */
+p a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+/* Optional: Add more specific styling as needed for your application */

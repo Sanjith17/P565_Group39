@@ -7,9 +7,10 @@ class ForgotPassword extends Component {
       email: ''
     };
   }
+  
 
   handleInputChange = (event) => {
-    const { name, value} = event.target;
+    const { name, value } = event.target;
     const inputValue = value;
     console.log("name", name)
     console.log("value", value)
@@ -20,7 +21,7 @@ class ForgotPassword extends Component {
 
   handleForgotPassword = async() => {
     const { email } = this.state;
-
+    
     // You can implement your login logic here
     // For simplicity, let's just print the values
     console.log('email', email);
@@ -29,14 +30,13 @@ class ForgotPassword extends Component {
         email: email
     };
 
-    
-
-  
     // Make a POST request to the server
 
     const getTest = async () => {
       try{
-          const res = await fetch('http://localhost:8080/forgot', {
+
+          const res = await fetch( process.env.REACT_APP_BACKEND_URL+'/forgot', {
+
             method: 'POST',
             headers: {
               'Content-Type': 'application/json', // Set the content type to JSON
@@ -63,7 +63,7 @@ class ForgotPassword extends Component {
             })
             .catch((error) => {
               // Handle network errors or other exceptions here
-              console.error('An error occurred:', error);
+              console.error('An error occurred:', error.message);
             });
       }
       catch(error) {
