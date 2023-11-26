@@ -27,22 +27,22 @@ function Login() {
     }
   };
 
-  const handleMFA = async () => {
+  // const handleMFA = async () => {
 
-    const mfaAuthCode = prompt('Please enter the Google authentication Code')
+  //   const mfaAuthCode = prompt('Please enter the Google authentication Code')
 
-    const mfaStatus = await fetch(process.env.REACT_APP_BACKEND_URL + "/api/duo-auth", {
-      method: 'POST',
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ mfaAuthCode })
-    })
+  //   const mfaStatus = await fetch(process.env.REACT_APP_BACKEND_URL + "/api/duo-auth", {
+  //     method: 'POST',
+  //     headers: {
+  //       "Content-Type": "application/json"
+  //     },
+  //     body: JSON.stringify({ mfaAuthCode })
+  //   })
 
-    const result = await mfaStatus.json()
+  //   const result = await mfaStatus.json()
 
 
-  };
+  // };
 
   const signInWithGoogle = async () => {
     try {
@@ -103,9 +103,9 @@ function Login() {
       );
 
       const responseJSON = await response.json();
-      // await axios.post(process.env.REACT_APP_BACKEND_URL + "/duo-auth", {username: username}).then((duoAuthResponse) => {
-      //   window.open(duoAuthResponse.data.authUrl, '_blank');
-      // }).catch((err)=>{console.log(err)});
+      await axios.post(process.env.REACT_APP_BACKEND_URL + "/duo-auth", {username: username}).then((duoAuthResponse) => {
+        window.open(duoAuthResponse.data.authUrl, '_blank');
+      }).catch((err)=>{console.log(err)});
 
       if (response.ok) {
         console.log("Login successful!");
@@ -115,11 +115,11 @@ function Login() {
         Cookies.set("loginToken", responseJSON.jwt_token);
 
         localStorage.setItem('loginToken', responseJSON.jwt_token);
-        if (responseJSON.user_det == 'user'){
+        if (responseJSON.user_det === 'user'){
         navigate('/user');
         }
         else {
-          if (responseJSON.user_det == 'admin'){
+          if (responseJSON.user_det === 'admin'){
             navigate('/admin');
           }
           else{
