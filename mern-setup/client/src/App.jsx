@@ -8,7 +8,7 @@ import ResetPass from "./ResetPass";
 import Transition from "./Pages/transition";
 
 import Recommendation from "./RecommendedService/ParcelServicePage";
-import ForgotPassword from "./ForgotPassword/ForgotPassword";
+import ForgotPassword from "./ForgotPassword/Forgot";
 import Kommunicate from "./Chat/Chat";
 import Dashboard from "./Dashboard/Dashboard";
 import Tracking from "./Tracking/Tracking";
