@@ -17,6 +17,7 @@ import AdminHome from "./AdminHome/AdminHome";
 import Form1 from "./AdminHome/Form1";
 import Form2 from "./AdminHome/Form2";
 import CustomerHome from "./CustomerHome/CustomerHome";
+import DriverPage from "./DriverPage/DriverPage";
 import Shipment from "./Shipment/Shipment"
 export default function App() {
   return (
@@ -37,6 +38,7 @@ export default function App() {
           <Route path="/admin" element={<AdminHome />} />
           <Route path="/user" element={<CustomerHome />} />
           <Route path="/shipment" element={<Shipment />} />
+          <Route path="/driver" element={<DriverPage/>} />
           <Route path="/" element={<LandingPage />}/>
 
         </Routes>
