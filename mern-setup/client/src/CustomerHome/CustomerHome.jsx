@@ -102,10 +102,17 @@ function MyPage() {
             <option value="heavyMachinery">Heavy Machinery</option>
             <option value="general">General</option>
           </select>
+
+          <select value={criteria} onChange={(e) => setCriteria(e.target.value)}>
+            <option value="delicateItems">Delicate Items</option>
+            <option value="heavyMachinery">Heavy Machinery</option>
+            <option value="general">General</option>
+          </select>
+          
           <button onClick={() => setSearchTerm('')}>Reset</button>
-          <button onClick={openSettings} className="settings-button">
-            <FontAwesomeIcon icon={faCog} /> {/* Use the FontAwesome settings icon here */}
-          </button>
+          {/* <button onClick={openSettings} className="settings-button">
+            <FontAwesomeIcon icon={faCog} /> {}
+          </button> */}
         </div>
         <div className="results">
           {mockData
