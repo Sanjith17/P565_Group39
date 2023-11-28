@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './LoginCss.css'; // Import the CSS file
+import '../Login/LoginCss.css'; // Import the CSS file
 import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
 import { useNavigate } from "react-router-dom";
@@ -50,7 +50,10 @@ class Signup extends Component {
     }
 
     try{
-      const res = await fetch('http://localhost:8080/signup', {
+
+      const res = await fetch(process.env.REACT_APP_BACKEND_URL+'/signup', {
+
+
         method: 'POST',
         headers: {
           'Content-Type': 'application/json', // Set the content type to JSON

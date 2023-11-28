@@ -8,7 +8,11 @@ const User = new mongoose.Schema(
   username: { type: String, unique: true, required: true }, 
   password: { type: String, required: true },
   role:{type: String, required:true},
-  email:{type: String, required: true}
+  email:{type: String, required: true},
+  question1:{type: String, required:true},
+  answer1:{type: String, required:true},
+  question2:{type: String, required:true},
+  answer2:{type: String, required:true},
 },
 {collection: 'user-data'})
 

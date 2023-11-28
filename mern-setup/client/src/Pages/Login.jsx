@@ -9,8 +9,7 @@ class Login extends Component {
       username: '',
       password: '',
       rememberMe: false,
-      loginMessage: "",
-      dimension: ""
+      loginMessage: ""
     };
   }
 
@@ -159,6 +158,9 @@ class Login extends Component {
       </div>
       </div>
     );
+  }
+  addDimensions() {
+
   }
 }
 export default Login;
