@@ -135,13 +135,39 @@ function Login() {
     }
   };
 
+  const MyButton = ({ buttonText, to }) => {
+  return (
+    <Link to={to} style={{ display: 'inline-block',
+    width: '80px', // Square shape
+    height: '50px', // Square shape
+    lineHeight: '50px', // Center text vertically
+    textAlign: 'center', // Center text horizontally
+    backgroundColor: 'Yellow', 
+    color: 'Black', 
+    textDecoration: 'underline', 
+    border: 'none', 
+    cursor: 'pointer',
+    boxShadow: '1px 5px 10px rgba(10,0,0,0.2)'}}>
+      {buttonText}
+    </Link>
+  );
+};
+
   return (
     <div>
       <nav>
         <ul>
-          <li>
-            <Link to="/">Home</Link>
-          </li>
+          <div>
+          <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '11px' }}>
+          <MyButton buttonText="Home" to="/" />
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+          <span style={{ marginRight: '10px' }}>New user?</span>
+          <MyButton buttonText="Sign Up" to="/signup" style={{ marginRight: '30px' }} />
+          </div>
+          </header>
+          <hr style={{ border: '1px solid #ccc', marginTop: '10px' }} />
+          <div style={{ marginTop: '30px' }}></div>
+          </div>
         </ul>
       </nav>
       <div className="login-form">
@@ -230,10 +256,30 @@ function Login() {
         <p>
           Forgot Password? <Link to="/forgot">Reset Password</Link>
         </p>
-        <p>
-          New user? <Link to="/signup">Sign Up</Link>
-        </p>
       </div>
+      <hr style={{ border: '1px solid #ccc', marginTop: '600px' }} />
+          <div style={{ marginTop: '3px' }}></div>
+          <footer style={{ backgroundColor: '#333', color: 'white', padding: '70px 0', display: 'flex', justifyContent: 'space-around' }}>
+      <div>
+        <h3>This Site</h3>
+        <ul style={{ listStyle: 'none', padding: 0 }}>
+          <li><Link to="/tracking" style={{ color: 'white', textDecoration: 'none' }}>Tracking</Link></li>
+          <li><Link to="/deliverysearch" style={{ color: 'white', textDecoration: 'none' }}>Shipping</Link></li>
+          <li><Link to="/contact" style={{ color: 'white', textDecoration: 'none' }}>About Us</Link></li>
+          {/* ... other list items */}
+          {/* ... other list items */}
+          {/* ... other list items */}
+        </ul>
+      </div>
+      <div>
+        <h3>Connect With Us</h3>
+        <ul style={{ listStyle: 'none', padding: 0 }}>
+          <li><a href="https://www.facebook.com" style={{ color: 'white', textDecoration: 'none' }}>Facebook</a></li>
+          <li>Contact Us: +1(626) fas-flex </li>
+          {/* ... other list items */}
+        </ul>
+        </div>
+      </footer>
     </div>
   );
 }
