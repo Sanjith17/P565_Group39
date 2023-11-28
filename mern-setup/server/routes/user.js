@@ -36,27 +36,31 @@ router.post("/login", loginController.login);
 router.post('/getuser', getusercont.getuser);
 
 router.post('/admin_form2', form2.company_services);
+router.post('/service_delete', form2.company_remove_services);
+router.post('/service_update', form2.update_services);
+
+
 
 // router.post('/test', async (req, res) => {
 //   console.log(process.env.DUO_CLIENT_ID)
 // })
 
-router.post("/duo-auth", async (req, res) => {
-  const username = req.body.username;
-  console.log("username coming for duo from client", username);
+// router.post("/duo-auth", async (req, res) => {
+//   const username = req.body.username;
+//   console.log("username coming for duo from client", username);
   
-  if (!username) {
-    return res.status(400).json({ message: "Missing username" });
-  }
+//   if (!username) {
+//     return res.status(400).json({ message: "Missing username" });
+//   }
 
-  await duoClient.healthCheck();
-  const state = duoClient.generateState();
-  req.session.duo = { state, username };
-  console.log(req.session);
-  const authUrl = duoClient.createAuthUrl(username, state);
+//   await duoClient.healthCheck();
+//   const state = duoClient.generateState();
+//   req.session.duo = { state, username };
+//   console.log(req.session);
+//   const authUrl = duoClient.createAuthUrl(username, state);
 
-  res.json({ authUrl });
-});
+//   res.json({ authUrl });
+// });
 
 router.get("/redirect", async (req, res) => {
   console.log("duo callback");

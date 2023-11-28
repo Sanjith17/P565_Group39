@@ -16,6 +16,8 @@ import DeliverySearch from "./DeliverySearch/DeliverySearch";
 import AdminHome from "./AdminHome/AdminHome";
 import Form1 from "./AdminHome/Form1";
 import Form2 from "./AdminHome/Form2";
+import ServiceDelete from "./AdminHome/ServiceDelete";
+import ServiceUpdate from "./AdminHome/ServiceUpdate";
 import CustomerHome from "./CustomerHome/CustomerHome";
 import DriverPage from "./DriverPage/DriverPage";
 import Shipment from "./Shipment/Shipment"
@@ -36,6 +38,8 @@ export default function App() {
           <Route path="/track" element={<TrackPage />} />
           <Route path="/admin/form1" element={<Form1 />} />
           <Route path="/admin/form2" element={<Form2 />} />
+          <Route path="/admin/delete" element={<ServiceDelete />} />
+          <Route path="/admin/update" element={<ServiceUpdate />} />
           <Route path="/admin" element={<AdminHome />} />
           <Route path="/user" element={<CustomerHome />} />
           <Route path="/shipment" element={<Shipment />} />
