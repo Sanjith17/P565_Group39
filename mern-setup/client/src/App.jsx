@@ -6,7 +6,7 @@ import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import ResetPass from "./ResetPass";
 import Transition from "./Pages/transition";
-
+import TrackPage from "./TrackPage/TrackingPage"
 import Recommendation from "./RecommendedService/ParcelServicePage";
 import ForgotPassword from "./ForgotPassword/Forgot";
 import Kommunicate from "./Chat/Chat";
@@ -33,6 +33,7 @@ export default function App() {
           <Route path="/deliverysearch" element={<DeliverySearch />} />
           <Route path="/recommendation" element={<Recommendation />} />
           <Route path="/tracking" element={<Tracking />} />
+          <Route path="/track" element={<TrackPage />} />
           <Route path="/admin/form1" element={<Form1 />} />
           <Route path="/admin/form2" element={<Form2 />} />
           <Route path="/admin" element={<AdminHome />} />
