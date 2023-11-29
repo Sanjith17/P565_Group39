@@ -93,10 +93,13 @@ function AdminHome() {
       <nav>
         <ul>
           <li>
-            <Link to="/admin/form1">Add Company and its Details</Link>
+            <Link to="/admin/form2">Add Company Services</Link>
           </li>
           <li>
-            <Link to="/admin/form2">Add Company Services</Link>
+            <Link to="/admin/delete">Remove Company Services</Link>
+          </li>
+          <li>
+            <Link to="/admin/update">Update Company Services</Link>
           </li>
         </ul>
       </nav>

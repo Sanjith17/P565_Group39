@@ -71,6 +71,13 @@ router.post("/payment", async (req,res) => {
 router.post("/login", loginController.login);
 
 router.post("/getuser", getusercont.getuser);
+router.post('/service_delete', form2.company_remove_services);
+router.post('/service_update', form2.update_services);
+router.post('/services', form2.services_list);
+router.post('/getprice', form2.get_price);
+
+
+
 
 router.post("/admin_form2", form2.company_services);
 
@@ -82,14 +89,14 @@ router.post("/duo-auth", async (req, res) => {
     return res.status(400).json({ message: "Missing username" });
   }
 
-  await duoClient.healthCheck();
-  const state = duoClient.generateState();
-  req.session.duo = { state, username };
-  console.log(req.session);
-  const authUrl = duoClient.createAuthUrl(username, state);
+//   await duoClient.healthCheck();
+//   const state = duoClient.generateState();
+//   req.session.duo = { state, username };
+//   console.log(req.session);
+//   const authUrl = duoClient.createAuthUrl(username, state);
 
-  res.json({ authUrl });
-});
+//   res.json({ authUrl });
+// });
 
 router.get("/redirect", async (req, res) => {
   console.log("duo callback");
