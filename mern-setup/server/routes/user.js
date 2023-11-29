@@ -94,7 +94,14 @@ router.post("/duo-auth", async (req, res) => {
 //   req.session.duo = { state, username };
 //   console.log(req.session);
 //   const authUrl = duoClient.createAuthUrl(username, state);
+//   await duoClient.healthCheck();
+//   const state = duoClient.generateState();
+//   req.session.duo = { state, username };
+//   console.log(req.session);
+//   const authUrl = duoClient.createAuthUrl(username, state);
 
+//   res.json({ authUrl });
+// });
 //   res.json({ authUrl });
 // });
 

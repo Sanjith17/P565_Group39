@@ -42,6 +42,8 @@ export default function App() {
           <Route path="/admin/form2" element={<Form2 />} />
           <Route path="/admin/delete" element={<ServiceDelete />} />
           <Route path="/admin/update" element={<ServiceUpdate />} />
+          <Route path="/admin/delete" element={<ServiceDelete />} />
+          <Route path="/admin/update" element={<ServiceUpdate />} />
           <Route path="/admin" element={<AdminHome />} />
           <Route path="/user" element={<CustomerHome />} />
           <Route path="/shipment" element={<Shipment />} />
