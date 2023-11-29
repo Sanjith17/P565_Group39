@@ -39,6 +39,7 @@ router.post('/admin_form2', form2.company_services);
 router.post('/service_delete', form2.company_remove_services);
 router.post('/service_update', form2.update_services);
 router.post('/services', form2.services_list);
+router.post('/getprice', form2.get_price);
 
 
 

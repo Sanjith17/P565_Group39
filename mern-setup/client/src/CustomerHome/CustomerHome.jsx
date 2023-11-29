@@ -102,6 +102,12 @@ function MyPage() {
     }
   }
 
+  const handleBookServiceClick = (item) => {
+    // Assuming you want to send the item details to the next page
+    // You can use the navigate function to move to the new page
+    navigate('/booking', { state: { selectedItem: item } });
+  };
+
   return (
     <div>
       <div>
@@ -159,7 +165,7 @@ function MyPage() {
                         <strong>Price:</strong> {item.price}
                       </p>
                       
-                      <button>Book Service</button>
+                      <button onClick={() => handleBookServiceClick(item._id)}>Book Service</button>
                       
                     </div>
                   )}
