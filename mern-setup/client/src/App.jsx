@@ -11,7 +11,7 @@ import Recommendation from "./RecommendedService/ParcelServicePage";
 import ForgotPassword from "./ForgotPassword/Forgot";
 import Kommunicate from "./Chat/Chat";
 import Dashboard from "./Dashboard/Dashboard";
-import Tracking from "./Tracking/Tracking";
+import Tracking from "./Tracking/TrackingPage";
 import DeliverySearch from "./DeliverySearch/DeliverySearch";
 import AdminHome from "./AdminHome/AdminHome";
 import Form1 from "./AdminHome/Form1";
