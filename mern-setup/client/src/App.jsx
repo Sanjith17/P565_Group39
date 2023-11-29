@@ -18,6 +18,7 @@ import Form1 from "./AdminHome/Form1";
 import Form2 from "./AdminHome/Form2";
 import CustomerHome from "./CustomerHome/CustomerHome";
 import Shipment from "./Shipment/Shipment"
+import StripeContainer from "./Payment/StripeContainer";
 export default function App() {
   return (
     <Router>
@@ -37,6 +38,7 @@ export default function App() {
           <Route path="/admin" element={<AdminHome />} />
           <Route path="/user" element={<CustomerHome />} />
           <Route path="/shipment" element={<Shipment />} />
+          <Route path="/payment" element={<StripeContainer />} />
           <Route path="/" element={<LandingPage />}/>
 
         </Routes>
