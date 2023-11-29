@@ -2,10 +2,9 @@ import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCog } from '@fortawesome/free-solid-svg-icons'; // Assuming you want a cog icon
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+
 function MyPage() {
   const [userId, setUserId] = useState(null);
-  const [mockData, setData] = useState([]);
   const navigate = useNavigate(); 
   useEffect(() => {
     const fetchData = async () => {
@@ -48,50 +47,24 @@ function MyPage() {
     };
 
     fetchData();
-
-    const fetchServices = async () => {
-      try {
-        const response = await axios.post(process.env.REACT_APP_BACKEND_URL + '/services');
-      
-        const responseJSON = response.data;
-        console.log(responseJSON)
-        // if (!response.ok) {
-        //   throw new Error('Failed to fetch services data');
-        // } 
-  
-        // const data = await responseJSON.body;
-        //console.log(response.data);
-        // console.log(mockData)
-        updateData(responseJSON)
-      } catch (error) {
-        console.error('Error fetching services data:', error.message);
-      } 
-    };
-
-    fetchServices();
   }, []); // The empty dependency array ensures this effect runs only once on component mount
 
-
-  const updateData = (newData) => {
-  setData(newData);
-  console.log("Updated mockData:", mockData);
-  };
   const [searchTerm, setSearchTerm] = useState('');
   const [criteria, setCriteria] = useState('delicateItems');
   const [selectedService, setSelectedService] = useState(null);
 
-  // const mockData = [
-  //   { id: 1, type: 'delicateItems', name: 'Normal Delicate', price: '$20', deliveryTime: '1-2 days', weight: '0-5kg' },
-  //   { id: 2, type: 'heavyMachinery', name: 'Heavy Logistics', price: '$100', deliveryTime: '3-5 days', weight: '10-100kg' },
-  //   { id: 3, type: 'delicateItems', name: 'Pro Delicate', price: '$35', deliveryTime: '1 day', weight: '0-3kg' },
-  //   { id: 4, type: 'heavyMachinery', name: 'Oversized Heavy Machine', price: '$300', deliveryTime: '7-14 days', weight: '100-500kg' },
-  //   { id: 5, type: 'general', name: 'Basic Delivery', price: '$10', deliveryTime: '3-5 days', weight: '0-10kg' },
-  //   { id: 6, type: 'general', name: 'Premium Delivery', price: '$25', deliveryTime: '2-3 days', weight: '0-10kg' },
-  //   { id: 7, type: 'delicateItems', name: 'Delicate Quick', price: '$45', deliveryTime: 'Same day', weight: '0-2kg' },
-  //   { id: 8, type: 'heavyMachinery', name: 'Heavy Standard', price: '$150', deliveryTime: '5-7 days', weight: '20-150kg' },
-  //   { id: 9, type: 'general', name: 'Economy Delivery', price: '$5', deliveryTime: '5-10 days', weight: '0-5kg' },
-  //   { id: 10, type: 'general', name: 'Premium Delivery', price: '$50', deliveryTime: '10-15 days', weight: '0-50kg' }
-  // ];
+  const mockData = [
+    { id: 1, type: 'delicateItems', name: 'Normal Delicate', price: '$20', deliveryTime: '1-2 days', weight: '0-5kg' },
+    { id: 2, type: 'heavyMachinery', name: 'Heavy Logistics', price: '$100', deliveryTime: '3-5 days', weight: '10-100kg' },
+    { id: 3, type: 'delicateItems', name: 'Pro Delicate', price: '$35', deliveryTime: '1 day', weight: '0-3kg' },
+    { id: 4, type: 'heavyMachinery', name: 'Oversized Heavy Machine', price: '$300', deliveryTime: '7-14 days', weight: '100-500kg' },
+    { id: 5, type: 'general', name: 'Basic Delivery', price: '$10', deliveryTime: '3-5 days', weight: '0-10kg' },
+    { id: 6, type: 'general', name: 'Premium Delivery', price: '$25', deliveryTime: '2-3 days', weight: '0-10kg' },
+    { id: 7, type: 'delicateItems', name: 'Delicate Quick', price: '$45', deliveryTime: 'Same day', weight: '0-2kg' },
+    { id: 8, type: 'heavyMachinery', name: 'Heavy Standard', price: '$150', deliveryTime: '5-7 days', weight: '20-150kg' },
+    { id: 9, type: 'general', name: 'Economy Delivery', price: '$5', deliveryTime: '5-10 days', weight: '0-5kg' },
+    { id: 10, type: 'general', name: 'Premium Delivery', price: '$50', deliveryTime: '10-15 days', weight: '0-50kg' }
+  ];
 
   const handleServiceClick = (serviceId) => {
     if (selectedService === serviceId) {
@@ -99,6 +72,11 @@ function MyPage() {
     } else {
       setSelectedService(serviceId);
     }
+  }
+
+  const openSettings = () => {
+    // Simulate opening settings (you would replace this with actual settings logic)
+    alert('Opening Settings');
   }
 
   return (
@@ -125,11 +103,6 @@ function MyPage() {
             <option value="general">General</option>
           </select>
 
-          <select value={criteria} onChange={(e) => setCriteria(e.target.value)}>
-            <option value="delicateItems">Delicate Items</option>
-            <option value="heavyMachinery">Heavy Machinery</option>
-            <option value="general">General</option>
-          </select>
           
           <button onClick={() => setSearchTerm('')}>Reset</button>
           {/* <button onClick={openSettings} className="settings-button">
