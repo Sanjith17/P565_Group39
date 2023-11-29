@@ -60,12 +60,12 @@ function MyPage() {
         // } 
   
         // const data = await responseJSON.body;
-        //console.log(response.data);
-        // console.log(mockData)
-        updateData(responseJSON)
+        
+        setData(responseJSON)
       } catch (error) {
         console.error('Error fetching services data:', error.message);
       } 
+      
     };
 
     fetchServices();
@@ -73,24 +73,25 @@ function MyPage() {
 
 
   const updateData = (newData) => {
-  setData(newData);
+  setData(newData)
   console.log("Updated mockData:", mockData);
   };
   const [searchTerm, setSearchTerm] = useState('');
   const [criteria, setCriteria] = useState('delicateItems');
+  const [size, setSize] = useState('Light');
   const [selectedService, setSelectedService] = useState(null);
-
+  console.log(mockData)
   // const mockData = [
-  //   { id: 1, type: 'delicateItems', name: 'Normal Delicate', price: '$20', deliveryTime: '1-2 days', weight: '0-5kg' },
-  //   { id: 2, type: 'heavyMachinery', name: 'Heavy Logistics', price: '$100', deliveryTime: '3-5 days', weight: '10-100kg' },
-  //   { id: 3, type: 'delicateItems', name: 'Pro Delicate', price: '$35', deliveryTime: '1 day', weight: '0-3kg' },
-  //   { id: 4, type: 'heavyMachinery', name: 'Oversized Heavy Machine', price: '$300', deliveryTime: '7-14 days', weight: '100-500kg' },
-  //   { id: 5, type: 'general', name: 'Basic Delivery', price: '$10', deliveryTime: '3-5 days', weight: '0-10kg' },
-  //   { id: 6, type: 'general', name: 'Premium Delivery', price: '$25', deliveryTime: '2-3 days', weight: '0-10kg' },
-  //   { id: 7, type: 'delicateItems', name: 'Delicate Quick', price: '$45', deliveryTime: 'Same day', weight: '0-2kg' },
-  //   { id: 8, type: 'heavyMachinery', name: 'Heavy Standard', price: '$150', deliveryTime: '5-7 days', weight: '20-150kg' },
-  //   { id: 9, type: 'general', name: 'Economy Delivery', price: '$5', deliveryTime: '5-10 days', weight: '0-5kg' },
-  //   { id: 10, type: 'general', name: 'Premium Delivery', price: '$50', deliveryTime: '10-15 days', weight: '0-50kg' }
+  //   { id: 1, company_name: 'UPS', type_of_service: 'delicateItems', weight_category: 'Moderate', price: '$20' },
+  //   { id: 2, company_name: 'UPS', type_of_service: 'heavyMachinery', weight_category: 'Moderate, price: '$100'},
+  //   { id: 3, company_name: 'UPS', type_of_service: 'delicateItems', weight_category: 'Moderate', price: '$35'},
+  //   { id: 4, company_name: 'UPS', type_of_service: 'heavyMachinery', weight_category: 'Moderate', price: '$300'},
+  //   { id: 5, company_name: 'UPS', type_of_service: 'general', weight_category: 'Moderate', price: '$10'},
+  //   { id: 6, company_name: 'UPS', type_of_service: 'general', weight_category: 'Moderate', price: '$25'},
+  //   { id: 7, company_name: 'UPS', type_of_service: 'delicateItems', weight_category: 'Moderate', price: '$45'},
+  //   { id: 8, company_name: 'UPS', type_of_service: 'heavyMachinery', weight_category: 'Moderate', price: '$150'},
+  //   { id: 9, company_name: 'UPS', type_of_service: 'general', weight_category: 'Moderate', price: '$5'},
+  //   { id: 10, company_name: 'UPS', type_of_service: 'general', weight_category: 'Moderate', price: '$50'}
   // ];
 
   const handleServiceClick = (serviceId) => {
@@ -100,6 +101,12 @@ function MyPage() {
       setSelectedService(serviceId);
     }
   }
+
+  const handleBookServiceClick = (item) => {
+    // Assuming you want to send the item details to the next page
+    // You can use the navigate function to move to the new page
+    navigate('/booking', { state: { selectedItem: item } });
+  };
 
   return (
     <div>
@@ -120,46 +127,46 @@ function MyPage() {
             onChange={(e) => setSearchTerm(e.target.value)}
           />
           <select value={criteria} onChange={(e) => setCriteria(e.target.value)}>
-            <option value="delicateItems">Delicate Items</option>
-            <option value="heavyMachinery">Heavy Machinery</option>
-            <option value="general">General</option>
+            <option value="heavy_machinery">Heavy Machinery</option>
+            <option value="light">Light</option>
+            <option value="delicate">Delicate</option>
+            <option value="premium">Premium</option>
+            <option value="basic">Basic</option>
           </select>
 
-          <select value={criteria} onChange={(e) => setCriteria(e.target.value)}>
-            <option value="delicateItems">Delicate Items</option>
-            <option value="heavyMachinery">Heavy Machinery</option>
-            <option value="general">General</option>
+          <select value={size} onChange={(e) => setSize(e.target.value)}>
+            <option value="Light">Light Item</option>
+            <option value="Heavy">Heavy Item</option>
+            <option value="Moderate">Mediuim Item</option>
           </select>
           
           <button onClick={() => setSearchTerm('')}>Reset</button>
-          {/* <button onClick={openSettings} className="settings-button">
-            <FontAwesomeIcon icon={faCog} /> {}
-          </button> */}
+          
         </div>
         <div className="results">
           {mockData
             .filter(
               (item) =>
-                item.type === criteria &&
-                item.name.toLowerCase().includes(searchTerm.toLowerCase())
+                item.type_of_service === criteria &&
+                item.weight_category === size &&
+                item.company_name.toLowerCase().includes(searchTerm.toLowerCase())
             )
             .map((item) => (
               <div
-                key={item.id}
+                key={item._id}
                 className="result-item"
-                onClick={() => handleServiceClick(item.id)}
+                onClick={() => handleServiceClick(item._id)}
               >
                 <div className="service-info">
-                  {item.name}
-                  {selectedService === item.id && (
+                  {item.company_name}
+                  {selectedService === item._id && (
                     <div className="details">
                       <p>
                         <strong>Price:</strong> {item.price}
                       </p>
-                      <p>
-                        <strong>Delivery Time:</strong> {item.deliveryTime}
-                      </p>
-                      <button>Book Service</button>
+                      
+                      <button onClick={() => handleBookServiceClick(item._id)}>Book Service</button>
+                      
                     </div>
                   )}
                 </div>
