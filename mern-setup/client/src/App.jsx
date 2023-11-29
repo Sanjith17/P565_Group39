@@ -23,6 +23,7 @@ import BookingPage from "./CustomerHome/Booking2";
 import DriverPage from "./DriverPage/DriverPage";
 import Shipment from "./Shipment/Shipment";
 
+import StripeContainer from "./Payment/StripeContainer";
 export default function App() {
   return (
     <Router>
@@ -41,9 +42,12 @@ export default function App() {
           <Route path="/admin/form2" element={<Form2 />} />
           <Route path="/admin/delete" element={<ServiceDelete />} />
           <Route path="/admin/update" element={<ServiceUpdate />} />
+          <Route path="/admin/delete" element={<ServiceDelete />} />
+          <Route path="/admin/update" element={<ServiceUpdate />} />
           <Route path="/admin" element={<AdminHome />} />
           <Route path="/user" element={<CustomerHome />} />
           <Route path="/shipment" element={<Shipment />} />
+          <Route path="/payment" element={<StripeContainer />} />
           <Route path="/driver" element={<DriverPage/>} />
           <Route path="/booking" element={<BookingPage />} />
           <Route path="/" element={<LandingPage />}/>
