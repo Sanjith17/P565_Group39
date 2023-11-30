@@ -63,11 +63,24 @@ const duoClient = new Client({
 
 router.post("/payment", async (req, res) => {
   console.log(req.body);
+
+  const token = req.header("Authorization"); // Extract the token from the 'Authorization' header
+
+  if (!token) {
+    return res.status(400).json({ message: "Token is missing." });
+  }
+
+  // Remove the 'Bearer ' prefix from the token if it's included (common in JWT tokens)
+  const tokenWithoutPrefix = token.replace("Bearer ", "");
+  const decoded = jwt.verify(tokenWithoutPrefix, loginSecretKey);
+  const userId = decoded.username;
+  console.log(req.body.sourceaddress);
+
   try{
   const payment = await Payment.create({
-    username: req.body.username,
-    sourceaddress: req.body.sourceaddress,
-    destinationaddress: req.body.destinationaddress,
+    username: userId,
+    sourceaddress: req.body.sourceAddress,
+    destinationaddress: req.body.destinationAddress,
     driver: "Unassigned",
     price: req.body.price,
     status: "Pending",
