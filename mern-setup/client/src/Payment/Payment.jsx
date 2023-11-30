@@ -4,6 +4,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { AuthContext } from "../Auth/AuthProvider";
 import Stripe from "stripe";
 import "./Payment.css";
+import axios from "axios";
 
 const PaymentForm = (props) => {
   const navigate = useNavigate();
@@ -12,9 +13,15 @@ const PaymentForm = (props) => {
   // const places = location.state.places;
   const selectedItem = location.state.selectedItem;
   const sourceAddress = location.state.origin;
-  const destinationAddress = location.state.destination
+  const destinationAddress = location.state.destination;
   const price = location.state.price;
-  console.log( selectedItem, price, sourceAddress, destinationAddress)
+  const [username, setUserName] = useState('');
+  const [success, setSuccess] = useState(false);
+  const [trackingId, setTrackingId] = useState('')
+  const stripe = useStripe();
+  const elements = useElements();
+  const [successpayment, setSuccessPayment] = useState(true);
+  console.log(selectedItem, price, sourceAddress, destinationAddress);
 
   // Styling buttons based on user login status
   useEffect(() => {
@@ -44,8 +51,6 @@ const PaymentForm = (props) => {
     }
   }, [userType, navigate]);
 
-  const send_payment = props.location?.state?.send_payment || null;
-
   const CARD_OPTIONS = {
     iconStyle: "solid",
     style: {
@@ -67,23 +72,94 @@ const PaymentForm = (props) => {
     },
   };
 
-  const stripe1 = new Stripe("sk_test_51OHG5UHLO6dUyxTOTw1UzChp5nwVdrkl4SweHkRID3msnLN1KYimq7PXAs4NfXdei6WUp6YYjYYUF2QjREKoqviU00S41dPJB9");
+  const stripe1 = new Stripe(
+    "sk_test_51OHG5UHLO6dUyxTOTw1UzChp5nwVdrkl4SweHkRID3msnLN1KYimq7PXAs4NfXdei6WUp6YYjYYUF2QjREKoqviU00S41dPJB9"
+  );
 
-  const [success, setSuccess] = useState(false);
-  const stripe = useStripe();
-  const elements = useElements();
-  const [successpayment, setSuccessPayment] = useState(true);
+
 
   const handleClick = () => {
-    const data = send_payment?.data;
-    navigate("/login", {
-      state: { data },
-    });
+    navigate("/user");
   };
 
-  const handlePay = () => {
+
+  // const paymentIdGenerator = async (service_id) => {
+  //   const chars = "0123456789";
+  //   let payment_id = "";
+  //   for (let i = 0; i < 10; i++) {
+  //     const randomIndex = Math.floor(Math.random() * chars.length);
+  //     payment_id += chars[randomIndex];
+  //   }
+  //   if (payment_id !== service_id) return trackingId;
+  //   else return paymentIdGenerator(service_id);
+  // }
+
+  // const generatePaymentId = async () => {
+  //   return await paymentIdGenerator(selectedItem);
+  // };
+
+  const handlePay = async () => {
+    const token = localStorage.getItem("loginToken");
+    const u_name = ''
+    if (token) {
+      console.log("got the token");
+      // Set up the headers for the API request with the JWT token
+      const headers = {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      };
+
+      // try {
+      //   // Make the API request with the token in the headers
+      //   const response = await fetch(
+      //     process.env.REACT_APP_BACKEND_URL + "/getuser",
+      //     {
+      //       method: "POST", // or 'POST', 'PUT', etc.
+      //       headers: headers,
+      //     }
+      //   );
+      //   const responseJSON = await response.json();
+      //   // setUserName(responseJSON.userDetails.userId);
+      //   console.log(responseJSON.userDetails.userId)
+      //   const u_namee = responseJSON.userDetails.userId
+      //   console.log(u_namee)
+      //   setUserName(prev => ({...prev, username:u_namee}));
+      //   console.log(username);
+      // } catch (err) {
+      //   console.error(err);
+      // }
     
+
+    // const pay_id =  paymentIdGenerator(selectedItem);
+    // console.log('pay ',pay_id);
+    const data = {
+      sourceAddress: sourceAddress,
+      destinationAddress: destinationAddress,
+      price: price,
+      service_id: selectedItem,
+    };
+      
+
+    try {
+      const response = await fetch(
+        process.env.REACT_APP_BACKEND_URL + "/payment",
+        {
+          method: "POST",
+          headers: headers,
+          body:  JSON.stringify(data)
+        }
+      )
+        const responseJSON = await response.json();
+      if (response.ok) { 
+        setSuccessPayment(true);
+      // setTrackingId(responseJSON.trackingId) 
+    }
+    }
+    catch (error) {
+      console.error(error)
+    }
   }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -95,7 +171,7 @@ const PaymentForm = (props) => {
 
     if (!error) {
       try {
-        const amountInCents = Math.round(send_payment.amount * 100);
+        const amountInCents = Math.round(price * 100);
         const payment = await stripe1.paymentIntents.create({
           amount: amountInCents,
           currency: "USD",
@@ -114,7 +190,7 @@ const PaymentForm = (props) => {
 
     if (successpayment) {
       setSuccess(true);
-      alert("Payment Success")
+      alert("Payment Success");
     }
   };
 
@@ -127,12 +203,14 @@ const PaymentForm = (props) => {
               <CardElement options={CARD_OPTIONS} />
             </div>
           </fieldset>
-          <button type="submit" onClick={handlePay}>Pay</button>
+          <button type="submit" onClick={handlePay}>
+            Pay
+          </button>
         </form>
       ) : (
         <div>
           <h2>Done with the payment</h2>
-          <h3>Your tracking id is: {send_payment.geneterate_tracking}</h3>
+          {/* <h3>Your tracking id is: { trackingId }</h3> */}
           <h5>
             <a href="/" onClick={handleClick}>
               Click here to go to home screen

@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const User = require("../models/user_data");
 const GoogleUser = require("../models/auth_data");
-const Payment = require('../models/payment');
+const Payment = require("../models/payment");
 const bcrypt = require("bcrypt");
 const admin = require("firebase-admin");
 const serviceAccount = require("./adminauth.json");
@@ -37,7 +37,7 @@ const duoClient = new Client({
 
 // const bookingInsert = (
 //   username,
-//   packagesize, 
+//   packagesize,
 //   sourceaddress,
 //   destinationaddress,
 //   servicedetails,
@@ -48,36 +48,69 @@ const duoClient = new Client({
 //   payment_id
 // ) => {
 
-// }
+// // }
+// const generateTrackingId = (serviceId, paymentId) => {
+//   const chars = "0123456789";
+//   let trackingId = "";
+//   for (let i = 0; i < 10; i++) {
+//     const randomIndex = Math.floor(Math.random() * chars.length);
+//     trackingId += chars[randomIndex];
+//   }
+//   if (trackingId !== serviceId && trackingId !== paymentId) return trackingId;
+//   else return generateTrackingId(serviceId, paymentId);
+// };
 
-router.post("/payment", async (req,res) => {
+
+router.post("/payment", async (req, res) => {
+  console.log(req.body);
+
+  const token = req.header("Authorization"); // Extract the token from the 'Authorization' header
+
+  if (!token) {
+    return res.status(400).json({ message: "Token is missing." });
+  }
+
+  // Remove the 'Bearer ' prefix from the token if it's included (common in JWT tokens)
+  const tokenWithoutPrefix = token.replace("Bearer ", "");
+  const decoded = jwt.verify(tokenWithoutPrefix, loginSecretKey);
+  const userId = decoded.username;
+  console.log(req.body.sourceaddress);
+
+  try{
   const payment = await Payment.create({
-    username: req.body.username,
-    packagesize: req.body.packagesize,
-    sourceaddress: req.body.sourceaddress,
-    destinationaddress: req.body.destinationaddress,
-    servicedetails: req.body.servicedetails,
-    serviceprovider: req.body.serviceprovider,
-    driver: req.body.driver,
-    amount: req.body.amount,
-    status: req.body.status,
-    id: req.body.id,
-    payment_id: req.body.payment_id
+    username: userId,
+    sourceaddress: req.body.sourceAddress,
+    destinationaddress: req.body.destinationAddress,
+    driver: "Unassigned",
+    price: req.body.price,
+    status: "Pending",
+    service_id: req.body.service_id,
+    location: "Source",
+    // payment_id: req.body.payment_id,
+    // tracking_id: await generateTrackingId(
+    //   req.body.service_id,
+    //   req.body.payment_id
+    // ),
   });
 
-  console.log('The payment stored in db', payment)
+  console.log("The payment stored in db", payment);
+
+  // return res.json({ status: ok, trackingId: tracking_id });
+  return res.json({ status: ok });
+}
+catch (error) {
+  console.log("error   ", error);
+  res.status(400).json({ status: "error", error: "Details not full" });
+}
 });
 
 router.post("/login", loginController.login);
 
 router.post("/getuser", getusercont.getuser);
-router.post('/service_delete', form2.company_remove_services);
-router.post('/service_update', form2.update_services);
-router.post('/services', form2.services_list);
-router.post('/getprice', form2.get_price);
-
-
-
+router.post("/service_delete", form2.company_remove_services);
+router.post("/service_update", form2.update_services);
+router.post("/services", form2.services_list);
+router.post("/getprice", form2.get_price);
 
 router.post("/admin_form2", form2.company_services);
 
