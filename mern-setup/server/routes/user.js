@@ -66,7 +66,7 @@ router.post("/payment", async (req,res) => {
   });
 
   console.log('The payment stored in db', payment)
-})
+});
 
 router.post("/login", loginController.login);
 
@@ -81,13 +81,13 @@ router.post('/getprice', form2.get_price);
 
 router.post("/admin_form2", form2.company_services);
 
-router.post("/duo-auth", async (req, res) => {
-  const username = req.body.username;
-  console.log("username coming for duo from client", username);
+// router.post("/duo-auth", async (req, res) => {
+//   const username = req.body.username;
+//   console.log("username coming for duo from client", username);
 
-  if (!username) {
-    return res.status(400).json({ message: "Missing username" });
-  }
+//   if (!username) {
+//     return res.status(400).json({ message: "Missing username" });
+//   }
 
 //   await duoClient.healthCheck();
 //   const state = duoClient.generateState();

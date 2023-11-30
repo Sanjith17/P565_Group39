@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { AuthContext } from "../Auth/AuthProvider";
 import Stripe from "stripe";
 import "./Payment.css";
@@ -8,10 +8,13 @@ import "./Payment.css";
 const PaymentForm = (props) => {
   const navigate = useNavigate();
   const { userType } = useContext(AuthContext);
-  const places = location.state.places;
+  const location = useLocation();
+  // const places = location.state.places;
   const selectedItem = location.state.selectedItem;
+  const sourceAddress = location.state.origin;
+  const destinationAddress = location.state.destination
   const price = location.state.price;
-  console.log(places, selectedItem, price)
+  console.log( selectedItem, price, sourceAddress, destinationAddress)
 
   // Styling buttons based on user login status
   useEffect(() => {
