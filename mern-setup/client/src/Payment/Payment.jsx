@@ -79,7 +79,7 @@ const PaymentForm = (props) => {
 
 
   const handleClick = () => {
-    navigate("/login");
+    navigate("/user");
   };
 
 
