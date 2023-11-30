@@ -85,6 +85,7 @@ router.post("/payment", async (req, res) => {
     price: req.body.price,
     status: "Pending",
     service_id: req.body.service_id,
+    location: "Source",
     // payment_id: req.body.payment_id,
     // tracking_id: await generateTrackingId(
     //   req.body.service_id,
