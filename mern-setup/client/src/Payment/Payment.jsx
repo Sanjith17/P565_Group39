@@ -109,29 +109,25 @@ const PaymentForm = (props) => {
         "Content-Type": "application/json",
       };
 
-      // try {
+      try {
         // Make the API request with the token in the headers
-        // const response = await 
-        fetch(
+        const response = await fetch(
           process.env.REACT_APP_BACKEND_URL + "/getuser",
           {
             method: "POST", // or 'POST', 'PUT', etc.
             headers: headers,
           }
-        ).then((response) => response.json())
-        .then((responseJSON) => {
-          const u_name = responseJSON.userDetails.userId;
-          setUserName((prev) => ({ ...prev, username: u_name }));
-        // const responseJSON = await response.json();
-        // // setUserName(responseJSON.userDetails.userId);
-        // console.log(responseJSON.userDetails.userId)
-        // const u_namee = responseJSON.userDetails.userId
-        // console.log(u_namee)
-        // setUserName(prev => ({...prev, username: u_namee}));
+        );
+        const responseJSON = await response.json();
+        // setUserName(responseJSON.userDetails.userId);
+        console.log(responseJSON.userDetails.userId)
+        const u_namee = responseJSON.userDetails.userId
+        console.log(u_namee)
+        setUserName(prev => ({...prev, username: u_namee}));
         console.log(username);
-      }).catch ((err) => {
+      } catch (err) {
         console.error(err);
-      });
+      }
     }
 
     // const pay_id =  paymentIdGenerator(selectedItem);
