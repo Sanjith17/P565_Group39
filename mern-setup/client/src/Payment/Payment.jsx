@@ -21,7 +21,7 @@ const PaymentForm = (props) => {
   const stripe = useStripe();
   const elements = useElements();
   const [successpayment, setSuccessPayment] = useState(true);
-  console.log(selectedItem, price, typeof(sourceAddress), destinationAddress);
+  console.log(selectedItem, price, sourceAddress, destinationAddress);
 
   // Styling buttons based on user login status
   useEffect(() => {
@@ -109,46 +109,43 @@ const PaymentForm = (props) => {
         "Content-Type": "application/json",
       };
 
-      try {
-        // Make the API request with the token in the headers
-        const response = await fetch(
-          process.env.REACT_APP_BACKEND_URL + "/getuser",
-          {
-            method: "POST", // or 'POST', 'PUT', etc.
-            headers: headers,
-          }
-        );
-        const responseJSON = await response.json();
-        // setUserName(responseJSON.userDetails.userId);
-        console.log(responseJSON.userDetails.userId)
-        const u_namee = responseJSON.userDetails.userId
-        console.log(u_namee)
-        setUserName(prev => ({...prev, username: u_namee}));
-        console.log(username);
-      } catch (err) {
-        console.error(err);
-      }
-    }
+      // try {
+      //   // Make the API request with the token in the headers
+      //   const response = await fetch(
+      //     process.env.REACT_APP_BACKEND_URL + "/getuser",
+      //     {
+      //       method: "POST", // or 'POST', 'PUT', etc.
+      //       headers: headers,
+      //     }
+      //   );
+      //   const responseJSON = await response.json();
+      //   // setUserName(responseJSON.userDetails.userId);
+      //   console.log(responseJSON.userDetails.userId)
+      //   const u_namee = responseJSON.userDetails.userId
+      //   console.log(u_namee)
+      //   setUserName(prev => ({...prev, username:u_namee}));
+      //   console.log(username);
+      // } catch (err) {
+      //   console.error(err);
+      // }
+    
 
     // const pay_id =  paymentIdGenerator(selectedItem);
     // console.log('pay ',pay_id);
     const data = {
-      username: username,
       sourceAddress: sourceAddress,
       destinationAddress: destinationAddress,
       price: price,
       service_id: selectedItem,
     };
       
-    // console.log(data)
+
     try {
       const response = await fetch(
         process.env.REACT_APP_BACKEND_URL + "/payment",
         {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: headers,
           body:  JSON.stringify(data)
         }
       )
@@ -161,7 +158,7 @@ const PaymentForm = (props) => {
     catch (error) {
       console.error(error)
     }
-
+  }
   };
 
   const handleSubmit = async (e) => {
@@ -198,8 +195,8 @@ const PaymentForm = (props) => {
   };
 
   return (
-    <div className="body_payment">
     <div className="container_payment">
+      {!success ? (
         <form className="payment_form" onSubmit={handleSubmit}>
           <fieldset className="FormGroup">
             <div className="FormRow">
@@ -210,8 +207,17 @@ const PaymentForm = (props) => {
             Pay
           </button>
         </form>
-      )
-    </div>
+      ) : (
+        <div>
+          <h2>Done with the payment</h2>
+          {/* <h3>Your tracking id is: { trackingId }</h3> */}
+          <h5>
+            <a href="/" onClick={handleClick}>
+              Click here to go to home screen
+            </a>
+          </h5>
+        </div>
+      )}
     </div>
   );
 };
