@@ -21,7 +21,7 @@ const PaymentForm = (props) => {
   const stripe = useStripe();
   const elements = useElements();
   const [successpayment, setSuccessPayment] = useState(true);
-  console.log(selectedItem, price, sourceAddress, destinationAddress);
+  console.log(selectedItem, price, typeof(sourceAddress), destinationAddress);
 
   // Styling buttons based on user login status
   useEffect(() => {
@@ -198,8 +198,8 @@ const PaymentForm = (props) => {
   };
 
   return (
+    <div className="body_payment">
     <div className="container_payment">
-      {!success ? (
         <form className="payment_form" onSubmit={handleSubmit}>
           <fieldset className="FormGroup">
             <div className="FormRow">
@@ -210,17 +210,8 @@ const PaymentForm = (props) => {
             Pay
           </button>
         </form>
-      ) : (
-        <div>
-          <h2>Done with the payment</h2>
-          {/* <h3>Your tracking id is: { trackingId }</h3> */}
-          <h5>
-            <a href="/" onClick={handleClick}>
-              Click here to go to home screen
-            </a>
-          </h5>
-        </div>
-      )}
+      )
+    </div>
     </div>
   );
 };
