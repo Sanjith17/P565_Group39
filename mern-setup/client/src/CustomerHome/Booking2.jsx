@@ -112,7 +112,17 @@ const DistanceCalculator = () => {
     const gotoPayment = () => {
         // Assuming you want to send the item details to the next page
         // You can use the navigate function to move to the new page
-        navigate('/booking', { state: { places: places,selectedItem:selectedItem,price:price } });
+        console.log('came to payment function')
+
+        const originAddress = places["origin"]?.getPlace()?.formatted_address;
+        console.log("Origin Address:", originAddress+places["originApt"]);
+
+        const destinationAddress = places["destination"]?.getPlace()?.formatted_address;
+        console.log("Origin Address:", destinationAddress+places["destinationApt"]);
+
+        navigate('/payment', { state: { selectedItem:selectedItem,price:price, origin:originAddress, destination: destinationAddress} });
+        // navigate('/payment', { state: { places: places,selectedItem:selectedItem,price:price } });
+
       };
   
       
