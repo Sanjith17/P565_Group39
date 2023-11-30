@@ -48,18 +48,22 @@ const duoClient = new Client({
 //   payment_id
 // ) => {
 
-// }
-const generateTrackingId = (serviceId, paymentId) => {
-  const chars = "0123456789";
-  let trackingId = "";
-  for (let i = 0; i < 10; i++) {
-    const randomIndex = Math.floor(Math.random() * chars.length);
-    trackingId += chars[randomIndex];
-  }
-  if (trackingId !== serviceId && trackingId !== paymentId) return trackingId;
-  else return generateTrackingId(serviceId, paymentId);
-};
+// // }
+// const generateTrackingId = (serviceId, paymentId) => {
+//   const chars = "0123456789";
+//   let trackingId = "";
+//   for (let i = 0; i < 10; i++) {
+//     const randomIndex = Math.floor(Math.random() * chars.length);
+//     trackingId += chars[randomIndex];
+//   }
+//   if (trackingId !== serviceId && trackingId !== paymentId) return trackingId;
+//   else return generateTrackingId(serviceId, paymentId);
+// };
+
+
 router.post("/payment", async (req, res) => {
+  console.log(req.body);
+  try{
   const payment = await Payment.create({
     username: req.body.username,
     sourceaddress: req.body.sourceaddress,
@@ -68,16 +72,22 @@ router.post("/payment", async (req, res) => {
     price: req.body.price,
     status: "Pending",
     service_id: req.body.service_id,
-    payment_id: req.body.payment_id,
-    tracking_id: await generateTrackingId(
-      req.body.service_id,
-      req.body.payment_id
-    ),
+    // payment_id: req.body.payment_id,
+    // tracking_id: await generateTrackingId(
+    //   req.body.service_id,
+    //   req.body.payment_id
+    // ),
   });
 
   console.log("The payment stored in db", payment);
 
-  return res.json({ status: ok, trackingId: tracking_id });
+  // return res.json({ status: ok, trackingId: tracking_id });
+  return res.json({ status: ok });
+}
+catch (error) {
+  console.log("error   ", error);
+  res.status(400).json({ status: "error", error: "Details not full" });
+}
 });
 
 router.post("/login", loginController.login);

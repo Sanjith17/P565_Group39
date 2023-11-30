@@ -15,6 +15,12 @@ const PaymentForm = (props) => {
   const sourceAddress = location.state.origin;
   const destinationAddress = location.state.destination;
   const price = location.state.price;
+  const [username, setUserName] = useState('');
+  const [success, setSuccess] = useState(false);
+  const [trackingId, setTrackingId] = useState('')
+  const stripe = useStripe();
+  const elements = useElements();
+  const [successpayment, setSuccessPayment] = useState(true);
   console.log(selectedItem, price, sourceAddress, destinationAddress);
 
   // Styling buttons based on user login status
@@ -70,32 +76,31 @@ const PaymentForm = (props) => {
     "sk_test_51OHG5UHLO6dUyxTOTw1UzChp5nwVdrkl4SweHkRID3msnLN1KYimq7PXAs4NfXdei6WUp6YYjYYUF2QjREKoqviU00S41dPJB9"
   );
 
-  const [username, setUserName] = useState('');
-  const [success, setSuccess] = useState(false);
-  const [trackingId, setTrackingId] = useState('')
-  const stripe = useStripe();
-  const elements = useElements();
-  const [successpayment, setSuccessPayment] = useState(true);
+
 
   const handleClick = () => {
     navigate("/login");
   };
 
 
-  const paymentIdGenerator = async (service_id) => {
-    const chars = "0123456789";
-    let payment_id = "";
-    for (let i = 0; i < 10; i++) {
-      const randomIndex = Math.floor(Math.random() * chars.length);
-      payment_id += chars[randomIndex];
-    }
-    if (payment_id !== service_id) return trackingId;
-    else return paymentIdGenerator(service_id);
-  }
+  // const paymentIdGenerator = async (service_id) => {
+  //   const chars = "0123456789";
+  //   let payment_id = "";
+  //   for (let i = 0; i < 10; i++) {
+  //     const randomIndex = Math.floor(Math.random() * chars.length);
+  //     payment_id += chars[randomIndex];
+  //   }
+  //   if (payment_id !== service_id) return trackingId;
+  //   else return paymentIdGenerator(service_id);
+  // }
 
+  // const generatePaymentId = async () => {
+  //   return await paymentIdGenerator(selectedItem);
+  // };
 
   const handlePay = async () => {
     const token = localStorage.getItem("loginToken");
+    const u_name = ''
     if (token) {
       console.log("got the token");
       // Set up the headers for the API request with the JWT token
@@ -104,45 +109,58 @@ const PaymentForm = (props) => {
         "Content-Type": "application/json",
       };
 
-      try {
+      // try {
         // Make the API request with the token in the headers
-        const response = await axios.post(
+        // const response = await 
+        fetch(
           process.env.REACT_APP_BACKEND_URL + "/getuser",
           {
             method: "POST", // or 'POST', 'PUT', etc.
             headers: headers,
           }
-        );
-        const responseJSON = await response.json();
-        setUserName(responseJSON.userDetails.userId);
-      } catch (err) {
+        ).then((response) => response.json())
+        .then((responseJSON) => {
+          const u_name = responseJSON.userDetails.userId;
+          setUserName((prev) => ({ ...prev, username: u_name }));
+        // const responseJSON = await response.json();
+        // // setUserName(responseJSON.userDetails.userId);
+        // console.log(responseJSON.userDetails.userId)
+        // const u_namee = responseJSON.userDetails.userId
+        // console.log(u_namee)
+        // setUserName(prev => ({...prev, username: u_namee}));
+        console.log(username);
+      }).catch ((err) => {
         console.error(err);
-      }
+      });
     }
+
+    // const pay_id =  paymentIdGenerator(selectedItem);
+    // console.log('pay ',pay_id);
     const data = {
       username: username,
       sourceAddress: sourceAddress,
       destinationAddress: destinationAddress,
       price: price,
       service_id: selectedItem,
-      payment_id: await paymentIdGenerator(selectedItem),
     };
-
+      
+    // console.log(data)
     try {
-      const response = await axios.post(
+      const response = await fetch(
         process.env.REACT_APP_BACKEND_URL + "/payment",
         {
           method: "POST",
           headers: {
-            "Content_Type": "application/json",
+            "Content-Type": "application/json",
           },
-          body: JSON.stringify({ data })
+          body:  JSON.stringify(data)
         }
       )
-
+        const responseJSON = await response.json();
       if (response.ok) { 
         setSuccessPayment(true);
-      setTrackingId(response.trackingId) }
+      // setTrackingId(responseJSON.trackingId) 
+    }
     }
     catch (error) {
       console.error(error)
@@ -199,7 +217,7 @@ const PaymentForm = (props) => {
       ) : (
         <div>
           <h2>Done with the payment</h2>
-          <h3>Your tracking id is: { trackingId }</h3>
+          {/* <h3>Your tracking id is: { trackingId }</h3> */}
           <h5>
             <a href="/" onClick={handleClick}>
               Click here to go to home screen
