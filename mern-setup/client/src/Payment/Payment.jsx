@@ -8,6 +8,10 @@ import "./Payment.css";
 const PaymentForm = (props) => {
   const navigate = useNavigate();
   const { userType } = useContext(AuthContext);
+  const places = location.state.places;
+  const selectedItem = location.state.selectedItem;
+  const price = location.state.price;
+  console.log(places, selectedItem, price)
 
   // Styling buttons based on user login status
   useEffect(() => {
