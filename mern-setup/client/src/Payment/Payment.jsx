@@ -212,7 +212,7 @@ const PaymentForm = (props) => {
           <h2>Done with the payment</h2>
           {/* <h3>Your tracking id is: { trackingId }</h3> */}
           <h5>
-            <a href="/" onClick={handleClick}>
+            <a href="/user" onClick={handleClick}>
               Click here to go to home screen
             </a>
           </h5>

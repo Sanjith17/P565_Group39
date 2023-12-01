@@ -35,7 +35,7 @@ function MyPage() {
           const role = responseJSON.userDetails.role;
           // Handle the API response data here
           if (role !== "user") {
-            navigate("/" + role);
+            navigate("/login" );
           }
           setUserId(responseJSON.userDetails.userId);
 
