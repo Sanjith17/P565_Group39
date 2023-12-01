@@ -121,6 +121,9 @@ function AdminHome() {
           <li>
             <Link to="/admin/update">Update Company Services</Link>
           </li>
+          <li>
+            <Link to="/admin/drivers">View Drivers</Link>
+          </li>
         </ul>
       </nav>
         <div className="admin-container">
@@ -194,10 +197,10 @@ function AdminHome() {
                     </div>
                   </Grid>
                 
-                <Grid item xs={12}>
+                <Grid item xs={12} sm={12}>
                     <div className="map-container">
                         <h2>Live Track Map</h2>
-                        <MapContainer center={[39.76,  -86.15]} zoom={13} style={{ width: '100%', height: '400px' }}>
+                        <MapContainer center={[39.76,  -86.15]} zoom={13} style={{ width: '100%', height: '100%' }}>
                             <TileLayer
                                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

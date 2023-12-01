@@ -12,6 +12,7 @@ const User = new mongoose.Schema(
     answer1: { type: String, required: true },
     question2: { type: String, required: true },
     answer2: { type: String, required: true },
+    location: {type: String}
   },
   { collection: "user-data" }
 );
