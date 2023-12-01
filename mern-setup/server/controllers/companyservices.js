@@ -136,7 +136,7 @@ const get_price = async (req, res)  => {
   try {
     console.log(req.body.selectedItem)
     const price = await User.findOne({_id:req.body.selectedItem});
-    console.log('___________________')
+    console.log('price  ',price)
     // res.json({
     //   status: 'ok',
     //   body : servicesData

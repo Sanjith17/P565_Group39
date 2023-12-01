@@ -3,16 +3,21 @@ import { Typography, Grid } from '@mui/material';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend } from 'recharts';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css'; // import Leaflet styles
-import './AdminHome1.css';
+import './AdminHome.css';
 import { Link, useNavigate, Outlet } from 'react-router-dom';
-import axios from "axios"; 
 
 function AdminHome() {
+    const [data, setData] = useState({
+        total: 100,
+        pending: 30,
+        completed: 70,
+        graphData: [
+            { name: 'Total', count: 100 },
+            { name: 'Pending', count: 30 },
+            { name: 'Completed', count: 70 },
+        ],
+    });
     const [userId, setUserId] = useState(null);
-    const [completedAdd, setCompletedAdd] = useState([]);
-    const [pickedAdd, setPickeddAdd] = useState([]);
-    const [unassignAdd, setUnassignAdd] = useState([]);
-
     const navigate = useNavigate(); 
     useEffect(() => {
             const fetchData = async () => {
@@ -38,7 +43,7 @@ function AdminHome() {
                   const role = responseJSON.userDetails.role
           // Handle the API response data here
                 if (role != 'admin'){
-                    navigate('/login')
+                    navigate('/'+role)
           }
         
                   // Handle the API response data here
@@ -55,36 +60,18 @@ function AdminHome() {
             };
         
             fetchData();
-
-            const fetchAddresses = async () => {
-              try {
-                const response = await axios.post(
-                  process.env.REACT_APP_BACKEND_URL + "/getaddresses"
-                );
-        
-                const responseJSON = response.data;
-                const comAdd = responseJSON.deliveredAddresses; 
-                const unAdd = responseJSON.unassignedAddresses; 
-                const penAdd = responseJSON.pendingAddresses; 
-
-                console.log(responseJSON);
-                setCompletedAdd(comAdd);
-                setPickeddAdd(penAdd);
-                setUnassignAdd(unAdd);
-
-                
-
-        
-                // setData(responseJSON);
-              } catch (error) {
-                console.error("Error fetching services data:", error.message);
-              }
-            };
-        
-            fetchAddresses();
         }, []); 
-
-
+        const mockData = {
+            total: 100,
+            pending: 30,
+            completed: 70,
+            graphData: [
+                { name: 'Total', count: 100 },
+                { name: 'Pending', count: 30 },
+                { name: 'Completed', count: 70 },
+            ],
+        };
+        // setData(mockData);
     
 
     const mockMarkers = [
@@ -92,14 +79,7 @@ function AdminHome() {
         { id: 2, lat: 40.515, lng: -90.156, label: 'Delivery B' },
     ];
 
-
-    const handleButtonClick = (addressId) => {
-      // Handle button click for the specific address
-      console.log(pickedAdd)
-      console.log(`Button clicked for Address ${addressId}`);
-      navigate("/admin/assign", { state: { selectedAddress: addressId } });
-      // Add your logic here
-    };
+    if (!data) return null;
 
     return (
         <div>
@@ -129,71 +109,33 @@ function AdminHome() {
                 <Grid item xs={12} sm={4}>
                     <div className="admin-box">
                         <Typography variant="h6">Total Deliveries</Typography>
-                        <Typography variant="h3">{unassignAdd.length+pickedAdd.length+completedAdd.length}</Typography>
+                        <Typography variant="h3">{data.total}</Typography>
                     </div>
                 </Grid>
                 <Grid item xs={12} sm={4}>
                     <div className="admin-box">
                         <Typography variant="h6">Pending Deliveries</Typography>
-                        <Typography variant="h3">{unassignAdd.length+pickedAdd.length}</Typography>
+                        <Typography variant="h3">{data.pending}</Typography>
                     </div>
                 </Grid>
                 <Grid item xs={12} sm={4}>
                     <div className="admin-box">
                         <Typography variant="h6">Completed Deliveries</Typography>
-                        <Typography variant="h3">{completedAdd.length}</Typography>
+                        <Typography variant="h3">{data.completed}</Typography>
                     </div>
                 </Grid>
-
-                <Grid item xs={5} sm={4}>
-                  <div className="admin-box">
-                    <Typography variant="h6">Completed Deliveries</Typography>
-                    {/* Display list of addresses for completed deliveries */}
-                    <ul>
-                      {completedAdd.map((address, index) => (
-                          <li key={index}>{address}</li>
-                        ))}
-                    </ul>
-                  </div>
-                </Grid>
-
-                <Grid item xs={12} sm={4}>
-                  <div className="admin-box">
-                    <Typography variant="h6">Assigned Deliveries</Typography>
-                    {/* Display list of addresses for assigned deliveries */}
-                    <ul>
-                      {pickedAdd.map((address, index) => (
-                        <li key={index}>{address}</li>
-                      ))}
-                    </ul>
-                  </div>
-                </Grid>
-
-                <Grid item xs={12} sm={4}>
-                    <div className="admin-box">
-                      <Typography variant="h6">Addresses to be assigned</Typography>
-                      {/* Display addresses with buttons */}
-                      <div className="address-column">
-                        <ul>
-                          {unassignAdd.map((address, index) => (
-                            <li key={index}>
-                              {address}
-                              <button onClick={() => handleButtonClick(address)}>Click me</button>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                      <div className="address-column">
-                        {/* Additional column for addresses */}
-                        {/* ... */}
-                      </div>
-                      <div className="address-column">
-                        {/* Additional column for addresses */}
-                        {/* ... */}
-                      </div>
+                <Grid item xs={12}>
+                    <div className="graph-container">
+                        <Typography variant="h6" gutterBottom>Delivery Statistics</Typography>
+                        <BarChart width={500} height={300} data={data.graphData}>
+                            <XAxis dataKey="name" />
+                            <YAxis />
+                            <Tooltip />
+                            <Legend />
+                            <Bar dataKey="count" fill="#8884d8" />
+                        </BarChart>
                     </div>
-                  </Grid>
-                
+                </Grid>
                 <Grid item xs={12}>
                     <div className="map-container">
                         <h2>Live Track Map</h2>

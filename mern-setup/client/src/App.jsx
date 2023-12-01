@@ -17,6 +17,7 @@ import AdminHome from "./AdminHome/AdminHome";
 import Form1 from "./AdminHome/Form1";
 import Form2 from "./AdminHome/Form2";
 import ServiceDelete from "./AdminHome/ServiceDelete";
+import AssignDriver from "./AdminHome/AssignDriver";
 import ServiceUpdate from "./AdminHome/ServiceUpdate";
 import CustomerHome from "./CustomerHome/CustomerHome";
 import BookingPage from "./CustomerHome/Booking2";
@@ -43,7 +44,7 @@ export default function App() {
           <Route path="/admin/delete" element={<ServiceDelete />} />
           <Route path="/admin/update" element={<ServiceUpdate />} />
           <Route path="/admin/delete" element={<ServiceDelete />} />
-          <Route path="/admin/update" element={<ServiceUpdate />} />
+          <Route path="/admin/assign" element={<AssignDriver />} />
           <Route path="/admin" element={<AdminHome />} />
           <Route path="/user" element={<CustomerHome />} />
           <Route path="/shipment" element={<Shipment />} />
