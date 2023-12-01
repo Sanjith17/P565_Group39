@@ -35,30 +35,6 @@ const duoClient = new Client({
   redirectUrl: "http://localhost:8080/redirect",
 });
 
-// const bookingInsert = (
-//   username,
-//   packagesize,
-//   sourceaddress,
-//   destinationaddress,
-//   servicedetails,
-//   driver,
-//   amount,
-//   status,
-//   id,
-//   payment_id
-// ) => {
-
-// // }
-// const generateTrackingId = (serviceId, paymentId) => {
-//   const chars = "0123456789";
-//   let trackingId = "";
-//   for (let i = 0; i < 10; i++) {
-//     const randomIndex = Math.floor(Math.random() * chars.length);
-//     trackingId += chars[randomIndex];
-//   }
-//   if (trackingId !== serviceId && trackingId !== paymentId) return trackingId;
-//   else return generateTrackingId(serviceId, paymentId);
-// };
 
 
 router.post("/payment", async (req, res) => {
@@ -111,8 +87,13 @@ router.post("/service_delete", form2.company_remove_services);
 router.post("/service_update", form2.update_services);
 router.post("/services", form2.services_list);
 router.post("/getprice", form2.get_price);
+router.post("/getaddresses", getusercont.get_addresses);
+router.post("/getdrivers", getusercont.get_drivers);
+router.post("/setdrivers", getusercont.set_drivers);
+router.post("/setdriverlocation", getusercont.set_driver_location);
 
 router.post("/admin_form2", form2.company_services);
+
 
 // router.post("/duo-auth", async (req, res) => {
 //   const username = req.body.username;
@@ -172,6 +153,7 @@ router.post("/signup", async (req, res) => {
       answer2: req.body.answer2,
       question1: req.body.question1,
       question2: req.body.question2,
+      location: ''
     });
     console.log("user updated in db", user);
   } catch (error) {
