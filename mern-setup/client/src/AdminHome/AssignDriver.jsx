@@ -86,17 +86,6 @@ function AssignDriver() {
               process.env.REACT_APP_BACKEND_URL + "/setdrivers",{addressId: addressId, driverEmail: driverId}
             );
 
-    
-            
-
-            // console.log(driverList);
-            // setDrivers(driverList)
-            // console.log(drivers)
-
-            
-
-    
-            // setData(responseJSON);
           } catch (error) {
             console.error("Error fetching services data:", error.message);
           }
