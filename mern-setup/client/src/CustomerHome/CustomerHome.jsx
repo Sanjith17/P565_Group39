@@ -84,18 +84,18 @@ function MyPage() {
   const [size, setSize] = useState("Light");
   const [selectedService, setSelectedService] = useState(null);
   console.log(mockData);
-  // const mockData = [
-  //   { id: 1, company_name: 'UPS', type_of_service: 'delicateItems', weight_category: 'Moderate', price: '$20' },
-  //   { id: 2, company_name: 'UPS', type_of_service: 'heavyMachinery', weight_category: 'Moderate, price: '$100'},
-  //   { id: 3, company_name: 'UPS', type_of_service: 'delicateItems', weight_category: 'Moderate', price: '$35'},
-  //   { id: 4, company_name: 'UPS', type_of_service: 'heavyMachinery', weight_category: 'Moderate', price: '$300'},
-  //   { id: 5, company_name: 'UPS', type_of_service: 'general', weight_category: 'Moderate', price: '$10'},
-  //   { id: 6, company_name: 'UPS', type_of_service: 'general', weight_category: 'Moderate', price: '$25'},
-  //   { id: 7, company_name: 'UPS', type_of_service: 'delicateItems', weight_category: 'Moderate', price: '$45'},
-  //   { id: 8, company_name: 'UPS', type_of_service: 'heavyMachinery', weight_category: 'Moderate', price: '$150'},
-  //   { id: 9, company_name: 'UPS', type_of_service: 'general', weight_category: 'Moderate', price: '$5'},
-  //   { id: 10, company_name: 'UPS', type_of_service: 'general', weight_category: 'Moderate', price: '$50'}
-  // ];
+  //const mockData = [
+  //{ id: 1, company_name: 'UPS', type_of_service: 'delicateItems', weight_category: 'Moderate', price: '$20' },
+  //{ id: 2, company_name: 'UPS', type_of_service: 'heavyMachinery', weight_category: 'Moderate', price: '$100' },
+  //{ id: 3, company_name: 'UPS', type_of_service: 'delicateItems', weight_category: 'Moderate', price: '$35'},
+  //{ id: 4, company_name: 'UPS', type_of_service: 'heavyMachinery', weight_category: 'Moderate', price: '$300'},
+  //{ id: 5, company_name: 'UPS', type_of_service: 'general', weight_category: 'Moderate', price: '$10'},
+  //{ id: 6, company_name: 'UPS', type_of_service: 'general', weight_category: 'Moderate', price: '$25'},
+  //{ id: 7, company_name: 'UPS', type_of_service: 'delicateItems', weight_category: 'Moderate', price: '$45'},
+  //{ id: 8, company_name: 'UPS', type_of_service: 'heavyMachinery', weight_category: 'Moderate', price: '$150'},
+  //{ id: 9, company_name: 'UPS', type_of_service: 'general', weight_category: 'Moderate', price: '$5'},
+  //{ id: 10, company_name: 'UPS', type_of_service: 'general', weight_category: 'Moderate', price: '$50'}
+  //];
 
   const handleServiceClick = (serviceId) => {
     if (selectedService === serviceId) {
