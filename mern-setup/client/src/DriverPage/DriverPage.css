@@ -1,0 +1,78 @@
+.driver-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  .address-box, .map-container, .location-update-box {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    width: 80%;
+    max-width: 600px;
+    margin: 10px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+  }
+  
+  .map-container {
+    height: 300px;
+    /* Placeholder style for where the map would be integrated */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f3f3f3;
+  }
+  
+  .location-update-box input {
+    padding: 10px;
+    margin-right: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  .location-update-box button {
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .location-update-box button:hover {
+    background-color: #45a049;
+  }
+  
+  @media (max-width: 768px) {
+    .driver-page {
+      flex-direction: column;
+    }
+  }
+
+.details-box, .history-box {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    width: 80%;
+    max-width: 600px;
+    margin: 10px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+  }
+  
+  .details-box h2, .history-box h3 {
+    margin-top: 0;
+    color: #333;
+  }
+  
+  .history-box ul {
+    padding-left: 20px;
+  }
+  
+  .history-box li {
+    list-style-type: circle;
+  }
+  
+  

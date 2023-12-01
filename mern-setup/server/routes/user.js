@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const User = require("../models/user_data");
 const GoogleUser = require("../models/auth_data");
+const Payment = require("../models/payment");
 const bcrypt = require("bcrypt");
 const admin = require("firebase-admin");
 const serviceAccount = require("./adminauth.json");
@@ -10,15 +11,17 @@ const ResetToken = require("../models/reset_token");
 const nodemailer = require("nodemailer");
 const jwt = require("jsonwebtoken");
 const loginController = require("../controllers/login");
-const getusercont = require('../controllers/getuser');
-const form2 = require('../controllers/companyservices');
-const form1 = require('../controllers/companyform');
+const getusercont = require("../controllers/getuser");
+const form2 = require("../controllers/companyservices");
+const form1 = require("../controllers/companyform");
 const speakeasy = require("speakeasy");
 const qrcode = require("qrcode");
 const dotenv = require("dotenv");
-const {Client} = require("@duosecurity/duo_universal")
+const { Client } = require("@duosecurity/duo_universal");
+const payment = require("../models/payment");
+
 const loginSecretKey = "fastflex-user-login-secret-key";
-dotenv.config({path: '../'});
+dotenv.config({ path: "../" });
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
@@ -32,31 +35,108 @@ const duoClient = new Client({
   redirectUrl: "http://localhost:8080/redirect",
 });
 
-router.post("/login", loginController.login);
-router.post('/getuser', getusercont.getuser);
+// const bookingInsert = (
+//   username,
+//   packagesize,
+//   sourceaddress,
+//   destinationaddress,
+//   servicedetails,
+//   driver,
+//   amount,
+//   status,
+//   id,
+//   payment_id
+// ) => {
 
-router.post('/admin_form2', form2.company_services);
+// // }
+// const generateTrackingId = (serviceId, paymentId) => {
+//   const chars = "0123456789";
+//   let trackingId = "";
+//   for (let i = 0; i < 10; i++) {
+//     const randomIndex = Math.floor(Math.random() * chars.length);
+//     trackingId += chars[randomIndex];
+//   }
+//   if (trackingId !== serviceId && trackingId !== paymentId) return trackingId;
+//   else return generateTrackingId(serviceId, paymentId);
+// };
 
-// router.post('/test', async (req, res) => {
-//   console.log(process.env.DUO_CLIENT_ID)
-// })
 
-router.post("/duo-auth", async (req, res) => {
-  const username = req.body.username;
-  console.log("username coming for duo from client", username);
-  
-  if (!username) {
-    return res.status(400).json({ message: "Missing username" });
+router.post("/payment", async (req, res) => {
+  console.log(req.body);
+
+  const token = req.header("Authorization"); // Extract the token from the 'Authorization' header
+
+  if (!token) {
+    return res.status(400).json({ message: "Token is missing." });
   }
 
-  await duoClient.healthCheck();
-  const state = duoClient.generateState();
-  req.session.duo = { state, username };
-  console.log(req.session);
-  const authUrl = duoClient.createAuthUrl(username, state);
+  // Remove the 'Bearer ' prefix from the token if it's included (common in JWT tokens)
+  const tokenWithoutPrefix = token.replace("Bearer ", "");
+  const decoded = jwt.verify(tokenWithoutPrefix, loginSecretKey);
+  const userId = decoded.username;
+  console.log(req.body.sourceaddress);
 
-  res.json({ authUrl });
+  try{
+  const payment = await Payment.create({
+    username: userId,
+    sourceaddress: req.body.sourceAddress,
+    destinationaddress: req.body.destinationAddress,
+    driver: "Unassigned",
+    price: req.body.price,
+    status: "Pending",
+    service_id: req.body.service_id,
+    location: "Source",
+    // payment_id: req.body.payment_id,
+    // tracking_id: await generateTrackingId(
+    //   req.body.service_id,
+    //   req.body.payment_id
+    // ),
+  });
+
+  console.log("The payment stored in db", payment);
+
+  // return res.json({ status: ok, trackingId: tracking_id });
+  return res.json({ status: ok });
+}
+catch (error) {
+  console.log("error   ", error);
+  res.status(400).json({ status: "error", error: "Details not full" });
+}
 });
+
+router.post("/login", loginController.login);
+
+router.post("/getuser", getusercont.getuser);
+router.post("/service_delete", form2.company_remove_services);
+router.post("/service_update", form2.update_services);
+router.post("/services", form2.services_list);
+router.post("/getprice", form2.get_price);
+
+router.post("/admin_form2", form2.company_services);
+
+// router.post("/duo-auth", async (req, res) => {
+//   const username = req.body.username;
+//   console.log("username coming for duo from client", username);
+
+//   if (!username) {
+//     return res.status(400).json({ message: "Missing username" });
+//   }
+
+//   await duoClient.healthCheck();
+//   const state = duoClient.generateState();
+//   req.session.duo = { state, username };
+//   console.log(req.session);
+//   const authUrl = duoClient.createAuthUrl(username, state);
+//   await duoClient.healthCheck();
+//   const state = duoClient.generateState();
+//   req.session.duo = { state, username };
+//   console.log(req.session);
+//   const authUrl = duoClient.createAuthUrl(username, state);
+
+//   res.json({ authUrl });
+// });
+//   res.json({ authUrl });
+// });
 
 router.get("/redirect", async (req, res) => {
   console.log("duo callback");
@@ -64,19 +144,6 @@ router.get("/redirect", async (req, res) => {
     "Authenticated Successfully, Please close this tab and go back to the app"
   );
 });
-/* 
-router.post('/api/duo-auth', async (req, res) => {
-
-  const qrcodeSecret = speakeasy.generateSecret({
-    name: loginSecretKey,
-  });
-
-
-
-  const mfa_verify = req.body
-
-
-}); */
 
 router.post("/signup", async (req, res) => {
   try {
@@ -107,24 +174,6 @@ router.post("/signup", async (req, res) => {
       question2: req.body.question2,
     });
     console.log("user updated in db", user);
-
-    const qrcodeSecret = speakeasy.generateSecret({
-      name: loginSecretKey,
-    });
-
-    qrcode.toDataURL(qrcodeSecret.otpauth_url, function (err, data) {
-      if (err) {
-        console.log("Error inside the QR Code generator");
-        throw err.message;
-      }
-      res.json({
-        status: "ok",
-        body: {
-          userName: username,
-          qrcodeURL: data
-        }
-      });
-    });
   } catch (error) {
     console.log("error   ", error);
     res.status(400).json({ status: "error", error: "Details not full" });
@@ -134,19 +183,14 @@ router.post("/signup", async (req, res) => {
 router.post("/reset/:token", async (req, res) => {
   const { token } = req.params;
   const resetToken = await ResetToken.findOne({ token });
-  //console.log("resetToken",resetToken)
 
   if (!resetToken) {
     return res.status(400).json({ message: "Invalid or expired token." });
   }
-  //const {password} = req.body
   const hashedPassword = await bcrypt.hash(req.body.password, 10);
-  //console.log(hashedPassword)
 
   try {
-    // User.findByIdAndUpdate({_id:id},{password})
     const user = await User.findOne({ username: resetToken.userId });
-    //console.log(user);
     user.password = hashedPassword;
     await user.save();
     await ResetToken.deleteOne({ token });
@@ -168,9 +212,6 @@ router.post("/forgot", async (req, res) => {
         .json({ message: "No account with this email found." });
     }
     const token = generateToken();
-    //console.log("generate Token", token);
-    //console.log("user",user);
-    // Save the token in the database
     const resetToken = new ResetToken({
       userId: user.username,
       token: token,
@@ -187,7 +228,6 @@ router.post("/forgot", async (req, res) => {
       from: "Support@fastflex.com",
       to: email,
       subject: "Password Reset",
-      //text:'http://localhost:3000/Reset/${user._id}'
       html: `<p>Hi, This email is being sent in response to a password reset request. Please click <a href ='http://localhost:3000/resetpass?token=${token}/'>here</a> to reset your password.</p>`,
     };
     const check = await mailTransport.sendMail(details);
@@ -251,8 +291,9 @@ router.post("/auth", async (req, res) => {
 
     console.log("765", exit);
 
-    if (exit) return res.status(200).send({ message: "Already in" });
-    else {
+    if (exit) {
+      return res.status(200).send({ message: "Already in" });
+    } else {
       try {
         const gau = await GoogleUser.create({
           name: token.name,
@@ -263,9 +304,6 @@ router.post("/auth", async (req, res) => {
         console.log("user updated in db", gau);
         res.json({
           status: "ok",
-          // body:{
-          //   userName:name
-          // }
         });
       } catch (error) {
         console.log("error", error);

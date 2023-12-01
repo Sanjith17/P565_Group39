@@ -6,7 +6,6 @@ import { useNavigate } from 'react-router-dom';
 const Form1 = () => {
   const [formData, setFormData] = useState({
     company_name: '',
-    price: '',
     type_of_service: '',
     weight_category: '',
   });
@@ -23,14 +22,6 @@ const Form1 = () => {
     });
   };
 
-  const handlePriceChange = (event) => {
-    const { name, value } = event.target;
-
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
 
   const handleTypeChange = (event) => {
     setFormData({
@@ -47,20 +38,16 @@ const Form1 = () => {
   };
 
 
-  const handleSignup = async () => {
+  const handleSubmit = async () => {
     console.log('Search update:', formData);
     const data = {
       company_name: formData.company_name,
-      price: formData.price,
       type_of_service: formData.type_of_service,
       weight_category: formData.weight_category,
-
-
-
     };
 
     try {
-      const response = await fetch(process.env.REACT_APP_BACKEND_URL + '/admin_form2', {
+      const response = await fetch(process.env.REACT_APP_BACKEND_URL + '/service_delete', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -71,12 +58,12 @@ const Form1 = () => {
       const responseJSON = await response.json();
 
       if (response.ok) {
-        console.log('Sign Up successful!');
-        setLoginMessage("Successful.");
-        alert('successfully submitted')
+        alert('successfully deleted')
         navigate('/admin');
       } else {
-        console.error('Sign Up failed', responseJSON);
+        console.error('DElete failed', responseJSON);
+        alert('Service Not found')
+        navigate('/admin/delete');
         setLoginMessage("Sign Up Failed: " + responseJSON.error);
       }
     } catch (error) {
@@ -122,18 +109,8 @@ const Form1 = () => {
               </select>
             </div>
 
-            <div className="form-group">
-              <label htmlFor="price">Price</label>
-              <input
-                type="text"
-                id="price"
-                name="price"
-                value={formData.price}
-                onChange={handlePriceChange}
-              />
-            </div>
 
-            <button type="button" onClick={handleSignup}>
+            <button type="button" onClick={handleSubmit}>
               Submit 
             </button>
           </form>
@@ -150,3 +127,4 @@ const Form1 = () => {
 };
 
 export default Form1;
+   
