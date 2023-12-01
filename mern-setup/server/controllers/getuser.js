@@ -93,6 +93,7 @@ const set_drivers = async (req, res) => {
     }
     const updateData = {
       driver: req.body.driverEmail,
+      status: "Assigned"
     }
     const result = await Payment.updateOne(criteria, { $set: updateData });
     if (result.modifiedCount > 0) {
@@ -116,9 +117,46 @@ const set_drivers = async (req, res) => {
 }
 };
 
+const set_driver_location = async (req, res) => {
+  try {
+
+    const decoded = jwt.verify(req.body.jwt, loginSecretKey);
+
+    // Extract the user ID from the decoded token (you can customize the token structure as needed)
+    const userMail = decoded.username;
+    const criteria  = {
+      email: userMail
+    }
+    const updateData = {
+      location: JSON.stringify(req.body.location),
+    }
+    const result = await User.updateOne(criteria, { $set: updateData });
+    if (result.modifiedCount > 0) {
+      console.log('Record updated successfully');
+
+      res.json({
+        status: 'ok',
+        body: 'Record updated successfully',       
+      });
+      // return { status: 'ok', message: 'Record updated successfully' };
+    } else {
+      console.log('Record not found or no changes made');
+      res.json({
+        status: 'ok',
+        body: 'Record updated successfully',       
+      });
+    }
+    
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+}
+};
+
 module.exports = {
   getuser,
   get_addresses,
   get_drivers,
-  set_drivers
+  set_drivers,
+  set_driver_location
 };

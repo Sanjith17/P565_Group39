@@ -90,8 +90,10 @@ router.post("/getprice", form2.get_price);
 router.post("/getaddresses", getusercont.get_addresses);
 router.post("/getdrivers", getusercont.get_drivers);
 router.post("/setdrivers", getusercont.set_drivers);
+router.post("/setdriverlocation", getusercont.set_driver_location);
 
 router.post("/admin_form2", form2.company_services);
+
 
 // router.post("/duo-auth", async (req, res) => {
 //   const username = req.body.username;
@@ -151,6 +153,7 @@ router.post("/signup", async (req, res) => {
       answer2: req.body.answer2,
       question1: req.body.question1,
       question2: req.body.question2,
+      location: ''
     });
     console.log("user updated in db", user);
   } catch (error) {
