@@ -101,6 +101,13 @@ function AdminHome() {
       // Add your logic here
     };
 
+    const handleButtonReview = () => {
+      // Handle button click for the specific address
+      console.log(completedAdd)
+      console.log(`Button clicked for Address ${completedAdd}`);
+      navigate("/admin/review", { state: { completedAddress: completedAdd } });
+      // Add your logic here
+    };
     return (
         <div>
       <div>
@@ -123,6 +130,9 @@ function AdminHome() {
           </li>
           <li>
             <Link to="/admin/drivers">View Drivers</Link>
+          </li>
+          <li>
+          <button onClick={() => handleButtonReview()}>Click Here for Reviews</button>
           </li>
         </ul>
       </nav>
@@ -197,22 +207,7 @@ function AdminHome() {
                     </div>
                   </Grid>
                 
-                <Grid item xs={12} sm={12}>
-                    <div className="map-container">
-                        <h2>Live Track Map</h2>
-                        <MapContainer center={[39.76,  -86.15]} zoom={13} style={{ width: '100%', height: '100%' }}>
-                            <TileLayer
-                                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                            />
-                            {mockMarkers.map(marker => (
-                                <Marker key={marker.id} position={[marker.lat, marker.lng]}>
-                                    <Popup>{marker.label}</Popup>
-                                </Marker>
-                            ))}
-                        </MapContainer>
-                    </div>
-                </Grid>
+                
             </Grid>
            </div>
            <Outlet/>

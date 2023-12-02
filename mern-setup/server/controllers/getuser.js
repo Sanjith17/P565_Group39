@@ -153,10 +153,28 @@ const set_driver_location = async (req, res) => {
 }
 };
 
+
+const get_reviews = async (req, res) => {
+  console.log(req.body.addressId)
+  
+    // Extract the user ID from the decoded token (you can customize the token structure as needed)
+    
+    try {
+      const drivers = await Payment.find({ _id: { $in: req.body.addressId }});
+      console.log(drivers)
+      res.json({drivers})
+      
+  
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
 module.exports = {
   getuser,
   get_addresses,
   get_drivers,
   set_drivers,
-  set_driver_location
+  set_driver_location,
+  get_reviews
 };
