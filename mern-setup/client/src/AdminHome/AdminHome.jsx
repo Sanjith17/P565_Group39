@@ -101,6 +101,13 @@ function AdminHome() {
       // Add your logic here
     };
 
+    const handleButtonReview = () => {
+      // Handle button click for the specific address
+      console.log(completedAdd)
+      console.log(`Button clicked for Address ${completedAdd}`);
+      navigate("/admin/review", { state: { completedAddress: completedAdd } });
+      // Add your logic here
+    };
     return (
         <div>
       <div>
@@ -123,6 +130,9 @@ function AdminHome() {
           </li>
           <li>
             <Link to="/admin/drivers">View Drivers</Link>
+          </li>
+          <li>
+          <button onClick={() => handleButtonReview()}>Click Here for Reviews</button>
           </li>
         </ul>
       </nav>
