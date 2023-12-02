@@ -35,7 +35,7 @@ async function notifyCustomer(customerEmail) {
         text: 'Your package has arrived. Thank you for using FastFlex Delivery!',
     };
 
-    await transporter.sendMail(mailOptions);
+    await transporter.sendEmail(mailOptions);
 }
 
 app.listen(PORT, () => {
