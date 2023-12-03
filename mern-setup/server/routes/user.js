@@ -91,8 +91,11 @@ router.post("/getprice", form2.get_price);
 router.post("/getaddresses", getusercont.get_addresses);
 router.post("/getdrivers", getusercont.get_drivers);
 router.post("/getreviews", getusercont.get_reviews);
+router.post("/getcustomerorders", getusercont.get_customer_orders);
 router.post("/setdrivers", getusercont.set_drivers);
+router.post("/setreview", getusercont.set_review);
 router.post("/setdriverlocation", getusercont.set_driver_location);
+
 
 router.post("/admin_form2", form2.company_services);
 
