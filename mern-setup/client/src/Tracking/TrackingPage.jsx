@@ -14,29 +14,51 @@ const TrackPageTest1 = () => {
   const [trackingSteps, setTrackingSteps] = useState([{ name: 'Pick Up', status: 'Unassigned', completed: false },
   { name: 'Pick Up Done', status: 'Assigned', completed: false },
   { name: 'On The Way', status: 'Pending', completed: false },
-  { name: 'Delivered', statue: 'Delivered', completed: false },]);
+  { name: 'Delivered', status: 'Delivered', completed: true },]);
   const [makeApiCall, setMakeApiCall] = useState(0)
 
   useEffect(() => {
     console.log(trackingSteps)
   }, [trackingSteps])
 
-  useEffect(() => {
-    console.log(currentStatus)
-    const steps = trackingSteps;
-    let value = true
-    for(let i = 0; i < 4; i++){
-      if(trackingSteps[i].status == currentStatus){
-        trackingSteps[i].completed = value
-        value = false
-        continue
-      }
-      trackingSteps[i].completed = value
-    }
-    setTrackingSteps(steps);
-    console.log(trackingSteps)
+  // useEffect(() => {
+  //   console.log(currentStatus)
+  //   const steps = trackingSteps;
+  //   let value = true
+  //   for(let i = 0; i < 4; i++){
+  //     if(trackingSteps[i].status == currentStatus){
+  //       trackingSteps[i].completed = value
+  //       value = false
+  //       continue
+  //     }
+  //     trackingSteps[i].completed = value
+  //   }
+  //   setTrackingSteps(steps);
+  //   console.log(trackingSteps)
     
-  }, [currentStatus])
+  // }, [currentStatus])
+
+
+  useEffect(() => {
+    setTrackingSteps((prevSteps) =>
+      prevSteps.map((step, index) => ({
+        ...step,
+        completed:
+          (currentStatus === 'Unassigned' && index === 0) ||
+          (currentStatus === 'Assigned' && index <= 1) ||
+          (currentStatus === 'Pending' && index <= 2) ||
+          currentStatus === 'Delivered',
+      }))
+    );
+  }, [currentStatus]);
+  
+  
+  
+  
+
+
+
+
 
   useEffect(() => {
     const handleTrack = async () => {
@@ -90,8 +112,8 @@ const TrackPageTest1 = () => {
       </div>
       {currentStatus && (
         <div className="status-box">
-          <div className="status-name">{currentStatus.name}</div>
-          <div className="status-date">{currentStatus.date}</div>
+          <div className="status-name">{currentStatus}</div>
+          {/* <div className="status-date">{currentStatus.date}</div> */}
         </div>
       )}
       {showSteps && <div className="status-line">
