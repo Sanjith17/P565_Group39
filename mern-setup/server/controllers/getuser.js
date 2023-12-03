@@ -231,6 +231,23 @@ const set_review = async (req, res) => {
   }
 };
 
+const trackorder = async (req, res) => {
+  console.log(req.body.addressId)
+  
+    // Extract the user ID from the decoded token (you can customize the token structure as needed)
+    
+    try {
+      const orderDetails = await Payment.find({ _id: { $in: req.body.trackingId }});
+      console.log(orderDetails)
+      res.json({orderDetails})
+      
+  
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
 module.exports = {
   getuser,
   get_addresses,
@@ -239,5 +256,6 @@ module.exports = {
   set_driver_location,
   get_reviews,
   get_customer_orders,
-  set_review
+  set_review,
+  trackorder
 };

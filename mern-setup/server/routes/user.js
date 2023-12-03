@@ -95,6 +95,7 @@ router.post("/getcustomerorders", getusercont.get_customer_orders);
 router.post("/setdrivers", getusercont.set_drivers);
 router.post("/setreview", getusercont.set_review);
 router.post("/setdriverlocation", getusercont.set_driver_location);
+router.post("/trackorder", getusercont.trackorder);
 
 
 router.post("/admin_form2", form2.company_services);
