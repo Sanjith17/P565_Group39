@@ -20,7 +20,9 @@ import ServiceDelete from "./AdminHome/ServiceDelete";
 import AssignDriver from "./AdminHome/AssignDriver";
 import ServiceUpdate from "./AdminHome/ServiceUpdate";
 import DriverLocation from "./AdminHome/DriverLocation";
+import AdminReview from "./AdminHome/AdminReview";
 import CustomerHome from "./CustomerHome/CustomerHome";
+import CustomerReview from "./CustomerHome/CustomerReview";
 import BookingPage from "./CustomerHome/Booking2";
 import DriverPage from "./DriverPage/DriverPage";
 import Shipment from "./Shipment/Shipment";
@@ -46,7 +48,9 @@ export default function App() {
           <Route path="/admin/update" element={<ServiceUpdate />} />
           <Route path="/admin/assign" element={<AssignDriver />} />
           <Route path="/admin/drivers" element={<DriverLocation />} />
+          <Route path="/admin/review" element={<AdminReview />} />
           <Route path="/admin" element={<AdminHome />} />
+          <Route path="/user/prevorders" element={<CustomerReview />} />
           <Route path="/user" element={<CustomerHome />} />
           <Route path="/shipment" element={<Shipment />} />
           <Route path="/payment" element={<StripeContainer />} />
