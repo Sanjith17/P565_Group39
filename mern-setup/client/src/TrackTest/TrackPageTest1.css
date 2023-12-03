@@ -1,0 +1,88 @@
+/* TrackPageTest1.css */
+.track-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+  }
+  
+  .input-group.mb-3 {
+    width: 100%;
+    max-width: 320px;
+  }
+  
+  .status-box {
+    text-align: center;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 20px;
+  }
+  
+  .status-name {
+    font-weight: bold;
+    font-size: 1.2rem;
+  }
+  
+  .status-date {
+    color: #666;
+    font-size: 1rem;
+  }
+  
+  .status-line {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    max-width: 500px;
+    margin-bottom: 20px;
+  }
+  
+  .dot {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: #ddd;
+    margin: 0 10px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .dot.completed {
+    background-color: green;
+  }
+  
+  .dot.completed .checkmark {
+    color: white;
+    font-size: 1rem;
+  }
+  
+  .line-segment {
+    flex-grow: 1;
+    height: 2px;
+    background-color: green;
+    z-index: -1;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .track-container {
+      width: 90%;
+    }
+    
+    .input-group.mb-3 {
+      flex-direction: column;
+    }
+    
+    .input-group-append {
+      width: 100%;
+    }
+  
+    .btn {
+      width: 100%;
+    }
+  }
+  
