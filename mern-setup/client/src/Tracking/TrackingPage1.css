@@ -1,131 +1,90 @@
-/* TrackingPage.css */
-.tracking-page {
-    font-family: 'Arial', sans-serif;
-    max-width: 800px;
-    margin: 20px auto;
-    padding: 20px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+/* TrackPageTest1.css */
+.track-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+.input-group.mb-3 {
+  width: 100%;
+  max-width: 320px;
+}
+
+.status-box {
+  text-align: center;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-bottom: 20px;
+}
+
+.status-name {
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.status-date {
+  color: #666;
+  font-size: 1rem;
+}
+
+.status-line {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+  margin-bottom: 20px;
+}
+
+.dot {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #ddd;
+  margin: 0 10px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.dot.completed {
+  background-color: green;
+}
+
+.dot.completed .checkmark {
+  color: white;
+  font-size: 1rem;
+}
+
+.line-segment {
+  flex-grow: 1;
+  height: 2px;
+  background-color: #ddd;
+  z-index: -1;
+}
+.line-segment.completed {
+  background-color: green;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .track-container {
+    width: 90%;
   }
   
-  .tracking-form {
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
-    margin-bottom: 20px;
+  .input-group.mb-3 {
+    flex-direction: column;
   }
   
-  .tracking-input {
-    flex-grow: 1;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+  .input-group-append {
+    width: 100%;
   }
-  
-  .tracking-submit {
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s;
+
+  .btn {
+    width: 100%;
   }
-  
-  .tracking-submit:hover {
-    background-color: #0056b3;
-  }
-  
-  .tracking-details {
-    background-color: #f9f9f9;
-    padding: 20px;
-    border-radius: 4px;
-    position: relative;
-  }
-  
-  .tracking-header {
-    margin-bottom: 20px;
-    text-align: center;
-  }
-  
-  .tracking-timeline {
-    position: relative;
-    padding-left: 40px; /* increased padding to accommodate checkmark */
-  }
-  
-  .tracking-event {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-    position: relative;
-  }
-  
-  .tracking-icon {
-    width: 30px; /* increased size for visibility of checkmark */
-    height: 30px; /* increased size for visibility of checkmark */
-    border-radius: 50%;
-    background-color: #fff;
-    border: 2px solid #007bff;
-    position: absolute;
-    left: 0;
-    z-index: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .tracking-icon.completed {
-    background-color: #007bff;
-    border: 2px solid #007bff;
-    color: white; /* text color for checkmark */
-  }
-  
-  .tracking-icon.pending {
-    border-style: dashed;
-    background-color: #fff;
-  }
-  
-  .checkmark {
-    color: white;
-    font-size: 20px; /* adjusted for visibility */
-  }
-  
-  .tracking-info {
-    margin-left: 50px; /* increased margin to align with the new icon size */
-  }
-  
-  .tracking-status {
-    font-weight: bold;
-  }
-  
-  .tracking-date {
-    color: #666;
-  }
-  
-  .line {
-    position: absolute;
-    top: 15px; /* adjusted for alignment with the larger icon */
-    bottom: 0;
-    left: 15px; /* adjusted for alignment with the larger icon */
-    width: 2px;
-    background-color: #D3D3D3;
-    z-index: 0;
-  }
-  
-  @media (max-width: 768px) {
-    .tracking-form {
-      flex-direction: column;
-    }
-  
-    .tracking-submit {
-      width: 100%;
-    }
-  
-    .tracking-timeline {
-      padding-left: 30px;
-    }
-  
-    .tracking-event {
-      margin-bottom: 20px;
-    }
-  }
-  
+}
