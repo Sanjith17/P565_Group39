@@ -1,0 +1,26 @@
+.pickup-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 20px;
+  }
+  
+  .pickup-item {
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 5px;
+    width: calc(33% - 20px); /* Responsive grid for 3 columns */
+  }
+  
+  @media (max-width: 768px) {
+    .pickup-item {
+      width: calc(50% - 20px); /* Responsive grid for 2 columns on smaller screens */
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .pickup-item {
+      width: 100%; /* Full width on very small screens */
+    }
+  }
+  

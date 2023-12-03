@@ -1,0 +1,81 @@
+/* TrackPageTest1.css */
+.track-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+.input-group.mb-3 {
+  width: 100%;
+  max-width: 320px;
+}
+
+.status-info {
+  text-align: center;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  width: 100%;
+  max-width: 320px;
+}
+
+.status-name {
+  font-weight: bold;
+}
+
+.status-date {
+  color: #666;
+}
+
+.status-line {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+}
+
+.dot {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background-color: #ddd;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 10px;
+  position: relative;
+  z-index: 1;
+}
+
+.dot.completed {
+  background-color: green;
+  color: white;
+}
+
+.dot.completed .checkmark {
+  font-size: 18px;
+}
+
+.line-segment {
+  flex-grow: 1;
+  height: 2px;
+  background-color: green;
+  position: absolute;
+  top: 50%;
+  z-index: 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .status-line {
+    flex-direction: row;
+  }
+
+  .line-segment {
+    height: 2px;
+  }
+}

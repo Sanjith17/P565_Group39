@@ -1,0 +1,12 @@
+/*PickupDetails.css */
+.pickup-details {
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    max-width: 600px;
+    margin: 20px auto;
+}
+
+.pickup-details h2 {
+    text-align: center;
+}
