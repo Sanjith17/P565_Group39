@@ -170,11 +170,74 @@ const get_reviews = async (req, res) => {
       res.status(500).json({ error: 'Internal Server Error' });
   }
 };
+
+
+const get_customer_orders = async (req, res) => {
+
+  const decoded = jwt.verify(req.body.jwt, loginSecretKey);
+  // console.log(req.body.addressId)
+  const userMail = decoded.username;
+  console.log(userMail)
+    
+    try {
+      const del_orders = await Payment.find({ username: userMail, status:'Delivered'});
+      const pending_orders = await Payment.find({ username: userMail, status:{ $ne: 'Delivered' }});
+      
+      //console.log(orders)
+      res.json({del_orders,pending_orders})
+       
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
+
+const set_review = async (req, res) => {
+
+  
+
+    
+    try {
+
+      const criteria  = {
+        _id: req.body.orderId
+      }
+      const updateData = {
+        review: req.body.orderreview,
+      }
+      const result = await Payment.updateOne(criteria, { $set: updateData });
+      if (result.modifiedCount > 0) {
+        console.log('Record updated successfully');
+  
+        res.json({
+          status: 'ok',
+          body: 'Record updated successfully',       
+        });
+        // return { status: 'ok', message: 'Record updated successfully' };
+      } else {
+        console.log('Record not found or no changes made');
+        res.json({
+          status: 'ok',
+          body: 'Record updated successfully',       
+        });
+      }
+      
+      
+       
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
 module.exports = {
   getuser,
   get_addresses,
   get_drivers,
   set_drivers,
   set_driver_location,
-  get_reviews
+  get_reviews,
+  get_customer_orders,
+  set_review
 };

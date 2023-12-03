@@ -82,15 +82,16 @@ function AdminHome() {
             };
         
             fetchAddresses();
+
+            
+            
+
         }, []); 
 
 
     
 
-    const mockMarkers = [
-        { id: 1, lat: 39.76, lng: -86.15, label: 'Delivery A' },
-        { id: 2, lat: 40.515, lng: -90.156, label: 'Delivery B' },
-    ];
+    
 
 
     const handleButtonClick = (addressId) => {

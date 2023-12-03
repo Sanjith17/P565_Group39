@@ -6,6 +6,10 @@ import axios from "axios";
 function MyPage() {
   const [userId, setUserId] = useState(null);
   const [mockData, setData] = useState([]);
+  const [orders, setOders] = useState([]);
+  const [delorders, setDelOrders] = useState([]);
+
+
   const navigate = useNavigate();
   useEffect(() => {
     const fetchData = async () => {
@@ -39,7 +43,6 @@ function MyPage() {
           }
           setUserId(responseJSON.userDetails.userId);
 
-          console.log(responseJSON.userId);
         } catch (error) {
           // Handle any errors that occur during te API request
           console.error(error);
@@ -60,11 +63,6 @@ function MyPage() {
 
         const responseJSON = response.data;
         console.log(responseJSON);
-        // if (!response.ok) {
-        //   throw new Error('Failed to fetch services data');
-        // }
-
-        // const data = await responseJSON.body;
 
         setData(responseJSON);
       } catch (error) {
@@ -73,48 +71,75 @@ function MyPage() {
     };
 
     fetchServices();
-  }, []); // The empty dependency array ensures this effect runs only once on component mount
 
-  const updateData = (newData) => {
-    setData(newData);
-    console.log("Updated mockData:", mockData);
-  };
+    const getOrders = async() => {
+      const token = localStorage.getItem('loginToken');
+  
+      try {
+        const response = await axios.post(
+          process.env.REACT_APP_BACKEND_URL + "/getcustomerorders",{jwt:token}
+        );
+        const responseJSON = response.data;
+        const orderList = responseJSON.pending_orders;
+        const delorderList = responseJSON.del_orders;
+
+        setOders(orderList)
+        setDelOrders(delorderList)
+
+        console.log(delorders)
+
+      } catch (error) {
+        console.error("Error fetching services data:", error.message);
+      }
+  
+      
+    };
+
+    getOrders();
+  }, []); 
+
+  useEffect(() => {
+    // Add any additional logic that depends on the updated state
+  }, [orders, delorders]);
+
+  useEffect(() => {
+    // Add any additional logic that depends on the updated state
+  }, [orders]);
+
   const [searchTerm, setSearchTerm] = useState("");
   const [criteria, setCriteria] = useState("delicateItems");
   const [size, setSize] = useState("Light");
   const [selectedService, setSelectedService] = useState(null);
   console.log(mockData);
-  // const mockData = [
-  //   { id: 1, company_name: 'UPS', type_of_service: 'delicateItems', weight_category: 'Moderate', price: '$20' },
-  //   { id: 2, company_name: 'UPS', type_of_service: 'heavyMachinery', weight_category: 'Moderate, price: '$100'},
-  //   { id: 3, company_name: 'UPS', type_of_service: 'delicateItems', weight_category: 'Moderate', price: '$35'},
-  //   { id: 4, company_name: 'UPS', type_of_service: 'heavyMachinery', weight_category: 'Moderate', price: '$300'},
-  //   { id: 5, company_name: 'UPS', type_of_service: 'general', weight_category: 'Moderate', price: '$10'},
-  //   { id: 6, company_name: 'UPS', type_of_service: 'general', weight_category: 'Moderate', price: '$25'},
-  //   { id: 7, company_name: 'UPS', type_of_service: 'delicateItems', weight_category: 'Moderate', price: '$45'},
-  //   { id: 8, company_name: 'UPS', type_of_service: 'heavyMachinery', weight_category: 'Moderate', price: '$150'},
-  //   { id: 9, company_name: 'UPS', type_of_service: 'general', weight_category: 'Moderate', price: '$5'},
-  //   { id: 10, company_name: 'UPS', type_of_service: 'general', weight_category: 'Moderate', price: '$50'}
-  // ];
+
 
   const handleServiceClick = (serviceId) => {
     if (selectedService === serviceId) {
-      setSelectedService(null); // Hide details if the same service is clicked again
+      setSelectedService(null); 
     } else {
       setSelectedService(serviceId);
     }
   };
 
   const handleBookServiceClick = (item) => {
-    // Assuming you want to send the item details to the next page
-    // You can use the navigate function to move to the new page
     navigate("/booking", { state: { selectedItem: item } });
+  };
+
+  const handleButtonReview = (item) => {
+    navigate("/user/prevorders", { state: { deliveredOrders: delorders } });
   };
 
   return (
     <div>
       <div>
         {userId ? <p>User ID: {userId}</p> : <p>Loading user details...</p>}
+      </div>
+      <div>
+      <ul>
+      <li>
+          <button onClick={() => handleButtonReview()}>Previous Orders</button>
+          </li>
+      </ul>
       </div>
       <div className="search-container">
         <h2>Search Delivery Services</h2>
