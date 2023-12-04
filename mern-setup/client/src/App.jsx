@@ -48,7 +48,9 @@ export default function App() {
           <Route path="/admin/drivers" element={<DriverLocation />} />
           <Route path="/admin" element={<AdminHome />} />
           <Route path="/user" element={<CustomerHome />} />
-          <Route path="/shipment" element={<Shipment />} />
+          <Route path="/Shipping" element={<Shipment />} />
+          {/* <Route path="/Location" element = {<Location />} /> */}
+          {/* <Route path="/Rating" element = {<Rating />} /> */}
           <Route path="/payment" element={<StripeContainer />} />
           <Route path="/driver" element={<DriverPage/>} />
           <Route path="/booking" element={<BookingPage />} />

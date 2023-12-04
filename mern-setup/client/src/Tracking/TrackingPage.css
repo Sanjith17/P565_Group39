@@ -1,15 +1,13 @@
-body {
+.body {
   margin: 0;
+  padding: 0;
+  background: url('./TrackingBackground.jpg') center/cover;
+  height: 100vh;
   display: flex;
+  align-items: center;
   justify-content: center;
-  align-items: flex-start;
-  min-height: 100vh;
-  background-image: url('C:\Users\scott_03ou61r\P565_Group39\mern-setup\client\build\static\media.jpg');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  color: white;
 }
-
 
 .tracking-box {
   display: flex;

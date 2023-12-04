@@ -61,3 +61,55 @@ p {
   background-color: #4fa3d1;
   color: #ffffff; /* Change text color on hover */
 }
+
+.shipping-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #61dafb;
+  color: white; /* Initial text color */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s; /* Add color transition */
+  margin-top: 12px;
+}
+
+.shipping-button:hover {
+  background-color: #4fa3d1;
+  color: #ffffff; /* Change text color on hover */
+}
+
+.location-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #61dafb;
+  color: white; /* Initial text color */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s; /* Add color transition */
+  margin-top: 12px;
+}
+
+.location-button:hover {
+  background-color: #4fa3d1;
+  color: #ffffff; /* Change text color on hover */
+}
+
+.rating-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #61dafb;
+  color: white; /* Initial text color */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s; /* Add color transition */
+  margin-top: 12px;
+}
+
+.rating-button:hover {
+  background-color: #4fa3d1;
+  color: #ffffff; /* Change text color on hover */
+}
+

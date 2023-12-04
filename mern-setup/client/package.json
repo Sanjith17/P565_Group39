@@ -33,7 +33,9 @@
     "shippo": "^1.7.1",
     "stripe": "^14.4.0",
     "web-vitals": "^2.1.4",
-    "webpack": "^5.89.0"
+    "webpack": "^5.89.0",
+    "@react-buddy/ide-toolbox": "^2.4.0",
+    "@react-buddy/palette-mui": "^5.0.1"
   },
   "scripts": {
     "start": "react-scripts start",

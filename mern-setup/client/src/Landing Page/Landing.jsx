@@ -6,7 +6,7 @@ import "./LandingPage.css";
 
 export default function LandingPage() {
 
-  
+
 
 return (
   <div className="body">
@@ -21,8 +21,16 @@ return (
         <Link to="/tracking">
           <button className="track-button" >Track</button>
         </Link>
+        <Link to="/Shipping">
+          <button className= "shipping-button" >Shipping</button>
+        </Link>
+      <Link to = "/location">
+        <button className= "location-button">Location</button>
+      </Link>
+        <Link to = "/Rating">
+          <button className= "rating-button">Rating</button>
+        </Link>
       </header>
-      
     </div>
   </div>
 );
