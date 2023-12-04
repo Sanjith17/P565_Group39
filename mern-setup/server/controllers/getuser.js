@@ -248,6 +248,43 @@ const trackorder = async (req, res) => {
   }
 };
 
+const get_customer_add = async (req, res) => {
+  console.log(req.body.addressId)
+  
+    // Extract the user ID from the decoded token (you can customize the token structure as needed)
+    
+    try {
+      const orderDetails = await Payment.find({ _id: { $ne: req.body.trackingId }});
+      console.log(orderDetails)
+      res.json({orderDetails})
+      
+  
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
+
+const get_driver_add = async (req, res) => {
+  const decoded = jwt.verify(req.body.jwt, loginSecretKey);
+
+  const userMail = decoded.username;
+  console.log(userMail)
+    
+    try {
+      const orders = await Payment.find({ driver: userMail, status:{ $ne: 'Delivered' }});
+      // const pending_orders = await Payment.find({ username: userMail, status:{ $ne: 'Delivered' }});
+      
+      //console.log(orders)
+      res.json({orders})
+       
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
 module.exports = {
   getuser,
   get_addresses,
@@ -257,5 +294,8 @@ module.exports = {
   get_reviews,
   get_customer_orders,
   set_review,
-  trackorder
+  trackorder,
+  get_customer_add,
+  get_driver_add
+
 };
