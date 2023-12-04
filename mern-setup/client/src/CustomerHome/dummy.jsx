@@ -1,123 +1,110 @@
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
-import React, { useEffect, useState } from "react";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBell } from '@fortawesome/free-solid-svg-icons'
+function RentedBooksPage({ userId }) {
+  const [rentedBooks, setRentedBooks] = useState({ current: [], past: [] });
 
-function MyPage()  {
-  const [userId, setUserId] = useState(null);
-  useEffect(async() => {
-    // Retrieve the JWT token from local storage
-    const token = localStorage.getItem('loginToken');
+  useEffect(() => {
 
-    // Check if the token exists
-    if (token) {
-      console.log("got the token")
-      // Set up the headers for the API request with the JWT token
-      const headers = {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json',
-      };
-      try {
-      // Make the API request with the token in the headers
-      const response = await fetch(process.env.REACT_APP_BACKEND_URL+'/getuser', {
-        method: 'GET', // or 'POST', 'PUT', etc.
-        headers: headers,
-      })
-         const responseJSON = await response.json()
-       
-          // Handle the API response data here
-          setUserId(responseJSON.userId);;
+          const token = localStorage.getItem('token');
+          if (!token) {
+            alert('No token found. Please log in.');
+            return;
+          }
+
+         const fetchBooks = async () => {
+            try {
+              const response = await axios.get('http://localhost:8080/rentedbooks/getbooks',{
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+              });
+              setRentedBooks(response.data)
+            } catch (error) {
+              console.error('Error fetching rented books:', error);
+            }
+          };
       
-    } catch(error)  {
-          // Handle any errors that occur during the API request
-          console.error(error);
-        };
-    } else {
-      // Handle the case where the token is not found in local storage
-      console.error('JWT token not found in local storage');
+          fetchBooks();
+        
+  }, []);
+
+  const handleReturnBook = async (rentedBookId) => {
+    try {
+      const response = await axios.put(`http://localhost:8080/rentedbooks/update-status/${rentedBookId}`, 
+        { status: 'returned' }, 
+        { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } }
+      );
+      console.log(response.data)
+      if (response.status === 200) {
+        // Update the state to reflect the change
+        setRentedBooks(prevState => ({
+          ...prevState,
+          current: prevState.current.filter(book => book._id !== rentedBookId),
+          past: [...prevState.past, response.data] // Add the returned book to past rentals
+        }));
+      }
+    } catch (error) {
+      console.error('Error returning book:', error);
     }
-  }, []); // The empty dependency array ensures this effect runs only once on component mount
+  };
 
-
-  const [searchTerm, setSearchTerm] = useState('');
-    const [criteria, setCriteria] = useState('delicateItems');
-    const [selectedService, setSelectedService] = useState(null);
-
-    const mockData = [
-        { id: 1, type: 'delicateItems', name: 'Normal Delicate', price: '$20', deliveryTime: '1-2 days', weight: '0-5kg' },
-        { id: 2, type: 'heavyMachinery', name: 'Heavy Logistics', price: '$100', deliveryTime: '3-5 days', weight: '10-100kg' },
-        { id: 3, type: 'delicateItems', name: 'Pro Delicate', price: '$35', deliveryTime: '1 day', weight: '0-3kg' },
-        { id: 4, type: 'heavyMachinery', name: 'Oversized Heavy Machine', price: '$300', deliveryTime: '7-14 days', weight: '100-500kg' },
-        { id: 5, type: 'general', name: 'Basic Delivery', price: '$10', deliveryTime: '3-5 days', weight: '0-10kg' },
-        { id: 6, type: 'general', name: 'Premium Delivery', price: '$25', deliveryTime: '2-3 days', weight: '0-10kg' },
-        { id: 7, type: 'delicateItems', name: 'Delicate Quick', price: '$45', deliveryTime: 'Same day', weight: '0-2kg' },
-        { id: 8, type: 'heavyMachinery', name: 'Heavy Standard', price: '$150', deliveryTime: '5-7 days', weight: '20-150kg' },
-        { id: 9, type: 'general', name: 'Economy Delivery', price: '$5', deliveryTime: '5-10 days', weight: '0-5kg' },
-        { id: 10, type: 'general', name: 'Premium Delivery', price: '$50', deliveryTime: '10-15 days', weight: '0-50kg' }
-    ];
-
-    const handleServiceClick = (serviceId) => {
-        if (selectedService === serviceId) {
-            setSelectedService(null); // Hide details if the same service is clicked again
-        } else {
-            setSelectedService(serviceId);
-        }
+  const handleReviewSubmit = async (e, ownerId) => {
+    e.preventDefault();
+    const { rating, review } = e.target.elements;
+    
+    try {
+      console.log(ownerId)
+      const response = await axios.post(`http://localhost:8080/rentedbooks/review/${ownerId}`, { 
+        rating: rating.value,
+        comment: review.value
+      }, {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+      });
+      console.log(response.data);
+      // Update UI to reflect the new review
+    } catch (error) {
+      console.error('Error submitting review:', error);
     }
-
-    const openSettings = () => {
-        // Simulate opening settings (you would replace this with actual settings logic)
-        alert('Opening Settings');
-    }
+  };  
 
   return (
-    <div>
-        <div>
-    {userId ? (
-        <p>User ID: {userId}</p>
-      ) : (
-        <p>Loading user details...</p>
-      )}
+    <div className="rented-books">
+      <h1>My Rented Books</h1>
+      <h2>Current Rentals</h2>
+      <ul>
+        {rentedBooks.current.map(book => (
+          <li key={book._id}>
+            <img src={book.image} alt={book.title} />
+            <h3>{book.title}</h3>
+            <p>Author: {book.author}</p>
+            <p>Rented for {book.days} days</p>
+            <p>Price per day: ${book.price_per_day}</p>
+            <button onClick={() => handleReturnBook(book._id)}>Return</button>
+            {/* Add more details as needed */}
+          </li>
+        ))}
+      </ul>
+      <h2>Past Rentals</h2>
+      <ul>
+        {rentedBooks.past.map(book => (
+          <li key={book._id}>
+            <img src={book.image} alt={book.title} />
+            <h3>{book.title}</h3>
+            <p>Author: {book.author}</p>
+            <p>Rented for {book.days} days</p>
+            <p>Price per day: ${book.price_per_day}</p>
+            <form onSubmit={(e) => handleReviewSubmit(e, book.owner_user_id)}>
+      <input type="number" name="rating" min="1" max="5" required placeholder="Rating (1-5)" />
+      <textarea name="review" required placeholder="Write a review about the owner"></textarea>
+      <button type="submit">Submit Review</button>
+    </form>
+            {/* Add more details as needed */}
+          </li>
+        ))}
+      </ul>
     </div>
-    <div className="search-container">
-        <h2>Search Delivery Services</h2>
-        <div className="search-box">
-            <input
-                type="text"
-                placeholder="Search for a service..."
-                value={searchTerm}
-                onChange={e => setSearchTerm(e.target.value)}
-            />
-            <select value={criteria} onChange={e => setCriteria(e.target.value)}>
-                <option value="delicateItems">Delicate Items</option>
-                <option value="heavyMachinery">Heavy Machinery</option>
-                <option value="general">General</option>
-            </select>
-            <button onClick={() => setSearchTerm('')}>Reset</button>
-            <button onClick={openSettings} className="settings-button">
-                <FontAwesomeIcon icon="cog" /> {/* Use the FontAwesome settings icon here */}
-            </button>
-        </div>
-        <div className="results">
-            {mockData.filter(item => item.type === criteria && item.name.toLowerCase().includes(searchTerm.toLowerCase())).map(item => (
-                <div key={item.id} className="result-item" onClick={() => handleServiceClick(item.id)}>
-                    <div className="service-info">
-                        {item.name}
-                        {selectedService === item.id &&
-                            <div className="details">
-                                <p><strong>Price:</strong> {item.price}</p>
-                                <p><strong>Delivery Time:</strong> {item.deliveryTime}</p>
-                                <button>Book Service</button>
-                            </div>
-                        }
-                    </div>
-                </div>
-            ))}
-        </div>
-    </div>
-    </div>
-    // Your page content here
   );
 }
 
-export default MyPage;
-
+export default RentedBooksPage;

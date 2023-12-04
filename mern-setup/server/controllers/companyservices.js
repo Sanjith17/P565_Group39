@@ -115,8 +115,48 @@ const update_services = async (req, res)  => {
   }
 };
 
+const services_list = async (req, res)  => {
+  try {
+    const servicesData = await User.find();
+    console.log(servicesData)
+    // res.json({
+    //   status: 'ok',
+    //   body : servicesData
+    // });
+    res.json(servicesData)
+  } catch (error) {
+    console.error('Error fetching services data:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+
+
+}
+
+const get_price = async (req, res)  => {
+  try {
+    console.log(req.body.selectedItem)
+    const price = await User.findOne({_id:req.body.selectedItem});
+    console.log('price  ',price)
+    // res.json({
+    //   status: 'ok',
+    //   body : servicesData
+    // });
+    // console.log(price.price)
+    res.json(price.price)
+  } catch (error) {
+    console.error('Error fetching services data:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+
+
+}
+
+
+
 module.exports ={
     company_services,
     company_remove_services,
-    update_services
+    update_services,
+    services_list,
+    get_price
   }

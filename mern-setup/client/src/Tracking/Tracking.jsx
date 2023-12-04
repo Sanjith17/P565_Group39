@@ -1,13 +1,34 @@
-import React, { useState } from "react";
-import "./TrackingPage.css"; // Import a separate CSS file for styling
-import { Link } from "react-router-dom";
+// TrackPageTest1.jsx
+import React, { useState } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './TrackPageTest1.css';
 
-const TrackingPage = () => {
-  const [trackingNumber, setTrackingNumber] = useState("");
+const mockData = {
+  "123456": [
+    { name: 'Pick Up', date: 'Monday 09/11/2045 at 11.45 PM', completed: true },
+    { name: 'Pick Up Done', date: 'Tuesday 11/11/2045 at 10.45 AM', completed: true },
+    { name: 'On The Way', date: 'Thurday 12/11/2045 at 09.55 PM', completed: true },
+    { name: 'Delivered', date: 'Monday 09/11/2045 at 11.45 PM', completed: false },
+  ],
+  "111111": [
+    { name: 'Pick Up', date: 'Monday 09/11/2045 at 11.45 PM', completed: true },
+    { name: 'Pick Up Done', date: 'Tuesday 11/11/2045 at 10.45 AM', completed: true },
+    { name: 'On The Way', date: 'Thurday 12/11/2045 at 09.55 PM', completed: true },
+    { name: 'Delivered', date: 'Monday 09/11/2045 at 11.45 PM', completed: true },
+  ],
 
-  const handleTrackButtonClick = () => {
-    // Handle tracking logic here (you can use the trackingNumber state)
-    alert(`Tracking number: ${trackingNumber}`);
+};
+
+const TrackPageTest1 = () => {
+  const [trackingId, setTrackingId] = useState('');
+  const [currentStatus, setCurrentStatus] = useState(null);
+  const [trackingSteps, setTrackingSteps] = useState([]);
+
+  const handleTrack = () => {
+    const steps = mockData[trackingId] || [];
+    setTrackingSteps(steps);
+    const lastCompleted = steps.slice().reverse().find(step => step.completed);
+    setCurrentStatus(lastCompleted || steps[0] || null);
   };
   const styles = {
     recentlyTrackedContainer: {
@@ -91,8 +112,7 @@ const TrackingPage = () => {
         </div>
       </footer>
 </div>
-
   );
 };
 
-export default TrackingPage;
+export default TrackPageTest1;

@@ -11,16 +11,23 @@ import Recommendation from "./RecommendedService/ParcelServicePage";
 import ForgotPassword from "./ForgotPassword/Forgot";
 import Kommunicate from "./Chat/Chat";
 import Dashboard from "./Dashboard/Dashboard";
-import Tracking from "./Tracking/Tracking";
+import Tracking from "./Tracking/TrackingPage";
 import DeliverySearch from "./DeliverySearch/DeliverySearch";
 import AdminHome from "./AdminHome/AdminHome";
 import Form1 from "./AdminHome/Form1";
 import Form2 from "./AdminHome/Form2";
 import ServiceDelete from "./AdminHome/ServiceDelete";
+import AssignDriver from "./AdminHome/AssignDriver";
 import ServiceUpdate from "./AdminHome/ServiceUpdate";
+import DriverLocation from "./AdminHome/DriverLocation";
+import AdminReview from "./AdminHome/AdminReview";
 import CustomerHome from "./CustomerHome/CustomerHome";
+import CustomerReview from "./CustomerHome/CustomerReview";
+import BookingPage from "./CustomerHome/Booking2";
 import DriverPage from "./DriverPage/DriverPage";
-import Shipment from "./Shipment/Shipment"
+import Shipment from "./Shipment/Shipment";
+
+import StripeContainer from "./Payment/StripeContainer";
 export default function App() {
   return (
     <Router>
@@ -39,10 +46,16 @@ export default function App() {
           <Route path="/admin/form2" element={<Form2 />} />
           <Route path="/admin/delete" element={<ServiceDelete />} />
           <Route path="/admin/update" element={<ServiceUpdate />} />
+          <Route path="/admin/assign" element={<AssignDriver />} />
+          <Route path="/admin/drivers" element={<DriverLocation />} />
+          <Route path="/admin/review" element={<AdminReview />} />
           <Route path="/admin" element={<AdminHome />} />
+          <Route path="/user/prevorders" element={<CustomerReview />} />
           <Route path="/user" element={<CustomerHome />} />
           <Route path="/shipment" element={<Shipment />} />
+          <Route path="/payment" element={<StripeContainer />} />
           <Route path="/driver" element={<DriverPage/>} />
+          <Route path="/booking" element={<BookingPage />} />
           <Route path="/" element={<LandingPage />}/>
 
         </Routes>
