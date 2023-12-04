@@ -1,87 +1,105 @@
-/* TrackPageTest1.css */
-.track-container {
+.body {
+  margin: 0;
+  padding: 0;
+  background: url('./TrackingBackground.jpg') center/cover;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.tracking-box {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px;
 }
 
-.input-group.mb-3 {
-  width: 100%;
-  max-width: 320px;
-}
 
-.status-box {
-  text-align: center;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+.tracking-box h1 {
   margin-bottom: 20px;
 }
 
-.status-name {
-  font-weight: bold;
-  font-size: 1.2rem;
-}
-
-.status-date {
-  color: #666;
-  font-size: 1rem;
-}
-
-.status-line {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  width: 100%;
-  max-width: 500px;
-  margin-bottom: 20px;
-}
-
-.dot {
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background-color: #ddd;
-  margin: 0 10px;
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.dot.completed {
-  background-color: green;
-}
-
-.dot.completed .checkmark {
-  color: white;
-  font-size: 1rem;
-}
-
-.line-segment {
-  flex-grow: 1;
-  height: 2px;
-  background-color: green;
-  z-index: -1;
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .track-container {
-    width: 90%;
+.tracking-container {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    margin-top: 50px;
   }
   
-  .input-group.mb-3 {
+  .tracking-input {
+    display: flex;
     flex-direction: column;
+    align-items: flex-start;
+    margin-top: 10px;
   }
   
-  .input-group-append {
-    width: 100%;
+  /* Center the label */
+  .tracking-label {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 10px;
+  }
+  
+  /* Set a specific width for the input */
+  .tracking-input input {
+    width: 200px;
+  }
+  
+  .track-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #61dafb;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    width: auto;
+  }
+  
+  .track-button:hover {
+    background-color: #4fa3d1;
   }
 
-  .btn {
-    width: 100%;
+  .tracking-navbar {
+    background-color: #282c34;
+    padding: 10px;
+    color: white;
   }
-}
+  
+  .tracking-navbar ul {
+    list-style: none;
+    display: flex;
+    justify-content: flex-end; /* Align items to the right */
+  }
+  
+  .tracking-navbar li {
+    cursor: pointer;
+    margin-left: 20px; /* Add margin between items */
+    /* transition: background-color 0.3s; Add a transition for smoother effect */
+  }
+  
+  .tracking-navbar li:first-child {
+    margin-left: 700px; /* Remove margin from the first item */
+  }
+  
+  /* .tracking-navbar li:hover {
+    background-color: #61dafb; /* Highlight color */
+    /* color: white; Text color on hover */
+  /* } */
+
+  .tracking-navbar-link {
+    color: white;
+    background-color: #282c34;
+    
+  }
+
+
+
+  
+  
+  
