@@ -6,6 +6,8 @@ import axios from "axios";
 
 const DriverPage = () => {
   const navigate = useNavigate(); 
+  const [addresses, setAddress] = useState([])
+  const [pickupIndex, setPickupIndex] = useState(-1)
   const [state, setState] = useState({
     currentLocation: { lat: 40.712776, lng: -74.005974 },
     pickUpAddress: '123 PickUp St, City',
@@ -52,7 +54,33 @@ const DriverPage = () => {
       };
   
       fetchData();
+
+
+      const getOrders = async() => {
+        const token = localStorage.getItem('loginToken');
+    
+        try {
+          const response = await axios.post(
+            process.env.REACT_APP_BACKEND_URL + "/getdriveraddress",{jwt:token}
+          );
+          const responseJSON = response.data;
+          const orderList = responseJSON.orders
+          setAddress(orderList)
+          console.log(addresses)
+  
+        } catch (error) {
+          console.error("Error fetching services data:", error.message);
+        }
+    
+        
+      };
+  
+      getOrders();
     }, []); 
+
+    useEffect(() => {
+      console.log(addresses)
+    }, [addresses]);
 
   const onMapClick = async (e) => {
     const newLocation = { lat: e.latLng.lat(), lng: e.latLng.lng() };
@@ -62,6 +90,48 @@ const DriverPage = () => {
 
   const getPlaceName = async (location) => {
     return `Mock Place Name for (${location.lat.toFixed(3)}, ${location.lng.toFixed(3)})`;
+  };
+
+  const handlePickUp = async (index, trackId) => {
+    
+    
+        try {
+          const response = await axios.post(
+            process.env.REACT_APP_BACKEND_URL + "/setpickup",{trackId:trackId}
+          );
+          const responseJSON = response.data;
+          const orderList = responseJSON.orders
+          // setAddress(orderList)
+          console.log(addresses)
+  
+        } catch (error) {
+          console.error("Error fetching services data:", error.message);
+        }
+
+    setPickupIndex(0);
+  };
+
+  const handleDeliver = async (index,trackId) => {
+
+    console.log(addresses)
+
+    try {
+      const response = await axios.post(
+        process.env.REACT_APP_BACKEND_URL + "/setdelivered",{trackId:trackId}
+      );
+      const responseJSON = response.data;
+      const orderList = responseJSON.orders
+      setAddress(orderList)
+      console.log(addresses)
+
+    } catch (error) {
+      console.error("Error fetching services data:", error.message);
+    }
+    
+    const updatedvar = addresses.slice(1)
+    setAddress(updatedvar)
+    setPickupIndex(-1);
+
   };
 
   const handleLocationUpdate = async() => {
@@ -86,12 +156,37 @@ const DriverPage = () => {
 
   return (
     <div className="driver-page">
-      <div className="details-box">
-        <h2>Pick Up:</h2>
-        <p>{state.pickUpAddress}</p>
-        <h2>Drop Off:</h2>
-        <p>{state.dropAddress}</p>
+      
+      <div>
+        <h2>Pickup Addresses</h2>
+        {addresses && addresses.map((address, index) => (
+          <div key={index}>
+            {index != pickupIndex && (
+              <>
+                <p>{address.sourceaddress}</p>
+                <button onClick={() => handlePickUp(index, address._id)} disabled={index !== 0}>
+                Pick Up
+                </button>
+              </>
+            )}
+          </div>
+        ))}
       </div>
+
+      <div>
+        <h2>Delivery Addresses</h2>
+        {addresses.length >0 && addresses.map((address, index) => (
+          <div key={index}>
+            { pickupIndex  !== -1 && index < 1 && (
+              <>
+                <p>{address.destinationaddress}</p>
+                <button onClick={() => handleDeliver(index,address._id)}>Deliver</button>
+              </>
+            )}
+          </div>
+        ))}
+      </div>
+      
 
       <LoadScript googleMapsApiKey="AIzaSyBmMGeMKJDnzvKkm8k1RADdiP2N632RfNs">
         <GoogleMap

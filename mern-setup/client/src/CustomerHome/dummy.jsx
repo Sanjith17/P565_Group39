@@ -7,6 +7,7 @@ import axios from "axios";
 const DriverPage = () => {
   const [addresses, setAdresses] = useState();
   const navigate = useNavigate(); 
+  const [pickupIndex, setPickupIndex] = useState(-1)
   const [state, setState] = useState({
     currentLocation: { lat: 40.712776, lng: -74.005974 },
     pickUpAddress: '123 PickUp St, City',
@@ -128,14 +129,14 @@ const DriverPage = () => {
   return (
     <div className="driver-page">
 
-<div>
+      <div>
         <h2>Pickup Addresses</h2>
         {addresses.map((address, index) => (
           <div key={index}>
-            {index === pickupIndex && (
+            {index != pickupIndex && (
               <>
                 <p>{address.destinationaddress}</p>
-                <button onClick={handlePickUp} disabled={pickupIndex !== index}>
+                <button onClick={handlePickUp(index)} disabled={index != 0}>
                   Pick Up
                 </button>
               </>
