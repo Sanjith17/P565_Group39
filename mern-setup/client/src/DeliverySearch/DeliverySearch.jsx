@@ -2,7 +2,7 @@ import React, { useState, useEffect} from 'react';
 import './DeliverySearch.css';
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // Import FontAwesome (assuming you have it installed)
-
+import FastFlexIcon from './FastFlex.png';
 
 
 const DeliverySearch = () => {
@@ -121,6 +121,7 @@ const DeliverySearch = () => {
         <ul>
           <div>
           <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '11px' }}>
+          <img src={FastFlexIcon} alt="FastFlex" style={{ marginRight: '-300px', width: '60px', height: '60px' }} />
           <MyButton buttonText="Home" to="/" />
           <div style={{ display: 'flex', alignItems: 'center' }}>
           <span style={{ marginRight: '10px' }}>New user?</span>
@@ -177,7 +178,6 @@ const DeliverySearch = () => {
         <h3 style={{ color: 'white', textDecoration: 'none' }}>This Site</h3>
         <ul style={{ listStyle: 'none', padding: 0 }}>
           <li><Link to="/tracking" style={{ color: 'white', textDecoration: 'none' }}>Tracking</Link></li>
-          <li><Link to="/deliverysearch" style={{ color: 'white', textDecoration: 'none' }}>Shipping</Link></li>
           <li><Link to="/aboutus" style={{ color: 'white', textDecoration: 'none' }}>About FastFlex</Link></li>
         </ul>
       </div>

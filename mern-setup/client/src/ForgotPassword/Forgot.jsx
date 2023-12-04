@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import axios from 'axios';
 import '../Login/LoginCss.css'; // Import the CSS file
+import FastFlexIcon from './FastFlex.png';
 
 function Forgot() {
   const navigate = useNavigate();
@@ -125,6 +126,7 @@ function Forgot() {
         <ul>
           <div>
           <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '11px' }}>
+          <img src={FastFlexIcon} alt="FastFlex" style={{ marginRight: '-300px', width: '60px', height: '60px' }} />
           <MyButton buttonText="Home" to="/" />
           <div style={{ display: 'flex', alignItems: 'center' }}>
           <span style={{ marginRight: '10px' }}>New user?</span>
