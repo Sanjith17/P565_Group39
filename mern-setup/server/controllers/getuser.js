@@ -153,10 +153,149 @@ const set_driver_location = async (req, res) => {
 }
 };
 
+
+const get_reviews = async (req, res) => {
+  console.log(req.body.addressId)
+  
+    // Extract the user ID from the decoded token (you can customize the token structure as needed)
+    
+    try {
+      const drivers = await Payment.find({ _id: { $in: req.body.addressId }});
+      console.log(drivers)
+      res.json({drivers})
+      
+  
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
+
+const get_customer_orders = async (req, res) => {
+
+  const decoded = jwt.verify(req.body.jwt, loginSecretKey);
+  // console.log(req.body.addressId)
+  const userMail = decoded.username;
+  console.log(userMail)
+    
+    try {
+      const del_orders = await Payment.find({ username: userMail, status:'Delivered'});
+      const pending_orders = await Payment.find({ username: userMail, status:{ $ne: 'Delivered' }});
+      
+      //console.log(orders)
+      res.json({del_orders,pending_orders})
+       
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
+
+const set_review = async (req, res) => {
+
+  
+
+    
+    try {
+
+      const criteria  = {
+        _id: req.body.orderId
+      }
+      const updateData = {
+        review: req.body.orderreview,
+      }
+      const result = await Payment.updateOne(criteria, { $set: updateData });
+      if (result.modifiedCount > 0) {
+        console.log('Record updated successfully');
+  
+        res.json({
+          status: 'ok',
+          body: 'Record updated successfully',       
+        });
+        // return { status: 'ok', message: 'Record updated successfully' };
+      } else {
+        console.log('Record not found or no changes made');
+        res.json({
+          status: 'ok',
+          body: 'Record updated successfully',       
+        });
+      }
+      
+      
+       
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
+const trackorder = async (req, res) => {
+  console.log(req.body.addressId)
+  
+    // Extract the user ID from the decoded token (you can customize the token structure as needed)
+    
+    try {
+      const orderDetails = await Payment.find({ _id: { $in: req.body.trackingId }});
+      console.log(orderDetails)
+      res.json({orderDetails})
+      
+  
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
+const get_customer_add = async (req, res) => {
+  console.log(req.body.addressId)
+  
+    // Extract the user ID from the decoded token (you can customize the token structure as needed)
+    
+    try {
+      const orderDetails = await Payment.find({ _id: { $ne: req.body.trackingId }});
+      console.log(orderDetails)
+      res.json({orderDetails})
+      
+  
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
+
+const get_driver_add = async (req, res) => {
+  const decoded = jwt.verify(req.body.jwt, loginSecretKey);
+
+  const userMail = decoded.username;
+  console.log(userMail)
+    
+    try {
+      const orders = await Payment.find({ driver: userMail, status:{ $ne: 'Delivered' }});
+      // const pending_orders = await Payment.find({ username: userMail, status:{ $ne: 'Delivered' }});
+      
+      //console.log(orders)
+      res.json({orders})
+       
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
 module.exports = {
   getuser,
   get_addresses,
   get_drivers,
   set_drivers,
-  set_driver_location
+  set_driver_location,
+  get_reviews,
+  get_customer_orders,
+  set_review,
+  trackorder,
+  get_customer_add,
+  get_driver_add
+
 };

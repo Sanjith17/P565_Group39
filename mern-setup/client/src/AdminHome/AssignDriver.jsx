@@ -7,12 +7,13 @@ import './AdminHome1.css';
 import { Link, useNavigate, Outlet, useLocation} from 'react-router-dom';
 import axios from "axios"; 
 
+
 function AssignDriver() {
+    const navigate = useNavigate();
     const [drivers, setDrivers] = useState([]);
     const location = useLocation();
     const addressId = location.state.selectedAddress;
 
-    const navigate = useNavigate(); 
     useEffect(() => {
         const fetchData = async () => {
             // Retrieve the JWT token from local storage
@@ -84,8 +85,9 @@ function AssignDriver() {
         try {
             const response = await axios.post(
               process.env.REACT_APP_BACKEND_URL + "/setdrivers",{addressId: addressId, driverEmail: driverId}
+              
             );
-
+            navigate('/admin')
           } catch (error) {
             console.error("Error fetching services data:", error.message);
           }
@@ -96,6 +98,14 @@ function AssignDriver() {
     return (
         <div>
       {addressId}
+      <nav>
+        <ul>
+          <li>
+            <Link to="/admin">Admin Home</Link>
+          </li>
+          
+        </ul>
+      </nav>
       <div>
       <div>
       {drivers.map((driver, index) => (

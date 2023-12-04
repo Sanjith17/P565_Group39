@@ -1,270 +1,192 @@
-// import "./calculate.css";
-// import "./Shipment/Shipment.css"
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+// import './DriverPage.css';
+import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
+import { Link, useNavigate, Outlet, useLocation} from 'react-router-dom';
+import axios from "axios";  
 
-//import shippo from "shippo";
-
-import React, { useRef, useState, useEffect } from "react";
-import {
-  useJsApiLoader,
-  Autocomplete,
-} from "@react-google-maps/api";
-
-
-const Price = () => {
-  const navigate = useNavigate();
-  const [directionsResponse, setDirectionsResponse] = useState(null);
-  const [distance, setDistance] = useState("");
-  // const [weight, setWeight] = useState("");
-  //const [msg, setMsg] = useState("");
-  const [rates, setRates] = useState([]);
-  const [buttonclicked, setbuttonclicked] = useState(false);
-  const [sourceCityship, setSourceCityship] = useState("");
-  const [sourceStateship, setSourceStateship] = useState("");
-  const [sourceZipship, setSourceZipship] = useState("");
-  const [sourceCountryship, setSourceCountryship] = useState("");
-  const [destinationCityship, setdestinationCityship] = useState("");
-  const [destinationCountryship, setdestinationCountryship] = useState("");
-  const [destinationZipship, setdestinationZipship] = useState("");
-  const [destinationStateship, setdestinationStateship] = useState("");
-  const [sourcestreetaddress, setsourcestreetaddress] = useState("");
-  const [destinationstreetaddress, setdestinationstreetaddress] = useState("");
-
-  const [serviceType, setPackageSize] = useState("basic");
-  const [packageWeight, setPackageWeight] = useState("Light");
-  const handleSelectButtonClick = () => {
-    // Navigate to the login page
-    navigate("/login");
-  };
-
-  // Event handler for the onChange event of the select element
-  const handlePackageSizeChange = (e) => {
-    setPackageSize(e.target.value); // Update the state with the selected package size
-  };
-
-  const handlePackageWeightChange = (e) => {
-    setPackageWeight(e.target.value); // Update the state with the selected package size
-  };
-
-  const sourceRef = useRef(null);
-  const destinationRef = useRef(null);
-
-  const { isLoaded, loadError } = useJsApiLoader({
-    googleMapsApiKey: "AIzaSyBmMGeMKJDnzvKkm8k1RADdiP2N632RfNs",
-    libraries: ["places"],
+const DriverPage = () => {
+  const [addresses, setAdresses] = useState();
+  const navigate = useNavigate(); 
+  const [state, setState] = useState({
+    currentLocation: { lat: 40.712776, lng: -74.005974 },
+    pickUpAddress: '123 PickUp St, City',
+    dropAddress: '456 DropOff Ave, City',
+    pastLocations: ['123 PickUp St, City'],
+    currentLocationName: 'Current Location',
   });
 
-  async function calculateRoute() {
-    const directionsService = new window.google.maps.DirectionsService();
-    const sourcePlace = sourceRef.current.getPlace();
-    const destinationPlace = destinationRef.current.getPlace();
-
-    //alert(sourcePlace);
-    const streetAddress = sourcePlace.formatted_address;
-    const streetAddress1 = streetAddress.split(",")[0].trim();
-    setsourcestreetaddress(streetAddress1);
-    const sourceCity = sourcePlace.address_components.find((component) =>
-      component.types.includes("locality")
-    )?.long_name;
-    setSourceCityship(sourceCity);
-    const sourceState = sourcePlace.address_components.find((component) =>
-      component.types.includes("administrative_area_level_1")
-    )?.short_name;
-    setSourceStateship(sourceState);
-    const sourceZip = sourcePlace.address_components.find((component) =>
-      component.types.includes("postal_code")
-    )?.long_name;
-    setSourceZipship(sourceZip);
-    const sourceCountry = sourcePlace.address_components.find((component) =>
-      component.types.includes("country")
-    )?.short_name;
-    setSourceCountryship(sourceCountry);
-
-    const destinationstreet = destinationPlace.formatted_address;
-    const destinationstreet1 = destinationstreet.split(",")[0].trim();
-    setdestinationstreetaddress(destinationstreet1);
-    const destinationCity = destinationPlace.address_components.find(
-      (component) => component.types.includes("locality")
-    )?.long_name;
-    setdestinationCityship(destinationCity);
-    const destinationState = destinationPlace.address_components.find(
-      (component) => component.types.includes("administrative_area_level_1")
-    )?.short_name;
-    setdestinationStateship(destinationState);
-    const destinationZip = destinationPlace.address_components.find(
-      (component) => component.types.includes("postal_code")
-    )?.long_name;
-    setdestinationZipship(destinationZip);
-    const destinationCountry = destinationPlace.address_components.find(
-      (component) => component.types.includes("country")
-    )?.short_name;
-    setdestinationCountryship(destinationCountry);
-
-    if (!sourcePlace || !destinationPlace) {
-      alert("Please select source and destination");
-      return;
-    }
-    const results = await directionsService.route(
-      {
-        origin: sourcePlace.geometry.location,
-        destination: destinationPlace.geometry.location,
-        travelMode: window.google.maps.TravelMode.DRIVING,
-      },
-      (response, status) => {
-        if (status === "OK") {
-          setDirectionsResponse(response);
-          setDistance(response.routes[0].legs[0].distance.text);
-          // setDuration(response.routes[0].legs[0].duration.text);
-          // alert(distance);
-        } else {
-          window.alert("Directions request failed due to " + status);
-        }
-      }
-    );
-  }
   useEffect(() => {
-    if (buttonclicked) {
-      const createShipment = async () => {
-        const response = await fetch("https://api.goshippo.com/shipments/", {
-          method: "POST",
-          headers: {
-            Authorization:
-              "ShippoToken shippo_test_f1e2c504159dd862a4515dcf87bab4aa8ba5b050",
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            object_purpose: "PURCHASE",
-            address_from: {
-              street1: sourcestreetaddress,
-              city: sourceCityship,
-              state: sourceStateship,
-              zip: sourceZipship,
-              country: sourceCountryship,
-            },
-            address_to: {
-              street1: destinationstreetaddress,
-              city: destinationCityship,
-              state: destinationStateship,
-              zip: destinationZipship,
-              country: destinationCountryship,
-            },
-            parcels: [
-              {
-                length: "10",
-                width: "8",
-                height: "6",
-                distance_unit: "in",
-                serviceType: serviceType,
-                weight: packageWeight,
-                mass_unit: "lb",
-              },
-            ],
-            async: false,
-          }),
-        });
-        console.log();
-        const shipmentData = await response.json();
-        if (!response.ok) {
-          console.error(`Error creating shipment: ${shipmentData.detail}`);
-          return;
-        }
-
-        const shipmentId = shipmentData.object_id;
-
-        const getRates = async () => {
-          const currencyCode = "USD"; // Replace with the desired currency code
-
-          const response = await fetch(
-            `https://api.goshippo.com/shipments/${shipmentId}/rates/${currencyCode}/`,
-            {
-              method: "GET",
-              headers: {
-                Authorization:
-                  "ShippoToken shippo_test_f1e2c504159dd862a4515dcf87bab4aa8ba5b050",
-              },
-            }
-          );
-
-          const data = await response.json();
-
-          if (response.ok) {
-            console.log(data.results);
-            setRates(data.results);
-          } else {
-            console.error(`Error fetching rates: ${data.detail}`);
-          }
-        };
-        getRates();
-      };
-      createShipment();
+    const fetchData = async () => {
+        // Retrieve the JWT token from local storage
+        const token = localStorage.getItem('loginToken');
+  
+        // Check if the token exists
+        if (token) {
+          console.log("got the token");
+          // Set up the headers for the API request with the JWT token
+          const headers = {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          };
+  
+          try {
+            // Make the API request with the token in the headers
+            const response = await fetch(process.env.REACT_APP_BACKEND_URL + '/getuser', {
+              method: 'POST', // or 'POST', 'PUT', etc.
+              headers: headers,
+            });
+            const responseJSON = await response.json();
+            const role = responseJSON.userDetails.role
+          if (role != 'driver'){
+              navigate('/login')
     }
-    setbuttonclicked(false);
-  }, [
-    buttonclicked,
-    sourceCityship,
-    sourcestreetaddress,
-    sourceStateship,
-    sourceZipship,
-    sourceCountryship,
-    destinationCityship,
-    destinationZipship,
-    destinationStateship,
-    destinationstreetaddress,
-    serviceType,
-    packageWeight
-  ]);
+  
+            
+          } catch (error) {
+            // Handle any errors that occur during te API request
+            console.error(error);
+          }
+        } else {
+          // Handle the case where the token is not found in local storage
+          console.error('JWT token not found in local storage');
+        }
+      };
+  
+      fetchData();
 
-  if (loadError) return "Error loading maps";
-  if (!isLoaded) return "Loading maps...";
-  const handlestate = () => {
-    // MapComponent();
-    calculateRoute();
-    setbuttonclicked(true);
+      const getOrders = async() => {
+        const token = localStorage.getItem('loginToken');
+    
+        try {
+          const response = await axios.post(
+            process.env.REACT_APP_BACKEND_URL + "/getdriveraddress",{jwt:token}
+          );
+          const responseJSON = response.data;
+          const orderList = responseJSON.orders;
+          console.log(orderList)
+          setAdresses(orderList)
+  
+        } catch (error) {
+          console.error("Error fetching services data:", error.message);
+        }
+    
+        
+      };
+  
+      getOrders();
+    }, []); 
+
+    useEffect(() => {
+      // Add any additional logic that depends on the updated state
+    }, [addresses]);
+
+  const onMapClick = async (e) => {
+    const newLocation = { lat: e.latLng.lat(), lng: e.latLng.lng() };
+    const locationName = await getPlaceName(newLocation);
+    setState({ ...state, currentLocation: newLocation, currentLocationName: locationName });
   };
 
+  const getPlaceName = async (location) => {
+    return `Mock Place Name for (${location.lat.toFixed(3)}, ${location.lng.toFixed(3)})`;
+  };
+
+  const handleLocationUpdate = async() => {
+    setState((prevState) => ({
+      ...prevState,
+      pastLocations: [...prevState.pastLocations, prevState.currentLocationName],
+    }));
+    const token = localStorage.getItem('loginToken');
+
+    try {
+      const response = await axios.post(
+        process.env.REACT_APP_BACKEND_URL + "/setdriverlocation",{location: state.currentLocation,jwt:token}
+      );
+    } catch (error) {
+      console.error("Error fetching services data:", error.message);
+    }
+
+    console.log(state.currentLocation);
+  };
+
+  const mapStyles = { height: '300px', width: '100%' };
+
+  const handlePickUp = () => {
+    // Perform pick-up logic
+    onPickUp(addresses[pickupIndex].destinationaddress);
+
+    // Move to the next pickup address
+    setPickupIndex((prevIndex) => prevIndex + 1);
+  };
+
+  const handleDeliver = (index) => {
+    // Perform delivery logic
+    onDeliver(index);
+  };
+
+
+
   return (
-      <div className="b_container_customer">
-        <div className="username_display"></div>
-        <div className="homeTitle">Package Cost</div>
-        <div className="content">
-          <div className="form">
-            <form>
-              <div className="form-row">
-                <div className="form-group">
-                  <label htmlFor="Source" className="shippmentlabel">Source</label>
-                    <Autocomplete
-                      onLoad={(autocomplete) => {
-                        sourceRef.current = autocomplete;
-                      }}>
-                      <input
-                        type="text"
-                        name="email"
-                        placeholder="Source place"
-                      />
-                    </Autocomplete>
-                </div>
-                <div className="form-group">
-                  <label htmlFor="destination">Destination</label>
-                  <Autocomplete
-                    onLoad={(autocomplete) => {
-                      destinationRef.current = autocomplete;
-                    }}>
-                    <input
-                      className="input-login"
-                      type="text"
-                      name="destination"
-                      placeholder="Destination Place"
-                    />
-                  </Autocomplete>
-               </div>
-              </div>
-              
-              
-            </form> 
+    <div className="driver-page">
+
+<div>
+        <h2>Pickup Addresses</h2>
+        {addresses.map((address, index) => (
+          <div key={index}>
+            {index === pickupIndex && (
+              <>
+                <p>{address.destinationaddress}</p>
+                <button onClick={handlePickUp} disabled={pickupIndex !== index}>
+                  Pick Up
+                </button>
+              </>
+            )}
           </div>
-        </div>
+        ))}
+      </div>
+
+      <div>
+        <h2>Delivery Addresses</h2>
+        {addresses.map((address, index) => (
+          <div key={index}>
+            {index < pickupIndex && (
+              <>
+                <p>{address.sourceaddress}</p>
+                <button onClick={() => handleDeliver(index)}>Deliver</button>
+              </>
+            )}
+          </div>
+        ))}
+      </div>
+
+      
+      
+
+      <LoadScript googleMapsApiKey="AIzaSyBmMGeMKJDnzvKkm8k1RADdiP2N632RfNs">
+        <GoogleMap
+          mapContainerStyle={mapStyles}
+          zoom={13}
+          center={state.currentLocation}
+          onClick={onMapClick}
+        >
+          <Marker position={state.currentLocation} />
+        </GoogleMap>
+      </LoadScript>
+
+      <div className="location-update-box">
+        <p>Update Location: {state.currentLocationName}</p>
+        <button onClick={handleLocationUpdate}>Update Location</button>
+      </div>
+
+      <div className="history-box">
+        <h3>Past Locations:</h3>
+        <ul>
+          {state.pastLocations.map((location, index) => (
+            <li key={index}>{location}</li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 };
 
-export default Price;
+export default DriverPage;

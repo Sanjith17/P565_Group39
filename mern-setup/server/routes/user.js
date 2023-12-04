@@ -62,6 +62,7 @@ router.post("/payment", async (req, res) => {
     status: "Pending",
     service_id: req.body.service_id,
     location: "Source",
+    review: "",
     // payment_id: req.body.payment_id,
     // tracking_id: await generateTrackingId(
     //   req.body.service_id,
@@ -89,8 +90,14 @@ router.post("/services", form2.services_list);
 router.post("/getprice", form2.get_price);
 router.post("/getaddresses", getusercont.get_addresses);
 router.post("/getdrivers", getusercont.get_drivers);
+router.post("/getreviews", getusercont.get_reviews);
+router.post("/getcustomerorders", getusercont.get_customer_orders);
 router.post("/setdrivers", getusercont.set_drivers);
+router.post("/setreview", getusercont.set_review);
 router.post("/setdriverlocation", getusercont.set_driver_location);
+router.post("/trackorder", getusercont.trackorder);
+router.post("/getdriveraddress", getusercont.get_driver_add);
+
 
 router.post("/admin_form2", form2.company_services);
 
