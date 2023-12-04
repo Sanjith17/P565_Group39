@@ -130,7 +130,12 @@ const set_driver_location = async (req, res) => {
     const updateData = {
       location: JSON.stringify(req.body.location),
     }
+    const criteria1  = {
+      driver: userMail,
+      status: "Pending"
+    }
     const result = await User.updateOne(criteria, { $set: updateData });
+    const result1 = await Payment.updateOne(criteria1, { $set: updateData });
     if (result.modifiedCount > 0) {
       console.log('Record updated successfully');
 
@@ -285,6 +290,95 @@ const get_driver_add = async (req, res) => {
   }
 };
 
+
+const set_pickup = async (req, res) => {
+
+  try {
+
+    const criteria  = {
+      _id: req.body.trackId
+    }
+    const updateData = {
+      status: "Pending",
+    }
+    const result = await Payment.updateOne(criteria, { $set: updateData });
+    console.log(result)
+    if (result.matchedCount > 0) {
+      console.log('Record updated successfully');
+
+      res.json({
+        status: 'ok',
+        body: 'Record updated successfully',       
+      });
+      // return { status: 'ok', message: 'Record updated successfully' };
+    } else {
+      console.log('Record not found or no changes made');
+      res.status(500).json({ error: 'Record Not Found' });
+    }
+    
+    
+     
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+}
+};
+
+const set_delivered = async (req, res) => {
+
+  try {
+
+    const criteria  = {
+      _id: req.body.trackId
+    }
+    const updateData = {
+      status: "Delivered",
+    }
+
+    const maill = await Payment.findOne({_id : req.body.trackId});
+
+    const result = await Payment.updateOne(criteria, { $set: updateData });
+
+    console.log(maill.username)
+
+    let mailTransport = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: "fastflexdms@gmail.com",
+        pass: "vjck kufl zqfm fung",
+      },
+    });
+    const details = {
+      from: "Support@fastflex.com",
+      to: maill.username,
+      subject: "Delivery Completed",
+      html: `<p>Hi, This email is being sent to let you know that your delivery with tracking Id ${maill._id} has been Delivered`,
+    };
+    const check = await mailTransport.sendMail(details);
+    console.log("Status ", check.response);
+
+
+    if (result.modifiedCount > 0) {
+      console.log('Record updated successfully');
+
+      res.json({
+        status: 'ok',
+        body: 'Record updated successfully',       
+      });
+      // return { status: 'ok', message: 'Record updated successfully' };
+    } else {
+      console.log('Record not found or no changes made');
+      res.status(500).json({ error: 'Record Not Found' });
+    }
+    
+    
+     
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+}
+};
+
 module.exports = {
   getuser,
   get_addresses,
@@ -296,6 +390,8 @@ module.exports = {
   set_review,
   trackorder,
   get_customer_add,
-  get_driver_add
+  get_driver_add,
+  set_pickup,
+  set_delivered
 
 };
