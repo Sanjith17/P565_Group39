@@ -49,7 +49,7 @@ p {
   padding: 10px 20px;
   font-size: 16px;
   background-color: #61dafb;
-  color: white; /* Initial text color */
+  color: rgb(69, 16, 16); /* Initial text color */
   border: none;
   border-radius: 5px;
   cursor: pointer;

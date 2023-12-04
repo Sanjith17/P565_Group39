@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './TrackPageTest1.css';
 
+
 const mockData = {
   "123456": [
     { name: 'Pick Up', date: 'Monday 09/11/2045 at 11.45 PM', completed: true },
@@ -99,7 +100,7 @@ const TrackPageTest1 = () => {
         <ul style={{ listStyle: 'none', padding: 0 }}>
           <li><Link to="/tracking" style={{ color: 'white', textDecoration: 'none' }}>Tracking</Link></li>
           <li><Link to="/deliverysearch" style={{ color: 'white', textDecoration: 'none' }}>Shipping</Link></li>
-          <li><Link to="/contact" style={{ color: 'white', textDecoration: 'none' }}>About Us</Link></li>
+          <li><Link to="/contact" style={{ color: 'white', textDecoration: 'none' }}>About FastFlex</Link></li>
         </ul>
       </div>
       <div>

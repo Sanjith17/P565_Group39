@@ -6,6 +6,7 @@ import app from "../Firebase/firebase";
 import GoogleIcon from "./google-icon.png";
 import axios from "axios";
 import Cookies from "js-cookie";
+import FastFlexIcon from './FastFlex.png';
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -159,6 +160,7 @@ function Login() {
         <ul>
           <div>
           <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '11px' }}>
+          <img src={FastFlexIcon} alt="FastFlex" style={{ marginRight: '-300px', width: '60px', height: '60px' }} />
           <MyButton buttonText="Home" to="/" />
           <div style={{ display: 'flex', alignItems: 'center' }}>
           <span style={{ marginRight: '10px' }}>New user?</span>
@@ -261,18 +263,18 @@ function Login() {
           <div style={{ marginTop: '3px' }}></div>
           <footer style={{ backgroundColor: '#333', color: 'white', padding: '70px 0', display: 'flex', justifyContent: 'space-around' }}>
       <div>
-        <h3>This Site</h3>
+        <h3 style={{ color: 'white', textDecoration: 'none' }}>This Site</h3>
         <ul style={{ listStyle: 'none', padding: 0 }}>
           <li><Link to="/tracking" style={{ color: 'white', textDecoration: 'none' }}>Tracking</Link></li>
           <li><Link to="/deliverysearch" style={{ color: 'white', textDecoration: 'none' }}>Shipping</Link></li>
-          <li><Link to="/contact" style={{ color: 'white', textDecoration: 'none' }}>About Us</Link></li>
+          <li><Link to="/aboutus" style={{ color: 'white', textDecoration: 'none' }}>About FastFlex</Link></li>
           {/* ... other list items */}
           {/* ... other list items */}
           {/* ... other list items */}
         </ul>
       </div>
       <div>
-        <h3>Connect With Us</h3>
+        <h3 style={{ color: 'white', textDecoration: 'none' }}>Connect With Us</h3>
         <ul style={{ listStyle: 'none', padding: 0 }}>
           <li><a href="https://www.facebook.com" style={{ color: 'white', textDecoration: 'none' }}>Facebook</a></li>
           <li>Contact Us: +1(626) fas-flex </li>

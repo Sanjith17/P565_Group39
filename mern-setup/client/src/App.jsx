@@ -6,7 +6,6 @@ import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import ResetPass from "./ResetPass";
 import Transition from "./Pages/transition";
-
 import Recommendation from "./RecommendedService/ParcelServicePage";
 import ForgotPassword from "./ForgotPassword/Forgot";
 import Kommunicate from "./Chat/Chat";
@@ -26,7 +25,7 @@ import CustomerReview from "./CustomerHome/CustomerReview";
 import BookingPage from "./CustomerHome/Booking2";
 import DriverPage from "./DriverPage/DriverPage";
 import Shipment from "./Shipment/Shipment";
-
+import Aboutus from "./AboutUs/aboutus"; 
 import StripeContainer from "./Payment/StripeContainer";
 export default function App() {
   return (
@@ -52,10 +51,11 @@ export default function App() {
           <Route path="/admin" element={<AdminHome />} />
           <Route path="/user/prevorders" element={<CustomerReview />} />
           <Route path="/user" element={<CustomerHome />} />
-          <Route path="/shipment" element={<Shipment />} />
+          <Route path="/shipment" element={<Shipment />} />         
           <Route path="/payment" element={<StripeContainer />} />
           <Route path="/driver" element={<DriverPage/>} />
           <Route path="/booking" element={<BookingPage />} />
+          <Route path="/aboutus" element={<Aboutus />}/>
           <Route path="/" element={<LandingPage />}/>
 
         </Routes>
