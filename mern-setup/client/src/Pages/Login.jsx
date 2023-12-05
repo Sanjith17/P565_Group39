@@ -84,7 +84,7 @@ class Login extends Component {
       <nav>
       <ul>
         <li>
-        <a href="/">Home</a>
+          <Link to="/">Home</Link>
         </li>
       </ul>
       </nav>

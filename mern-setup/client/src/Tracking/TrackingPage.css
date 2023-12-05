@@ -84,4 +84,47 @@
   .btn {
     width: 100%;
   }
+  
+  .tracking-section {
+    flex: 1;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-right: 20px;
+}
+
+.tracking-input {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.track-button {
+    background-color: rgb(135, 135, 239);
+    border: none;
+    border-radius: 4px;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.side-section {
+    display: flex;
+    flex-direction: column;
+    width: 300px; /* Adjust width as needed */
+}
+
+.side-box {
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+
+.tips-button {
+    display: inline-block;
+    color: #0000EE;
+    text-decoration: none;
+    border: 1px solid blue;
+    border-radius: 4px;
+    padding: 10px 20px;
+}
 }

@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './TrackPageTest1.css';
 
+
 const mockData = {
   "123456": [
     { name: 'Pick Up', date: 'Monday 09/11/2045 at 11.45 PM', completed: true },
@@ -30,49 +31,88 @@ const TrackPageTest1 = () => {
     const lastCompleted = steps.slice().reverse().find(step => step.completed);
     setCurrentStatus(lastCompleted || steps[0] || null);
   };
+  const styles = {
+    recentlyTrackedContainer: {
+      marginTop: '20px',
+      padding: '20px',
+      textAlign: 'center',
+      backgroundColor: '#f9f9f9', // Example background color
+      border: '1px solid #ddd', // Example border
+      borderRadius: '4px' // Example border radius
+    },
+    recentlyTrackedHeader: {
+      marginBottom: '10px',
+      color: '#333', // Example text color
+    },
+    loginSignupLink: {
+      margin: '0 5px',
+      textDecoration: 'none',
+      color: '#0066cc', // Example link color
+      fontWeight: 'bold' // Example font weight
+    }
+  };
 
   return (
-    <div className="track-container">
-      <div className="input-group mb-3">
-        <input
-          type="text"
-          className="form-control"
-          placeholder="Enter Tracking ID"
-          aria-label="Tracking ID"
-          aria-describedby="button-track"
-          value={trackingId}
-          onChange={(e) => setTrackingId(e.target.value)}
-        />
-        <div className="input-group-append">
-          <button
-            className="btn btn-outline-secondary"
-            type="button"
-            id="button-track"
-            onClick={handleTrack}
-          >
-            Track
-          </button>
-        </div>
-      </div>
-      {currentStatus && (
-        <div className="status-box">
-          <div className="status-name">{currentStatus.name}</div>
-          <div className="status-date">{currentStatus.date}</div>
-        </div>
-      )}
-      <div className="status-line">
-        {trackingSteps.map((step, index) => (
-          <React.Fragment key={index}>
-            <div className={`dot ${step.completed ? 'completed' : ''}`}>
-              {step.completed && <span className="checkmark">&#10003;</span>}
-            </div>
-            {index < trackingSteps.length - 1 && (
-              <div className="line-segment"></div>
-            )}
-          </React.Fragment>
-        ))}
-      </div>
+    <div>
+  {/* Navbar */}
+  <nav className="tracking-navbar">
+    <ul style={{ display: 'flex', justifyContent: 'space-around' }}>
+            <li style={{ margin: '0 10px' }}> {/* Horizontal margin */}
+                <Link to="/" style={{ textDecoration: 'none', color: 'yellow' }}>Home</Link>
+            </li>
+            <li style={{ margin: '0 10px' }}> {/* Horizontal margin */}
+                <Link to="/login" style={{ textDecoration: 'none', color: 'yellow' }}>Login</Link>
+            </li>
+            <li style={{ margin: '0 10px' }}> {/* Horizontal margin */}
+                <Link to="/signup" style={{ textDecoration: 'none', color: 'yellow' }}>SignUp</Link>
+            </li>
+        </ul>
+  </nav>
+
+  {/* Tracking Container */}
+  <div className="tracking-container">
+    <h1>Tracking Page</h1>
+    <div className="tracking-input">
+      <label className="tracking-label">Please enter your tracking number:</label>
+      <input
+        type="text"
+        value={trackingNumber}
+        onChange={(e) => setTrackingNumber(e.target.value)}
+      />
     </div>
+    <button className="track-button" onClick={handleTrackButtonClick}>
+      Track
+    </button>
+    <div style={styles.recentlyTrackedContainer}>
+      <h2 style={styles.recentlyTrackedHeader}>Recently Tracked</h2>
+      <p>
+        <Link to="/login" style={styles.loginSignupLink}>Log in</Link> or 
+        <Link to="/signup" style={styles.loginSignupLink}>Sign up</Link> to view your recently tracked shipments.
+      </p>
+    </div>
+  </div>
+ 
+  <hr style={{ border: '1px solid #ccc', marginTop: '700px' }} />
+          <div style={{ marginTop: '3px' }}></div>
+      <footer style={{ backgroundColor: '#333', color: 'white', padding: '100px 0', display: 'flex', justifyContent: 'space-around' }}>
+      <div>
+        <h3>This Site</h3>
+        <ul style={{ listStyle: 'none', padding: 0 }}>
+          <li><Link to="/tracking" style={{ color: 'white', textDecoration: 'none' }}>Tracking</Link></li>
+          <li><Link to="/deliverysearch" style={{ color: 'white', textDecoration: 'none' }}>Shipping</Link></li>
+          <li><Link to="/contact" style={{ color: 'white', textDecoration: 'none' }}>About FastFlex</Link></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Connect With Us</h3>
+        <ul style={{ listStyle: 'none', padding: 0 }}>
+          <li><a href="https://www.facebook.com" style={{ color: 'white', textDecoration: 'none' }}>Facebook</a></li>
+          <li>Contact Us: +1(626) fas-flex </li>
+          {/* ... other list items */}
+        </ul>
+        </div>
+      </footer>
+</div>
   );
 };
 
