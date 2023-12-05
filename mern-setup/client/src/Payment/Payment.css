@@ -6,21 +6,20 @@
   background-position: center;
   background-size: cover;
   height: 100vh;
-  display: 500%;
+  display: flex;
   justify-content: center;
-  align-items: center;
-  width: auto;
-  align-self: center;
+  align-items: center; /* Center vertically */
 }
 
 .container_payment {
   background-color: rgba(255, 255, 255, 0.9);
   color: rgb(28, 26, 26);
-  /* Set a max-width to prevent the container from becoming too wide */
+  max-width: 600px; /* Set a max-width to prevent the container from becoming too wide */
   padding: 2rem;
   border-radius: 8px;
   box-shadow: 0 6px 9px rgba(50, 50, 93, 0.06), 0 2px 5px rgba(0, 0, 0, 0.08),
     inset 0 1px 0 #829fff;
+  width: 100%; /* Occupy full width */
 }
 
 

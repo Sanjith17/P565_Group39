@@ -195,6 +195,8 @@ const PaymentForm = (props) => {
   };
 
   return (
+    <div className="body_payment">
+
     <div className="container_payment">
       {!success ? (
         <form className="payment_form" onSubmit={handleSubmit}>
@@ -218,6 +220,7 @@ const PaymentForm = (props) => {
           </h5>
         </div>
       )}
+    </div>
     </div>
   );
 };
