@@ -1,4 +1,5 @@
 import LoginForm from "./Login/Login";
+import Validation from "./Login/Validation";
 import SignupForm from "./SignUp/Signup";
 import LandingPage from "./Landing Page/Landing";
 import { AuthProvider } from "./Auth/AuthProvider";
@@ -33,8 +34,10 @@ export default function App() {
     <Router>
       <AuthProvider>
         <Routes>
+          <Route path="/login/validation" element={<Validation />} />
           <Route path="/login" element={<LoginForm />} />
           <Route path="/signup" element={<SignupForm />} />
+
           <Route path="/forgot" element={<ForgotPassword />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/resetpass" element={<ResetPass />} />

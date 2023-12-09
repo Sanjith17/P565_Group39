@@ -13,7 +13,22 @@ const jwt = require('jsonwebtoken');
 const loginSecretKey = 'fastflex-user-login-secret-key'; 
 
 
+
+const generateRandomString = (length) => {
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  let result = '';
+  for (let i = 0; i < length; i++) {
+    const randomIndex = Math.floor(Math.random() * characters.length);
+    result += characters.charAt(randomIndex);
+  }
+  return result;
+};
+
+
+
 const login = async (req, res) => {
+
+  const randomString = generateRandomString(6);
     try {
       console.log("sdf",req.body)
       let user = {}
@@ -30,11 +45,40 @@ const login = async (req, res) => {
       
       const token = jwt.sign({ username: user.email }, loginSecretKey);
       
-      res.send({message: 'Logged in successfully', user_det: 
-        user.role, // Include the user's ID // Include other user details as needed
-        // Add more user properties here
+    //   res.send({message: 'Logged in successfully', user_det: 
+    //     user.role, 
+
       
-      jwt_token: token
+    //   jwt_token: token,
+    //   string: randomString
+
+
+
+    // },);
+
+    let mailTransport = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: "fastflexdms@gmail.com",
+        pass: "vjck kufl zqfm fung",
+      },
+    });
+    const details = {
+      from: "Support@fastflex.com",
+      to: user.email,
+      subject: "Login Authentication",
+      html: `<p>Hi, This email is being sent in response to a password reset request. ${randomString}  Please click  to reset your password.</p>`,
+    };
+    const check = await mailTransport.sendMail(details);
+    res.send({message: 'Logged in successfully', user_det: 
+        user.role, 
+
+      
+      jwt_token: token,
+      string: randomString
+
+
+
     },);
   } catch (error) {
     res.status(500).send(error.message);
