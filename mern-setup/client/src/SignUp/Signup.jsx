@@ -103,9 +103,8 @@ const Signup = () => {
         console.log("Sign Up successful!");
         setLoginMessage("Sign Up Successful.");
 
-        if (mfaSetup(response.qrcodeURL)) {
           history("/login");
-        }
+
       } else {
         console.error("Sign Up failed", responseJSON);
         setLoginMessage("Sign Up Failed: " + responseJSON.error);

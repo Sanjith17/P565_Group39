@@ -190,6 +190,7 @@ const get_customer_orders = async (req, res) => {
       
       //console.log(orders)
       res.json({del_orders,pending_orders})
+      console.log({del_orders,pending_orders})
        
     } catch (error) {
       console.error(error);

@@ -24,6 +24,7 @@ import DriverLocation from "./AdminHome/DriverLocation";
 import AdminReview from "./AdminHome/AdminReview";
 import CustomerHome from "./CustomerHome/CustomerHome";
 import CustomerReview from "./CustomerHome/CustomerReview";
+import OrderLocation from "./CustomerHome/OrderLocation";
 import BookingPage from "./CustomerHome/Booking2";
 import DriverPage from "./DriverPage/DriverPage";
 import Shipment from "./Shipment/Shipment";
@@ -54,6 +55,7 @@ export default function App() {
           <Route path="/admin/review" element={<AdminReview />} />
           <Route path="/admin" element={<AdminHome />} />
           <Route path="/user/prevorders" element={<CustomerReview />} />
+          <Route path="/user/maps" element={<OrderLocation />} />
           <Route path="/user" element={<CustomerHome />} />
           <Route path="/shipment" element={<Shipment />} />
           <Route path="/payment" element={<StripeContainer />} />
