@@ -1,15 +1,23 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 // import './AdminReview.css';
+import { Typography, Grid, Button } from '@mui/material';
+import {
+    MapContainer,
+    TileLayer,
+    Marker,
+    Popup
+  } from 'react-leaflet';
 
-function SetReview() {
+function OrderLocation() {
   const [trackId, setTrackId] = useState([]);
   const [reviews, setReviews] = useState({});
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [orders, setOders] = useState([]);
   const [completedOrders, setDelOrders] = useState([]);
   const [value, setValue] = useState(0);
+  const mapRef = useRef();
 
   const navigate = useNavigate();
   useEffect(() => {
@@ -85,31 +93,11 @@ function SetReview() {
 
   const handleButtonClick = (orderNumber) => {
     setSelectedOrder(orderNumber);
+    console.log(selectedOrder)
   };
 
 
-  const handleReviewSubmit = async (e, orderId) => {
-    e.preventDefault();
-    
-    console.log(`Review for Order ${orderId}: ${e.target.review.value}`);
-    const orderreview = e.target.review.value
 
-    try {
-      const response = await axios.post(
-        process.env.REACT_APP_BACKEND_URL + "/setreview",{orderId:orderId, orderreview:orderreview}
-      );
-      const responseJSON = response.data;
-      navigate('/user')
-
-
-    } catch (error) {
-      console.error("Error fetching services data:", error.message);
-    }
-     
-
-    
-    
-  };
 
 
   return (
@@ -125,19 +113,27 @@ function SetReview() {
     
       <div>
         <ul>
-          {completedOrders.map((order) => (
+          {orders.map((order) => (
             <li key={order._id}>
-              Order Number: {order._id}
-              {!order.review && (
+              Order Number: {order._id}  {order.status}
+              {order.status === "Pending" && (
                 <button onClick={() => handleButtonClick(order._id)}>Write Review</button>
                   )}
-              {selectedOrder === order._id  && (
-                <div>
-                  <form onSubmit={(e) => handleReviewSubmit(e, order._id)}>
-                      <textarea name="review" required placeholder="Write a review about the owner"></textarea>
-                      <button type="submit">Submit Review</button>
-                  </form>
-                </div>
+              {selectedOrder === order._id && order.location !== undefined && (
+                <div className="admin-container">
+                        <div className="map-container">
+                            <h2>Live Track Map</h2>
+                            <MapContainer ref={mapRef} center={[selectedOrder.location.lat,  selectedOrder.location.lng]} zoom={13} style={{ width: '100%', height: '100%' }} >
+                                <TileLayer
+                                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                                />
+                                    <Marker position={[selectedOrder.location.lat,  selectedOrder.location.lng]}>
+                                        {/* <Popup>{marker.label}</Popup> */}
+                                    </Marker>
+                            </MapContainer>
+                        </div>                
+               </div>
               )}
             </li>
             ))}
@@ -147,4 +143,4 @@ function SetReview() {
   );
 }
 
-export default SetReview;
+export default OrderLocation;

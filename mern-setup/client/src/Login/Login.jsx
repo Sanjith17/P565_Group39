@@ -111,21 +111,22 @@ function Login() {
         console.log("Login successful!");
         console.log(responseJSON.message);
         setLoginMessage(responseJSON.message);
+        navigate('/login/validation' ,{state: { string: responseJSON.string, jwt: responseJSON.jwt_token, role: responseJSON.user_det } })
 
-        Cookies.set("loginToken", responseJSON.jwt_token);
+        // Cookies.set("loginToken", responseJSON.jwt_token);
 
-        localStorage.setItem('loginToken', responseJSON.jwt_token);
-        if (responseJSON.user_det === 'user'){
-        navigate('/user');
-        }
-        else {
-          if (responseJSON.user_det === 'admin'){
-            navigate('/admin');
-          }
-          else{
-            navigate('/driver');
-          }
-        }
+        // localStorage.setItem('loginToken', responseJSON.jwt_token);
+        // if (responseJSON.user_det === 'user'){
+        // navigate('/user');
+        // }
+        // else {
+        //   if (responseJSON.user_det === 'admin'){
+        //     navigate('/admin');
+        //   }
+        //   else{
+        //     navigate('/driver');
+        //   }
+        // }
       } else {
         console.log("Login failed");
         setLoginMessage(responseJSON.message);

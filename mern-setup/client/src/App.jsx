@@ -1,4 +1,5 @@
 import LoginForm from "./Login/Login";
+import Validation from "./Login/Validation";
 import SignupForm from "./SignUp/Signup";
 import LandingPage from "./Landing Page/Landing";
 import { AuthProvider } from "./Auth/AuthProvider";
@@ -23,6 +24,7 @@ import DriverLocation from "./AdminHome/DriverLocation";
 import AdminReview from "./AdminHome/AdminReview";
 import CustomerHome from "./CustomerHome/CustomerHome";
 import CustomerReview from "./CustomerHome/CustomerReview";
+import OrderLocation from "./CustomerHome/OrderLocation";
 import BookingPage from "./CustomerHome/Booking2";
 import DriverPage from "./DriverPage/DriverPage";
 import Shipment from "./Shipment/Shipment";
@@ -33,8 +35,10 @@ export default function App() {
     <Router>
       <AuthProvider>
         <Routes>
+          <Route path="/login/validation" element={<Validation />} />
           <Route path="/login" element={<LoginForm />} />
           <Route path="/signup" element={<SignupForm />} />
+
           <Route path="/forgot" element={<ForgotPassword />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/resetpass" element={<ResetPass />} />
@@ -51,6 +55,7 @@ export default function App() {
           <Route path="/admin/review" element={<AdminReview />} />
           <Route path="/admin" element={<AdminHome />} />
           <Route path="/user/prevorders" element={<CustomerReview />} />
+          <Route path="/user/maps" element={<OrderLocation />} />
           <Route path="/user" element={<CustomerHome />} />
           <Route path="/Shipping" element={<Shipment />} />
           {/* <Route path="/Location" element = {<Location />} /> */}

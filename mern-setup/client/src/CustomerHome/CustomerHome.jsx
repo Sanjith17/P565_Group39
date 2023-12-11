@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Typography, Grid } from '@mui/material';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCog } from "@fortawesome/free-solid-svg-icons"; // Assuming you want a cog icon
 import { Link, useNavigate } from "react-router-dom";
@@ -100,6 +101,7 @@ function MyPage() {
 
   useEffect(() => {
     // Add any additional logic that depends on the updated state
+    console.log(delorders)
   }, [orders, delorders]);
 
   useEffect(() => {
@@ -129,6 +131,10 @@ function MyPage() {
     navigate("/user/prevorders", { state: { deliveredOrders: delorders } });
   };
 
+  const handleButtonLocation = (item) => {
+    navigate("/user/maps", { state: { orders: orders } });
+  };
+
   return (
     <div>
       <div>
@@ -138,7 +144,11 @@ function MyPage() {
       <ul>
       <li>
           <button onClick={() => handleButtonReview()}>Previous Orders</button>
-          </li>
+      </li>
+      <li>
+        <button onClick={() => handleButtonLocation()}>Orders Map</button>
+      </li>
+          
       </ul>
       </div>
       <div className="search-container">
@@ -202,6 +212,18 @@ function MyPage() {
               </div>
             ))}
         </div>
+
+                  <div className="admin-box">
+                    <Typography variant="h6">Pending Orders</Typography>
+                    {/* Display list of addresses for completed deliveries */}
+                    <ul>
+                      {orders.map((address, index) => (
+                          <li key={index}>{address._id}:       {address.status}</li>
+                        ))}
+                    </ul>
+                  </div>
+
+        
       </div>
     </div>
   );
